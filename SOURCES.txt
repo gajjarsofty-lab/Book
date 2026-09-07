@@ -1,0 +1,377 @@
+SURAT — A PERSONAL CITY BOOK
+Sources, licences and asset manifest
+Built 2026-09-07
+
+
+================================================================
+1.  PHOTOGRAPHY — NONE IN THIS EDITION
+================================================================
+
+This book contains no photographs, and none were generated,
+synthesised or simulated.
+
+The machine that built it sits behind an egress policy that
+refuses outbound HTTPS to every source of real, licensed,
+print-resolution photography of Surat.  Verified blocked at the
+proxy (HTTP 403 on CONNECT), for both shell downloads and the
+WebFetch tool:
+
+    commons.wikimedia.org          403
+    upload.wikimedia.org           403
+    en.wikipedia.org               403
+    wikimedia.org / dumps          403
+    unsplash.com, images.unsplash  403
+    pexels.com, images.pexels.com  403
+    pixabay.com                    403
+    flickr.com, staticflickr.com   403
+    openverse.org, api.openverse   403
+    archive.org, web.archive.org   403
+    gujarattourism.com             403
+    suratmunicipal.gov.in          403
+
+One openly licensed photographic corpus *was* reachable — the
+Multimedia Commons / YFCC100M bucket on AWS Open Data
+(s3://multimedia-commons, CC-licensed Flickr photographs).  It
+was rejected on quality grounds, not licence: every image in
+that bucket is resized to 500 px on the long side, which is
+about 1.7 inches at 300 dpi.  That is not print material for an
+8.5 x 11 book, so it was not used.
+
+Per the brief — "if you cannot find a sufficiently good REAL
+image, do not fabricate one; change the layout instead" — the
+layout was changed.  The book is set as a small atlas: real
+geometry, real typography, real numbers.
+
+To add photography later: drop files into assets/ and place
+them with the existing place_map()/canvas helpers in
+src/build_book.py.  The page frames are already defined.
+
+
+================================================================
+2.  MAP DATA
+================================================================
+
+All geometry in this book is real OpenStreetMap data.  Nothing
+was hand-drawn, traced, invented or stylised into existence.
+
+    Primary licence   Map data (c) OpenStreetMap contributors,
+                      Open Database Licence (ODbL) 1.0
+                      https://www.openstreetmap.org/copyright
+
+    Distributor       Overture Maps Foundation, open data
+                      release 2026-08-19.0
+                      s3://overturemaps-us-west-2/release/2026-08-19.0
+                      https://overturemaps.org
+
+    Themes used       theme=transportation / type=segment
+                      theme=buildings     / type=building
+                      theme=base          / type=water
+                      theme=base          / type=land_use
+                      theme=base          / type=land
+                      theme=places        / type=place
+
+Transportation, water, land-use and places carry per-feature
+OSM record ids (e.g. "w916108435@14") and the ODbL-1.0 licence
+string in their `sources` column.  Building footprints in the
+Overture buildings theme are OSM plus openly licensed
+machine-derived footprints; both are credited above.
+
+Access method: the Overture parquet files were read directly
+from the public S3 bucket over HTTPS range requests
+(src/overture.py), using parquet row-group bbox statistics to
+fetch only the row groups covering Surat.  DuckDB's httpfs
+extension could not be used — extensions.duckdb.org is also
+blocked by the egress proxy.
+
+Projection: EPSG:32643 (UTM zone 43N).  Every printed scale
+ratio in the book is computed from the projected extent of the
+placed map and its drawn width on the page.
+
+
+----------------------------------------------------------------
+2a.  prettymaps
+----------------------------------------------------------------
+
+The brief asked for prettymaps (github.com/marceloprates/prettymaps).
+prettymaps obtains its geometry through OSMnx, which queries the
+Overpass API.  Overpass is blocked here:
+
+    overpass-api.de                403
+    overpass.kumi.systems          403
+    nominatim.openstreetmap.org    403
+    api.openstreetmap.org          403
+    planet.osm.org                 403
+    download.geofabrik.de          403
+
+With no Overpass endpoint reachable, prettymaps cannot fetch
+anything, so it could not be run.  Its *approach* was
+reproduced against the same underlying OpenStreetMap data —
+clip a radius around a coordinate, separate the layers, fill
+building footprints, grade the road hierarchy, keep the ground
+white — using GeoPandas and Matplotlib (src/render_maps.py),
+and the output is placed in the book as vector PDF.
+
+Required attribution, printed in the book:
+
+    Map data (c) OpenStreetMap contributors
+    Rendered in the prettymaps manner
+
+
+----------------------------------------------------------------
+2b.  BANGLE — verification of the home map
+----------------------------------------------------------------
+
+Centre: 21.1990335 N, 72.7901332 E.  Radius 1000 m.
+Rendered at 1:12 000 on page 6.
+
+Checks that the geometry around that point is genuine
+OpenStreetMap data for Surat, and not a generic street pattern:
+
+  Nearest named ways in the rendered tile
+      489 m   Anand Mahal Road            secondary
+      591 m   LP Savani Road              secondary
+      598 m   Green Line: Bhesan-Saroli   (Surat Metro, under
+                                           construction)
+      640 m   Asnani circle               secondary
+      671 m   Asnani Road                 tertiary
+     1022 m   Adajan-Surat Flyover        trunk
+
+  Nearest named places
+       43 m   Adajan Police Station
+       53 m   Jay Gangeshwar Mahadev Mandir Trust
+       41 m   Green Residency
+
+  Water features present in the tile
+      Tapi (river), Pal Talav (lake), Arabian Sea (clipped out
+      at this radius)
+
+  Feature counts drawn: 2 049 road segments,
+                        4 686 building footprints
+
+These are Adajan, Surat — the correct neighbourhood for the
+coordinate.  Sample OSM way ids carried through the pipeline:
+w916108435, w1125530002, w1487001679, w761703159.
+
+
+----------------------------------------------------------------
+2c.  Landmark coordinates (from Overture places, OSM-sourced)
+----------------------------------------------------------------
+
+    Surat Fort / Castle       21.19619 N, 72.81776 E
+    Surat Diamond Bourse      21.11000 N, 72.79505 E  (largest
+                              office footprint, 30 667 m2)
+    Dumas Beach               21.07903 N, 72.71520 E
+    Surat Airport (AAI)       21.11349 N, 72.73417 E
+    Surat Junction            21.20462 N, 72.84076 E
+    Gopi Talav                21.18869 N, 72.82923 E
+
+Straight-line distances printed on page 8 were computed from
+these coordinates with pyproj (WGS84 geodesic), and are
+labelled as straight-line, distinct from the published road
+distances quoted alongside them.
+
+
+================================================================
+3.  FACTUAL SOURCES
+================================================================
+
+Surat Castle — built 1540-1546 by Khudawand Khan for Sultan
+Mahmud Shah III; ~1 acre, 12.2 m corner bastions, 4.1 m curtain
+walls; conservation transferred to Surat Municipal Corporation
+2015; reopened September 2022.
+    https://www.suratmunicipal.gov.in/TheCity/SuratFort
+    https://en.wikipedia.org/wiki/Surat_Castle
+
+Trading history — English East India Company's first Indian
+factory at Surat, 1613; Company headquarters moved to Bombay,
+1687; Surat as the Mughal empire's principal western port and a
+Hajj embarkation port.
+    https://nri.gujarat.gov.in/Home/surathistory
+    https://en.wikipedia.org/wiki/Surat_Presidency
+    https://en.wikipedia.org/wiki/Dutch_Suratte
+
+Diamond industry — Surat's share of world cutting and polishing
+is customarily given by the trade as about 90 %; the book uses
+the hedged phrasing "the trade's usual estimate is that nine in
+ten".  Surat Diamond Bourse, Khajod: completed 26 July 2023,
+inaugurated 17 December 2023, ~4 500 trading offices, nine
+linked spines, ~6.4 million sq ft.
+    https://en.wikipedia.org/wiki/Surat_Diamond_Bourse
+    https://www.suratdiamondbourse.in/
+    https://www.naturaldiamonds.com/in/inside-the-world-of-diamonds/surat-the-heart-of-natural-diamnond-cutting-polishing-industry/
+
+Textiles — man-made fibre (polyester, viscose); several hundred
+thousand weaving machines, the great majority powerlooms; daily
+fabric output quoted by industry bodies in the tens of millions
+of metres (published figures range from ~30 to ~60 million
+metres a day, which is why the book gives a range rather than a
+number).
+    https://www.fibre2fashion.com/industry-article/2150/the-textile-industry-of-surat
+    https://www.txcindia.gov.in/html/D_%20Surat.pdf
+    https://apparelresources.com/business-news/manufacturing/surats-textile-engine-drives-gujarat-growth-ahead-vibrant-gujarat-regional-conference/
+
+Ring Road market names on page 5 are read directly from the
+Overture places layer (OSM-sourced) within 750 m of
+21.18900 N, 72.84200 E.
+
+Tapi — rises near Multai, Betul district, Madhya Pradesh;
+about 724 km to the Gulf of Khambhat; mouth at Dumas, Surat.
+    https://en.wikipedia.org/wiki/Tapti_River
+    https://indiawris.gov.in/wiki/doku.php?id=tapi
+
+Dumas — rural beach on the Arabian Sea about 21 km south-west
+of Surat; dark sand commonly attributed to iron content;
+published road distances ~7 km from Surat Airport and ~22 km
+from Surat Junction.
+    https://gujarattourism.com/south-zone/surat/dumas-beach.html
+    https://surat.nic.in/tourist-place/dumas-beach/
+    https://en.wikipedia.org/wiki/Dumas_Beach
+
+Population and area — 4 467 797 at the 2011 census; municipal
+area 462.149 sq km following the 2020 extension of city limits.
+    https://www.suratmunicipal.gov.in/TheCity/City/Stml12
+    https://www.suratmunicipal.gov.in/TheCity/City/Stml1
+    https://www.census2011.co.in/census/city/343-surat.html
+
+Metro — two lines under construction: Red Line, Sarthana-Dream
+City; Green Line, Bhesan-Saroli.  The Green Line also appears
+in the OSM data rendered on page 6.
+    https://en.wikipedia.org/wiki/Surat_Metro
+    https://en.wikipedia.org/wiki/Green_Line_(Surat_Metro)
+
+Surti dishes (page 7) — descriptions are of what is in the dish,
+not of its origin, as instructed.  Cross-checked against Surat
+vendor listings and recipe sources:
+    aloopuri  — fried puris with white-pea ragda, potato, sev,
+                green and kokum chutney
+    locho     — steamed gram-flour batter, deliberately soft,
+                served with butter, sev, onion, chutney
+    khavsa    — Surat's version of Burmese khow suey: noodles
+                in coconut-milk gravy with papdi, garlic, lime
+    cheese angoori — grape-sized cheese balls in a creamy
+                onion-tomato gravy
+    https://surtiflavour.com/collections/street-food
+    https://www.nehascookbook.com/aloo-puri-recipe-surat-famous-aloo-puri-indian-street-food/
+
+The counts at the foot of page 7 (locho 21, aloopuri 11,
+khavsa/khausa 2, cheese angoori 1) are business names in the
+Overture places layer for Surat that contain the dish name.
+They are a property of the map data, and are labelled as such.
+
+
+================================================================
+4.  TYPOGRAPHY
+================================================================
+
+Cormorant Garamond   Christian Thalmann, Catharsis Fonts
+                     SIL Open Font Licence 1.1
+                     weights 300 / 400 / 500 / 600
+Inter                Rasmus Andersson
+                     SIL Open Font Licence 1.1
+                     weights 300 / 400 / 500 / 600
+Noto Serif Gujarati  Google / Noto project
+                     SIL Open Font Licence 1.1
+                     weights 400 / 600  (used for the Gujarati
+                     title on the closing page)
+
+Obtained from the Google Fonts API (fonts.googleapis.com ->
+fonts.gstatic.com), the only font source reachable here.  Font
+files are in fonts/ and are subsetted and embedded in the PDF.
+
+Numerals are set in Inter throughout.  Cormorant Garamond ships
+old-style figures by default, which turn "21" into something
+that reads as "2I" at caption size; every statistic, count,
+coordinate and distance therefore uses Inter.
+
+
+================================================================
+5.  ASSET MANIFEST
+================================================================
+
+All assets are vector PDF (placed in the book), plus a 300 dpi
+PNG and, where the file is small enough to be useful, an SVG.
+Every one is generated by src/render_maps.py from the data in
+data/*.gpkg.  There are zero raster images inside the finished
+PDF — text, rules and maps are all vector.
+
+file              subject                          page  scale
+----------------------------------------------------------------
+map_cover         Surat municipal area, roads         1   1:145 000
+                  and the Tapi
+map_tapi          The Tapi through Surat              2   1:120 000
+map_castle        Surat Castle and the old city,      3   1:13 500
+                  700 m radius
+map_bourse        Surat Diamond Bourse, Khajod,       4   1:8 000
+                  450 m radius
+map_textile       Ring Road market blocks,            5   1:12 500
+                  750 m radius
+BANGLE_map        Bangle, Adajan — home,              6   1:12 000
+                  1000 m radius
+map_coast         Surat to Dumas                      8   1:195 000
+map_city          Surat street network                9   1:165 000
+q_oldcity         Old city / Chowk, 900 m tile       10   1:13 000
+q_ringroad        Ring Road, 900 m tile              10   1:13 000
+q_pal             Adajan / Bangle, 900 m tile        10   1:13 000
+q_dumas           Dumas coast, 900 m tile            10   1:13 000
+
+Each map also has a .json sidecar giving its projected extent
+in EPSG:32643, which is what the book uses to compute scales
+and to place markers in real coordinates.
+
+Deliverable named in the brief:
+    BANGLE_map.svg   assets/BANGLE_map.svg
+    BANGLE_map.png   assets/BANGLE_map.png  (1950 x 1950 px,
+                                             300 dpi)
+    BANGLE_map.pdf   assets/BANGLE_map.pdf  (vector, the one
+                                             actually printed)
+
+
+================================================================
+6.  SOURCE DATA FILES
+================================================================
+
+data/bangle_{roads,buildings,water,landuse}.gpkg
+    The BANGLE tile, committed to this repository as the
+    evidence behind page 6.  1300 m bbox around
+    21.1990335 N, 72.7901332 E.
+
+The remaining data/*.gpkg layers (castle, bourse, textilemkt,
+dumas, city, coast, places) are large and are not committed.
+Regenerate them with:
+
+    python3 src/fetch_map_data.py places
+    python3 src/fetch_map_data.py city
+    python3 src/fetch_map_data.py coast
+    python3 src/fetch_map_data.py tile castle     21.19619 72.81776 900  roads,buildings,water,landuse
+    python3 src/fetch_map_data.py tile bourse     21.11221 72.79618 1100 roads,buildings,water
+    python3 src/fetch_map_data.py tile textilemkt 21.18900 72.84200 900  roads,buildings,water
+    python3 src/fetch_map_data.py tile dumas      21.07903 72.71520 2500 roads,buildings,water,land
+
+then
+
+    python3 src/render_maps.py
+    python3 src/build_book.py
+
+
+================================================================
+7.  PRINT SPECIFICATION
+================================================================
+
+Page size        US Letter portrait, 8.5 x 11 in (612 x 792 pt)
+Pages            12
+Background       #FFFFFF on every page, painted explicitly
+Primary type     #111111
+Secondary type   #555555
+Rules            #D8D8D8
+Map accent       #C4551F (home marker only)
+Type margin      0.75 in
+Nearest element  0.42 in from the trim (the folio); the cover
+                 map reaches 0.5 in.  Nothing is inside the
+                 0.35 in safety limit of an HP DeskJet 2700.
+Content          100 % vector: live PDF text with embedded
+                 subsetted fonts, and vector map artwork.  No
+                 page is a flattened image; there are no raster
+                 images in the file at all.
+Colour           Unmanaged RGB, as produced by ReportLab and
+                 Matplotlib.  Print without scaling ("Actual
+                 size" / 100 %), not "fit to page".

@@ -1,0 +1,11 @@
+# Regenerable Overture/OSM extracts. Only the BANGLE tile is committed
+# (it is the evidence behind page 6); see SOURCES.txt section 6 for the
+# commands that rebuild the rest.
+data/*.gpkg
+!data/bangle_roads.gpkg
+!data/bangle_buildings.gpkg
+!data/bangle_water.gpkg
+!data/bangle_landuse.gpkg
+work/
+__pycache__/
+*.pyc
