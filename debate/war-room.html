@@ -1,0 +1,1408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Group 6 War Room</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: sticky command bar (modes + timer) over a single reading column; LIVE pins the five-link chain under the bar. */
+:root{
+  --bg:#F2F4F3; --surface:#FFFFFF; --surface-2:#E7ECEA; --ink:#16201D; --ink-2:#4B5955; --line:#CFD8D5;
+  --accent:#1D4D6A; --accent-ink:#FFFFFF; --accent-soft:#DCE8EF;
+  --them:#963820; --them-bg:#F6E7E1;
+  --us:#1B5868; --us-bg:#DFEEF1;
+  --fact:#4A5B1C; --fact-bg:#ECF0DC;
+  --question:#46398A; --question-bg:#EAE7F6;
+  --warn:#875700; --warn-bg:#FAEFD6;
+  --danger:#B42318; --danger-bg:#FBE4E1;
+  --font-body:"IBM Plex Sans", "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  --font-label:"IBM Plex Sans Condensed", "Arial Narrow", "Segoe UI", system-ui, sans-serif;
+  --font-mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius:6px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1514; --surface:#172020; --surface-2:#1F2A29; --ink:#E5ECEA; --ink-2:#A5B3AF; --line:#2E3B39;
+    --accent:#86B8D4; --accent-ink:#0B1820; --accent-soft:#1A3140;
+    --them:#E8927A; --them-bg:#3A231C; --us:#80C6D6; --us-bg:#15313A; --fact:#BCCD8A; --fact-bg:#272F14;
+    --question:#B8AEF2; --question-bg:#29244A; --warn:#E9B958; --warn-bg:#3A2D10; --danger:#FF8C80; --danger-bg:#401C18;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1514; --surface:#172020; --surface-2:#1F2A29; --ink:#E5ECEA; --ink-2:#A5B3AF; --line:#2E3B39;
+  --accent:#86B8D4; --accent-ink:#0B1820; --accent-soft:#1A3140;
+  --them:#E8927A; --them-bg:#3A231C; --us:#80C6D6; --us-bg:#15313A; --fact:#BCCD8A; --fact-bg:#272F14;
+  --question:#B8AEF2; --question-bg:#29244A; --warn:#E9B958; --warn-bg:#3A2D10; --danger:#FF8C80; --danger-bg:#401C18;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3,h4{font-family:var(--font-label);line-height:1.2;text-wrap:balance;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:700;letter-spacing:.01em}
+h2{font-size:22px;font-weight:700}
+h3{font-size:17px;font-weight:600}
+p{margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.muted{color:var(--ink-2)}
+.small{font-size:13px}
+.label{font-family:var(--font-label);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.prose{max-width:68ch}
+
+/* Command bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding-block:8px}
+.brand{font-family:var(--font-label);font-weight:700;letter-spacing:.04em;background:none;border:0;padding:4px 0;cursor:pointer;font-size:15px}
+.brand span{color:var(--accent)}
+.modes{display:flex;gap:4px;flex-wrap:wrap}
+.mode{border:1px solid var(--line);background:var(--surface);padding:6px 12px;border-radius:var(--radius);cursor:pointer;font-family:var(--font-label);font-weight:600;letter-spacing:.06em;font-size:13px}
+.mode[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.bar-right{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:12.5px;font-family:var(--font-label);font-weight:600;letter-spacing:.03em;background:var(--surface-2);cursor:pointer}
+.timer-pill{font-family:var(--font-mono);font-weight:600;font-size:15px;padding:4px 10px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface-2);cursor:pointer;min-width:74px;text-align:center}
+.timer-pill.warn,.timer-big.warn{background:var(--warn-bg);color:var(--warn);border-color:var(--warn)}
+.timer-pill.crit,.timer-big.crit{background:var(--danger-bg);color:var(--danger);border-color:var(--danger)}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:7px 12px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.danger{background:var(--danger);border-color:var(--danger);color:#fff}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+
+main{padding-block:22px 64px}
+.section{display:flex;flex-direction:column;gap:12px;padding-block:6px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.g5{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.grid > *{min-width:0}
+
+/* Semantic blocks */
+.tag{display:inline-block;font-family:var(--font-label);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:2px 7px;border-radius:4px}
+.t-them{background:var(--them-bg);color:var(--them)}
+.t-us{background:var(--us-bg);color:var(--us)}
+.t-fact{background:var(--fact-bg);color:var(--fact)}
+.t-q{background:var(--question-bg);color:var(--question)}
+.t-warn{background:var(--warn-bg);color:var(--warn)}
+.t-neutral{background:var(--surface-2);color:var(--ink-2)}
+.blk{border-left:3px solid var(--line);padding:6px 0 6px 12px;display:flex;flex-direction:column;gap:4px}
+.blk.them{border-color:var(--them)} .blk.us{border-color:var(--us)} .blk.fact{border-color:var(--fact)} .blk.q{border-color:var(--question)} .blk.warn{border-color:var(--warn)}
+.say{font-size:16px}
+.say::before{content:"“"} .say::after{content:"”"}
+
+/* Home */
+.hero{display:grid;gap:18px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:start}
+@media (max-width:820px){.hero{grid-template-columns:1fr}}
+.motion{font-size:clamp(18px,2.4vw,22px);font-weight:500;line-height:1.4}
+.position{font-family:var(--font-label);font-weight:700;font-size:20px;letter-spacing:.04em;color:var(--us)}
+.chain{display:flex;flex-direction:column;gap:0;counter-reset:link}
+.chain .start{font-family:var(--font-label);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--them);padding:8px 12px;border:1px dashed var(--them);border-radius:var(--radius);background:var(--them-bg)}
+.chain .link{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:9px 12px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);cursor:pointer;text-align:left;width:100%}
+.chain .link:hover{border-color:var(--accent)}
+.chain .arrow{height:14px;margin-left:22px;border-left:2px solid var(--line)}
+.chain .key{font-family:var(--font-label);font-weight:700;letter-spacing:.08em;font-size:13px;min-width:116px}
+.chain .who{font-family:var(--font-mono);font-size:12.5px;color:var(--accent)}
+.roles{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.role{display:flex;flex-direction:column;gap:2px;align-items:flex-start;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:12px;cursor:pointer}
+.role:hover{border-color:var(--accent)}
+.role b{font-family:var(--font-label);font-size:16px;letter-spacing:.04em}
+.role[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.modecards{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.modecard{text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:4px}
+.modecard:hover{border-color:var(--accent)}
+.modecard b{font-family:var(--font-label);font-size:18px;letter-spacing:.08em}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:8px}
+.tab{border:1px solid transparent;background:none;padding:6px 10px;border-radius:var(--radius);cursor:pointer;font-size:14px;color:var(--ink-2)}
+.tab[aria-selected="true"]{background:var(--surface);border-color:var(--line);color:var(--ink);font-weight:600}
+.persona{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius);padding:10px 14px}
+
+/* Disclosure */
+.disc-btns{display:flex;flex-wrap:wrap;gap:6px}
+.disc-btns .btn{font-size:12.5px;padding:4px 10px;font-family:var(--font-label);font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.reveal{display:flex;flex-direction:column;gap:8px}
+
+/* Tables */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{font-family:var(--font-label);font-weight:600;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+
+/* Strategic questions */
+.qcard{display:flex;flex-direction:column;gap:10px}
+.branch{display:flex;gap:6px;flex-wrap:wrap}
+.branch .btn{min-width:110px;font-family:var(--font-label);font-weight:700;letter-spacing:.06em}
+
+/* LIVE */
+.chainbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--barh,52px));z-index:15;background:var(--bg);padding-block:8px;border-bottom:1px solid var(--line)}
+.chainbar .links{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+@media (max-width:640px){.chainbar .links{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.clink{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:8px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px}
+.clink b{font-family:var(--font-label);font-weight:700;letter-spacing:.07em;font-size:13.5px}
+.clink span{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-2)}
+.clink[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.clink[aria-pressed="true"] span{color:var(--accent-ink)}
+.topics{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+.topic{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:14px 8px;cursor:pointer;font-family:var(--font-label);font-weight:700;letter-spacing:.06em;font-size:14.5px;text-transform:uppercase}
+.topic:hover{border-color:var(--them)}
+.topic[aria-pressed="true"]{background:var(--them-bg);border-color:var(--them);color:var(--them)}
+.livepanel{display:grid;gap:10px}
+.timer-big{font-family:var(--font-mono);font-weight:600;font-size:clamp(44px,9vw,72px);text-align:center;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:6px 0;font-variant-numeric:tabular-nums}
+.notes{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.note{display:flex;flex-direction:column;gap:6px}
+.note textarea{width:100%;min-height:52px;resize:vertical;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);padding:6px 8px;font:inherit;font-size:13.5px}
+.note label{font-family:var(--font-label);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--ink-2)}
+
+/* Emergency overlay */
+.overlay{position:fixed;inset:0;z-index:50;background:var(--bg);overflow:auto;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.overlay .wrap{padding-block:18px 48px}
+.emerg h2{color:var(--danger)}
+.emerg .big{font-size:19px;line-height:1.45}
+ol.tight,ul.tight{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.score input[type=range]{width:100%}
+.transcript .turn{display:grid;grid-template-columns:90px 1fr;gap:10px;padding-block:8px;border-bottom:1px solid var(--line)}
+.transcript .turn:last-child{border-bottom:0}
+.transcript .who{font-family:var(--font-mono);font-size:12.5px;font-weight:600}
+.who.g6{color:var(--us)} .who.g5{color:var(--them)} .who.jd{color:var(--question)}
+@media (max-width:520px){.transcript .turn{grid-template-columns:1fr;gap:2px}}
+details summary{cursor:pointer;font-weight:600}
+.livegrid{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);align-items:start}
+@media (max-width:760px){.livegrid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="bar" id="bar">
+  <div class="wrap">
+    <button class="brand" id="homeBtn" type="button">GROUP 6 <span>· WAR ROOM</span></button>
+    <nav class="modes" aria-label="Mode">
+      <button class="mode" type="button" data-mode="learn">LEARN</button>
+      <button class="mode" type="button" data-mode="practise">PRACTISE</button>
+      <button class="mode" type="button" data-mode="live">LIVE</button>
+    </nav>
+    <div class="bar-right">
+      <button class="chip" id="roleChip" type="button" title="Change role">TEAM VIEW</button>
+      <button class="timer-pill js-timer" id="timerPill" type="button" title="Start / pause timer">5:00</button>
+      <button class="btn danger" id="emergBtn" type="button">EMERGENCY</button>
+    </div>
+  </div>
+</header>
+<main class="wrap" id="app"></main>
+<div class="overlay" id="emergency" hidden></div>
+
+<script>
+"use strict";
+/* ============================================================
+   CONFIG: edit timings and speaking allocation here.
+   All times in seconds. Allocation stays provisional until
+   the competition rules and judging rubric are confirmed.
+   ============================================================ */
+const CONFIG = {
+  rounds: { opening: 300, rebuttal: 120, final: 120 },
+  buffer: { opening: 25, rebuttal: 10, final: 10 },
+  presets: [300, 180, 120, 60, 30],
+  warnAt: 30,
+  criticalAt: 10,
+  defaultStructure: "A"
+};
+
+const STRUCTURES = {
+  A: { name: "A · All five speak every round",
+       note: "Everyone opens, rebuts and closes. Order rotates so nobody is always first or last. Handoff: “[Name] on [link].” No thank-yous, no recaps.",
+       rounds: { opening: ["P1","P2","P3","P4","P5"], rebuttal: ["P3","P4","P5","P1","P2"], final: ["P1","P2","P3","P4","P5"] } },
+  B1: { name: "B1 · One speaker per round",
+        note: "Equal speaking time is impossible with three slots and five people. P2 and P4 own cross-examination or points of information if the format has them; otherwise they write the live rebuttal brief. Raise this with staff.",
+        rounds: { opening: ["P1"], rebuttal: ["P3"], final: ["P5"] } },
+  B2: { name: "B2 · All open, two or three in later rounds",
+        note: "Questioning, if it exists, goes to P1 and P5 so time evens out. Rotate the closer if there are several debates.",
+        rounds: { opening: ["P1","P2","P3","P4","P5"], rebuttal: ["P2","P3","P4"], final: ["P5","P1"] } },
+  B3: { name: "B3 · Cross-examination round exists",
+        note: "As B2, plus each speaker asks their primary strategic question once. Whoever did not speak in rebuttal leads cross-examination.",
+        rounds: { opening: ["P1","P2","P3","P4","P5"], rebuttal: ["P2","P3","P4"], final: ["P5","P1"], cross: ["P1","P5","P2","P3","P4"] } }
+};
+
+/* ============================================================
+   CONTENT
+   ============================================================ */
+const MOTION = "Should online platforms be held legally liable for user-posted misinformation?";
+const POSITION_SHORT = "NO BROAD LIABILITY FOR USER SPEECH";
+const POSITION = "A platform shouldn't be legally liable just because a user posted something false — not automatically, and not because someone flagged it or a jury later decides it should have caught it. Platforms should answer for their own unlawful conduct: what they say, sell and design, and what they knowingly help do, under laws that apply to any business.";
+const ONE_LINER = "Hold platforms to account for what they do, not for every false thing their users say.";
+
+const CHAIN = [
+  { key:"TRIGGER", q:"What triggers platform liability?", p:"P1" },
+  { key:"TRUTH", q:"Who determines falsity?", p:"P2" },
+  { key:"CONDUCT", q:"What did the platform itself do?", p:"P3" },
+  { key:"CONSEQUENCES", q:"What behaviour does the liability rule incentivise?", p:"P4" },
+  { key:"ALTERNATIVE", q:"Is that better than a more targeted alternative?", p:"P5" }
+];
+
+const TIERS = [
+  { t:"1 · Automatic liability", what:"The platform pays whenever a user's post is false and causes harm, whatever it knew.", ex:"“Platforms are responsible for misinformation on their sites.”", stance:"Oppose" },
+  { t:"2 · Negligence / notice liability for falsity", what:"Liable if it “should have known” a post was false, or didn't remove it after a flag.", ex:"“Liable if they ignore reports of misinformation.”", stance:"Oppose" },
+  { t:"3 · Independent unlawful platform conduct", what:"Liable for the platform's own wrongful acts, judged by laws that apply to any business.", ex:"Defective or addictive design; its own misleading statements; selling ads it knows are fraudulent; knowingly helping a crime; ignoring a court order.", stance:"Support where the law defines the wrong" }
+];
+
+const TRIGGER_TEST = [
+  "Is the wrong defined without someone first ruling on what's true?",
+  "Is it the platform's own act?",
+  "Can the platform comply without becoming the referee of disputed facts?"
+];
+
+const PEOPLE = {
+  P1: {
+    link:"TRIGGER", domain:"Frame & trigger", mission:"Set the frame in the first 20 seconds, separate the three kinds of liability, and keep asking what exactly triggers liability.",
+    arg:"A1", primary:"Q1", backup:"Q6", backupFor:"P2", vuln:"V1",
+    listen:["Duty of care / negligence","Publisher comparisons","“Section 230 is outdated”","Any proposed legal standard"],
+    g5:[4,6,11], evidence:["E1","E2","E3","E17","E23"],
+    opening:{
+      must:[
+        "ACKNOWLEDGE: “Let's start with what we agree on. Misinformation can cause real harm, and platforms have enormous influence over what people see.”",
+        "CLASH: “Our disagreement isn't about whether the problem matters. It's about whether making a platform legally responsible for determining the truth of what someone else says actually solves it.”",
+        "FRAME: “So throughout this debate, we're going to ask one simple question: what exactly triggers liability?”",
+        "“There are three possible answers. Automatically, whenever a post is false. When the platform should have known, or was told. Or when the platform itself does something unlawful. We oppose the first two. We accept the third.”"
+      ],
+      good:["“And the motion says online platforms. That's not just Facebook. It's Reddit, Wikipedia, a local paper's comment section, a hobby forum. Any rule has to work across all of them, or tell us where it stops.”"],
+      cut:["The list of platform types."],
+      stop:"“So our first question for Group 5: what exactly triggers liability? [P2's name] on who decides what's false.”"
+    },
+    final:"“Trigger. We asked what makes a platform liable. Every answer we heard still depended on someone deciding a user's post was false.”",
+    emergency:"“Which standard? Automatic, after notice, or for the platform's own conduct?”"
+  },
+  P2: {
+    link:"TRUTH", domain:"Truth & knowledge", mission:"Show that any liability for falsity needs someone to decide what's false, fast, before a court looks at it, and that the hard cases are open questions.",
+    arg:"A2", primary:"Q2", backup:"Q7", backupFor:"P3", vuln:"V5",
+    listen:["Public health claims","Election claims","“It's clearly false”","“They know misinformation is there”","Free speech"],
+    g5:[3,13], evidence:["E4","E10","E11","E12"],
+    opening:{
+      must:[
+        "“Any liability for misinformation needs someone to decide what's false, quickly, and usually before a court ever looks at it.”",
+        "“Under automatic liability, the platform guesses. Under notice liability, a complaint arrives and the platform has to judge it, with a lawsuit if it guesses wrong.”",
+        "“Clearly false content is the easy part. Platforms already remove it. Liability only changes behaviour in the hard cases, where the facts are still open.”"
+      ],
+      good:["“In 2021 Facebook banned claims that COVID was man-made, then reversed itself within four months as investigations developed. Should it have been liable for the first decision, or the second?”"],
+      cut:["The Facebook example, if you are short of time."],
+      stop:"“So the second question: who determines falsity? [P3's name] on what the platform actually did.”"
+    },
+    final:"“Truth. We asked who decides what's false. They never told us who, or how fast, or what happens when the decision is wrong.”",
+    emergency:"“Who decides it's false: the platform, a court, or the government?”"
+  },
+  P3: {
+    link:"CONDUCT", domain:"Conduct & design", mission:"Separate what the platform itself does (design, promotion, ads, its own statements) from what users post. Accept liability for conduct; refuse liability triggered by a user's falsehood.",
+    arg:"A3", primary:"Q3", backup:"Q8", backupFor:"P4", vuln:"V2",
+    listen:["Algorithms and amplification","Profit and engagement","Product liability","Other industries","The 2026 jury verdicts"],
+    g5:[1,2,7,12], evidence:["E6","E7","E8","E24","E32"],
+    opening:{
+      must:[
+        "“We agree platforms aren't neutral. They design feeds, sell ads and decide what to promote. When that conduct is unlawful, they should answer for it.”",
+        "“Courts are already doing that. Juries this year found against platforms over addictive design, and over a company's own misleading statements about safety. That's liability for what the platform did.”",
+        "“The motion asks something different: liability because another person's post is false.”"
+      ],
+      good:["“If recommendation is the problem, regulate recommendation. That still doesn't establish liability simply because the underlying user post is false.”"],
+      cut:["The jury-verdict reference."],
+      stop:"“So the third question: what did the platform itself do? [P4's name] on what this rule would make platforms do.”"
+    },
+    final:"“Conduct. Every example of real platform wrongdoing they gave was about design or the platform's own actions. We accept liability there. None of it needed liability for a user's false post.”",
+    emergency:"“If recommendation is the problem, regulate recommendation.”"
+  },
+  P4: {
+    link:"CONSEQUENCES", domain:"Incentives & control", mission:"Show what a falsity-based liability rule rewards: removing anything contested, or not looking at all. Keep evidence modest and call patterns patterns.",
+    arg:"A4", primary:"Q4", backup:"Q9", backupFor:"P5", vuln:"V4",
+    listen:["“They already moderate”","“No incentive without liability”","AI moderation","Repeat offenders","Volunteer-run communities"],
+    g5:[5,9,10], evidence:["E2","E10","E14","E15","E31"],
+    opening:{
+      must:[
+        "“Think about the incentive. If leaving a post up can get you sued, and taking it down costs nothing, the rational choice is to remove anything contested, or to stop looking.”",
+        "“Before 1996, that's exactly what happened. The service that tried to moderate got sued. The one that didn't look was fine.”",
+        "“Meta itself estimated that one or two in every ten removals may already be mistakes, with no lawsuit pressure at all.”"
+      ],
+      good:["“When Australia made page owners responsible for readers' comments, CNN pulled its Facebook pages there rather than carry the risk.”"],
+      cut:["The CNN example."],
+      stop:"“A liability rule rewards removal, not accuracy. [P5's name] on whether there's a better way.”"
+    },
+    final:"“Consequences. Their rule makes removing a true post free and leaving a disputed one costly. That rewards removal, not accuracy.”",
+    emergency:"“Under your rule, what does it cost to take down a true post?”"
+  },
+  P5: {
+    link:"ALTERNATIVE", domain:"Harm, tools & weighing", mission:"Take the harm seriously, then compare: which approach reduces it without making a company the referee of truth? Deliver the weighing.",
+    arg:"A5", primary:"Q5", backup:"Q10", backupFor:"P1", vuln:"V3",
+    listen:["Harm stories","Victims and remedies","Europe and other countries","Fraud and scam ads","Meta ending fact-checking"],
+    g5:[3,8,14,15], evidence:["E16","E18","E19","E33","E34"],
+    opening:{
+      must:[
+        "“So compare. People who spread damaging lies can already be sued. Platforms can already be held liable for their own conduct. Congress has passed narrow takedown laws for clearly defined content.”",
+        "“And if regulation is needed, process-based duties are a more targeted alternative than liability based on determining whether users' statements are true.”",
+        "“Those tools target what platforms control. Liability for falsity targets what users say.”"
+      ],
+      good:["“Adding context to posts has been shown to cut resharing.”"],
+      cut:["The context-notes example."],
+      stop:"“Both sides want less misinformation. The question is which rule gets there without making a company the referee of truth. We oppose the motion.”"
+    },
+    final:"“Alternative. They needed to show liability for falsity beats narrower tools. They showed the harm, which we agreed with, but not that their rule reduces it better.”",
+    emergency:"“Is that better than going after the speaker, the platform's own conduct, or a narrow defined law?”"
+  }
+};
+
+const ARGS = {
+  A1:{ owner:"P1", title:"The Trigger", claim:"Any liability rule needs a clear trigger. “Misinformation” isn't one, so every version of the rule either over-reaches or quietly becomes something else.",
+    why:"Automatic liability is the bookshop rule the Supreme Court rejected. Negligence has no workable “reasonable care” about truth across millions of posts. Notice turns a complaint into a truth verdict.",
+    evidence:["E3","E23","E17"],
+    counter:["“Legislatures define terms all the time.”","“Define it as demonstrably false and harmful.”"],
+    response:["“Then define it for us now. Which claims, decided by whom, at what point? Undefined, it's a blank cheque.”","“Who demonstrates it's false, and before or after removal?” (hands to P2)"] },
+  A2:{ owner:"P2", title:"The Referee", claim:"Automatic and notice-based liability both make a company decide disputed facts quickly, under threat of a lawsuit.",
+    why:"Courts decide truth slowly, one statement at a time, with fault standards. A platform must decide first, at speed. The easy cases are already handled; liability only bites on open questions.",
+    evidence:["E11","E12","E4"],
+    counter:["“Courts decide truth in defamation every day.”","“Most viral misinformation is plainly false.”"],
+    response:["“Yes, one statement about one person, after a trial, with a requirement to show fault. Not a moderator in seconds.”","“Plainly false content is already removable. Liability changes behaviour only in the grey zone, which is where mistakes happen.”"] },
+  A3:{ owner:"P3", title:"Control and conduct", claim:"Responsibility should follow who controls what. The law already reaches platform conduct: design, its own statements, content it helps create.",
+    why:"Platforms range from a giant algorithmic feed to a volunteer forum. A rule keyed to users' falsehoods ignores who controls what. A rule keyed to conduct targets what the platform actually did.",
+    evidence:["E8","E32","E24"],
+    counter:["“Ranking and recommending is conduct.”","“One appeals court said the algorithm is the platform's own speech.”"],
+    response:["“If recommendation is the problem, regulate recommendation. That still doesn't establish liability simply because the underlying user post is false.”","“That case was about pushing a dangerous challenge to a child. That's conduct, which our line already covers.”"] },
+  A4:{ owner:"P4", title:"The incentive", claim:"Liability for falsity rewards removing contested speech, or not looking at all. It doesn't reward accuracy.",
+    why:"Keeping a post up risks a lawsuit; taking it down costs nothing. We've seen the pattern whenever hosting carries legal risk. These are patterns from other laws, not a study of misinformation liability, so present them as risk.",
+    evidence:["E2","E10","E31","E15"],
+    counter:["“Over-removal of misinformation is a good thing.”","“Add a good-faith safe harbour.”"],
+    response:["“Mistakes don't only hit false posts. They hit true ones and questions that are still open.”","“Then you've built a process rule, not liability for misinformation. Tell us what it requires.”"] },
+  A5:{ owner:"P5", title:"Better targeted tools", claim:"Narrower tools already target the real problems: speaker liability, liability for platform conduct, court orders, defined takedown laws and process-based duties for the largest services.",
+    why:"Compare alternatives, don't design a regime: “If regulation is needed, process-based duties are a more targeted alternative than liability based on determining whether users' statements are true.”",
+    evidence:["E19","E18","E33","E16"],
+    counter:["“Voluntary tools get reversed. Meta ended fact-checking.”","“Process duties are toothless.”"],
+    response:["“Voluntary steps can be reversed. If regulation is needed, process-based duties are a more targeted alternative than liability for the truth of users' posts.”","“Process duties carry penalties too. The difference is what triggers them: a failed system, not a disputed sentence.”"] }
+};
+
+/* Group 5's likely AI-assisted case */
+const G5 = [
+ {n:1, title:"Profit from engagement", owner:"P3", assume:"F2 · F3",
+  claim:"Platforms profit from engagement, and false content drives engagement, so they should bear the cost.",
+  ten:"Profit tells us who can afford rules. It doesn't tell us which posts are false.",
+  thirty:"We agree the business model matters. But profit is earned on true posts too. If the problem is monetising harmful content, look at what the platform itself does: the ads it sells, the creators it pays. That's the platform's conduct, and it can be regulated. It still doesn't make the platform liable because a user said something false.",
+  q:"If a platform earned nothing from a false post, would your case change?",
+  counter:"Banks profit from transactions and are liable for fraud they facilitate.",
+  final:"Banks act on fraud the law defines in advance, not on whether a customer's statement is true. That's our line: defined illegality, not falsity."},
+ {n:2, title:"Algorithms amplify", owner:"P3", assume:"F3",
+  claim:"Recommendation algorithms amplify misinformation, so platforms are active participants, not passive hosts.",
+  ten:"If recommendation is the problem, regulate recommendation. That still doesn't make the platform liable because a user's post is false.",
+  thirty:"Ranking is a choice; we agree. If recommendation is the problem, regulate recommendation: how it's designed, tested and audited. That still doesn't establish liability simply because the underlying user post is false. And a large MIT study found people, not bots, mainly spread false stories.",
+  q:"If the same post were shown in date order with no recommending, should the platform still be liable?",
+  counter:"One US appeals court has said the algorithm is the platform's own speech, so it can be liable.",
+  final:"That case was about an app pushing a dangerous challenge to a child. That's conduct, and our line covers it. It isn't a rule about users' false posts."},
+ {n:3, title:"Real-world harm", owner:"P5", assume:"F1",
+  claim:"Misinformation causes deaths and violence: health scares, election lies, riots.",
+  ten:"The harm is real. The question is whether liability for falsity reduces it.",
+  thirty:"We said in our first sentence that the harm is real. But harm tells us there's a problem, not that this remedy works. Liability changes behaviour only where truth is unclear, and there it pushes platforms to remove anything contested, including true posts. Targeted tools aim at the harm without a truth referee.",
+  q:"What evidence shows liability reduces the harm, rather than just increasing removals?",
+  counter:"Some content is clearly false and dangerous, like fake cures.",
+  final:"Clearly false and dangerous content is already removable under platform policy and narrow laws. Liability only bites in the grey zone, where the mistakes happen."},
+ {n:4, title:"Duty of care / negligence", owner:"P1", assume:"F1 · F2",
+  claim:"Platforms owe users a duty of care and should be liable when they negligently fail to act on foreseeable misinformation.",
+  ten:"Duties set in advance about systems are one thing. A jury deciding afterwards what was true is another.",
+  thirty:"If the duty is about how platforms build and audit their systems, set in advance, that's a more targeted alternative than liability for the truth of users' posts. But negligence for misinformation means a jury later decides a post was false and the platform should have known. That's the referee problem with hindsight.",
+  q:"What would a reasonable platform have done with a post whose truth was still disputed?",
+  counter:"Negligence works for every other industry.",
+  final:"Other industries are negligent about their own products. Here the “defect” would be another person's sentence."},
+ {n:5, title:"They already moderate", owner:"P4", assume:"F1",
+  claim:"Platforms already remove content. Liability just makes them do it properly.",
+  ten:"Moderating under your own policy is different from moderating under threat of a lawsuit.",
+  thirty:"Today a platform can make a judgement call and correct it. Under liability, leaving a post up can cost a lawsuit and taking it down costs nothing. Meta itself estimated one or two in every ten removals may already be mistakes. Liability pushes that the wrong way.",
+  q:"Under your rule, what does it cost the platform to remove a true post?",
+  counter:"A good-faith safe harbour fixes over-removal.",
+  final:"Then you've built a process rule, not liability for misinformation. Tell us what it requires."},
+ {n:6, title:"Publishers are liable", owner:"P1", assume:"F3",
+  claim:"Newspapers are liable for what they publish. Platforms should be too.",
+  ten:"Newspapers choose each item before it goes out, and even they generally need to be at fault.",
+  thirty:"An editor reads and chooses each piece before it goes out, and even then is generally liable only when at fault. Platforms carry millions of posts no one at the company has seen. Before 1996, treating a moderating service like a publisher meant the site that tried to moderate got sued. That's why the law changed.",
+  q:"Should a platform be liable for a post no one at the company has seen?",
+  counter:"Algorithms are the editor now.",
+  final:"Then target the algorithm's design. That's conduct. It doesn't need a ruling on whether each post is true."},
+ {n:7, title:"Product liability", owner:"P3", assume:"F3",
+  claim:"A platform is a product. A defective product that spreads misinformation should carry liability.",
+  ten:"Design defects are already being litigated. That's our line.",
+  thirty:"Courts are already holding platforms responsible for how they design their products. A jury did so this year over addictive design. That targets what the platform built. A user's false sentence isn't a design defect.",
+  q:"Is the defect the design, or the content of a user's post?",
+  counter:"A design that spreads misinformation is a defective design.",
+  final:"Then prove the design defect, as those plaintiffs did. That's conduct. You still don't need the platform to rule on what's true."},
+ {n:8, title:"Victims need remedies", owner:"P5", assume:"F4",
+  claim:"Victims need someone to sue, and anonymous speakers can't be reached.",
+  ten:"They can sue the speaker, and sue the platform for its own conduct. Both exist today.",
+  thirty:"Victims can sue the person who lied, and in serious cases courts can order a platform to help identify them. Platforms can be sued for their own conduct. If there's a gap, fill it with a targeted fix, not a rule that makes every platform liable for disputed truth.",
+  q:"Who exactly can sue under your rule: the person harmed, or anyone misled?",
+  counter:"Unmasking is slow and speakers often can't pay.",
+  final:"Then the gap is about identifying and recovering from speakers. Fix that gap directly."},
+ {n:9, title:"No incentive without liability", owner:"P4", assume:"F2",
+  claim:"Without liability, platforms have no reason to act.",
+  ten:"Incentive to do what: be accurate, or remove anything risky?",
+  thirty:"Platforms already act because of advertisers, users and regulators. The question is what liability adds. When keeping a post up can cost a lawsuit and taking it down costs nothing, the incentive is removal, not accuracy. We've seen that pattern: after the 2018 trafficking law, one big site simply shut a whole section.",
+  q:"Which mistake costs the platform money under your rule: leaving false posts up, or taking true ones down?",
+  counter:"Meta ended fact-checking in 2025. Voluntary action isn't enough.",
+  final:"Agreed, voluntary steps can be reversed. If regulation is needed, process-based duties are a more targeted alternative than liability based on determining whether users' statements are true."},
+ {n:10, title:"AI can moderate", owner:"P4", assume:"F1",
+  claim:"AI now makes it possible to detect misinformation at scale.",
+  ten:"AI copies past labels. New disputed claims are exactly what it gets wrong.",
+  thirty:"AI is trained on what people labelled false before. New, disputed claims are where it struggles, and those are the cases that matter. Meta itself estimated one or two in ten removals may be mistakes. Liability would push the error toward removing more.",
+  q:"Who is liable when the AI removes a true post?",
+  counter:"AI is improving quickly.",
+  final:"Better tools are welcome. They don't change who must decide disputed truth, or the incentive to over-remove."},
+ {n:11, title:"Section 230 is outdated", owner:"P1", assume:"F4",
+  claim:"Section 230 was written in 1996 for a different internet.",
+  ten:"Review it, sure. The motion is about what should trigger liability.",
+  thirty:"We agree the law deserves review, and Congress is debating it. But it already excludes federal crimes and copyright, and courts are already letting design claims through. Reforming it doesn't answer the question: what should make a platform liable when a user posts something false?",
+  q:"What would replace it, and what triggers liability under the replacement?",
+  counter:"Repeal it and let courts work it out.",
+  final:"Then courts face the same question with no answer: who decides the post was false, and what did the platform do?"},
+ {n:12, title:"Other industries are liable", owner:"P3", assume:"F3",
+  claim:"Car makers, drug companies and banks are liable for harms they facilitate.",
+  ten:"For what they make, not for what their customers say.",
+  thirty:"Those industries are liable for their own products and conduct. A phone company isn't liable for a lie told on a call. The fair comparison is liability for the platform's own design and statements, which already exists.",
+  q:"Is a phone company liable for a lie told on a call?",
+  counter:"Platforms curate; phone companies don't.",
+  final:"Then regulate the curation. If recommendation is the problem, regulate recommendation."},
+ {n:13, title:"They know it's there", owner:"P2", assume:"F1",
+  claim:"Platforms know misinformation is on their sites and do too little.",
+  ten:"Knowing misinformation exists isn't knowing this post is false.",
+  thirty:"Knowing misinformation exists isn't the same as knowing this post is false. The Supreme Court has said running a service everyone uses isn't the same as knowingly helping wrongdoing. And knowledge-based liability creates a perverse incentive: don't look.",
+  q:"What exactly must the platform know: that misinformation exists, or that this post is false?",
+  counter:"Repeat offenders are known.",
+  final:"Account-level rules on repeat offenders are a policy and process question. They don't need liability for the truth of each post."},
+ {n:14, title:"Europe does it", owner:"P5", assume:"F5 · F6",
+  claim:"Europe holds platforms accountable. The US should too.",
+  ten:"Europe makes hosts act on illegal content they know about. It doesn't make them liable just because content is false.",
+  thirty:"Europe makes hosts act on illegal content once they know about it, and requires the biggest platforms to assess and reduce risks in their systems. It doesn't make them liable just because lawful content is false. Even Europe sets different rules by size and type of service.",
+  q:"Which European rule makes a host liable for lawful content because it's false?",
+  counter:"Europe's human-rights court allowed liability for comments.",
+  final:"For clearly illegal hate speech and threats. The same court refused liability for merely offensive comments."},
+ {n:15, title:"Fraud and scam ads", owner:"P5", assume:"—",
+  claim:"Scam ads and financial fraud cost people enormous sums.",
+  ten:"Paid ads are the platform's own business. Liability fits our line.",
+  thirty:"Fraud is already illegal. When a platform sells an ad it knows is a scam, that's the platform's own commercial conduct, and liability can follow. That's very different from liability because a user's post is false.",
+  q:"Is the platform's liability for the ad it sold, or for a user's post?",
+  counter:"Then extend that to ordinary posts.",
+  final:"Ordinary posts aren't the platform's sale. Extending it brings back the referee problem."}
+];
+
+const ASSUMPTIONS = [
+ {f:"F1", a:"Falsity can be reliably identified at speed and scale", deps:[3,4,5,10,13], attack:"The Facebook reversal (E11); Meta's own error estimate (E10); the best-known study only counted stories fact-checkers agreed on (E12).", remains:"Narrow categories defined by law, which we accept."},
+ {f:"F2", a:"Liability produces accuracy, not just removal", deps:[1,5,8,9], attack:"Asymmetric risk; pre-1996 history (E2); copyright takedown experience (E14); trafficking law closures (E15).", remains:"Liability for the platform's own conduct."},
+ {f:"F3", a:"Distributing a post is the same as authoring it", deps:[1,2,6,7,12], attack:"Running a general service isn't knowing participation (E6); people, not bots, drive spread (E12).", remains:"Design-defect claims, which fit our line (E8)."},
+ {f:"F4", a:"Victims have no other remedy", deps:[8,11,15], attack:"Speakers can be sued (E19); platform conduct is already actionable (E8, E32); statutory exclusions (E1).", remains:"An identification gap, best fixed directly."},
+ {f:"F5", a:"Scale and power justify liability for content", deps:[11,12,14], attack:"Europe keeps the hosting exemption for lawful content and regulates systems (E17, E33).", remains:"Process duties for the largest services, as a comparison point."},
+ {f:"F6", a:"All online platforms are alike", deps:[1,2,4,5,9,10,14], attack:"Two Platforms question; rules abroad tier by size and function (E26–E28); encrypted services can't read content.", remains:"Duties scaled to reach, control and design, not to falsity."}
+];
+
+const VULNS = [
+ {v:"V1", owner:"P1", title:"“You've conceded our case”",
+  attack:"Group 6 accepts liability after court orders, for design, and for process duties. Our motion only needs some liability. They just draw the line differently.",
+  why:"It sounds like a wording dispute, and judges reward the side that looks reasonable.",
+  resp:"The difference is the trigger, not the wording. Under their rule a company decides truth on a complaint. Under ours a court or a defined law does. Run the three-question trigger test.",
+  again:"Court orders are too slow. The harm is done by then.",
+  open:"Speed. Answer: “Fast and wrong isn't better; speed is where mistakes happen.” Some judges will still prefer speed in emergencies. Partial weakness."},
+ {v:"V2", owner:"P3", title:"Harm stories and momentum",
+  attack:"A named teenager's story, plus “two juries found Meta liable this year; the law is moving our way.”",
+  why:"Emotion plus an apparent legal trend.",
+  resp:"Acknowledge the harm first. Then: the verdicts were about addictive design, failure to warn and Meta's own misleading statements. That's conduct, our line, not liability for users' falsehoods.",
+  again:"Design that spreads misinformation is the same thing.",
+  open:"Verdicts are under appeal and set no precedent. Don't overclaim them either. Manageable."},
+ {v:"V3", owner:"P5", title:"“Voluntary moderation is reversible”",
+  attack:"Meta ended US fact-checking in January 2025. Without liability, protection vanishes when a company changes its mind.",
+  why:"It's true and recent.",
+  resp:"We don't rely on voluntary action. Speaker and conduct liability remain. If regulation is needed, process-based duties are a more targeted alternative than liability based on determining whether users' statements are true.",
+  again:"Then why not use liability as the enforcement mechanism?",
+  open:"We can't yet show process duties work better; the evidence is still emerging. Hold the line on the trigger. Biggest open weakness."},
+ {v:"V4", owner:"P4", title:"“Your over-removal evidence is borrowed”",
+  attack:"Copyright takedowns, trafficking law and Australian defamation aren't misinformation. Meta's error rate was under its own policies.",
+  why:"It's correct, and judges reward evidence discipline.",
+  resp:"Concede it openly: “We're not claiming a study of misinformation liability exists.” The pattern recurs across different laws: when hosting carries legal risk, services close or remove features. The side proposing the change should show it won't happen here.",
+  again:"Patterns aren't proof.",
+  open:"Agreed, it's an inference. Weigh it as risk, not certainty. Manageable if framed honestly."},
+ {v:"V5", owner:"P2", title:"“Most misinformation is plainly false”",
+  attack:"Wrong voting dates, fake cures, invented quotes. Your Facebook example is one edge case.",
+  why:"It's largely true of the most viral harmful items.",
+  resp:"Clearly false content isn't where liability changes anything. It's already removable, and narrow laws can target defined categories. Liability's real effect falls on the contested middle.",
+  again:"Then accept liability only for plainly false content.",
+  open:"A judge may find a very narrow “plainly false, after notice” rule reasonable. Ask who certifies “plainly”. Partial weakness."}
+];
+
+/* Strategic (pressure-test) questions. Q1–Q5 primary, Q6–Q10 backup. */
+const QUESTIONS = [
+ {id:"Q1", owner:"P1", primary:true, link:"TRIGGER", title:"The Trigger",
+  open:"What exactly makes a platform liable under your proposal: the post being false, the platform being told, or the platform failing some standard?",
+  likely:"“Failing to take reasonable steps once they know.”",
+  follow:"Reasonable steps toward what? Is the platform's duty to remove the flagged post?",
+  yes:"Then any flagged post comes down, true or not. That's a removal rule, not an accuracy rule.",
+  no:"Then its duty is to check whether the post is true. That makes the platform the referee of truth, on a deadline, with a lawsuit if it guesses wrong.",
+  qual:"“Only in obvious cases.” Who decides it's obvious? If a court, that's our model. If the company, we're back to the referee.",
+  win:"Group 5 must name a decision-maker. Either way, the trigger is no longer “misinformation” alone.",
+  escape:"“Congress will define it.”",
+  reply:"Then the motion asks the judge to approve a rule that hasn't been written."},
+ {id:"Q2", owner:"P2", primary:true, link:"TRUTH", title:"The Referee",
+  open:"When a post is disputed, who decides it's misinformation?",
+  likely:"“The platform, using expert guidance.”",
+  follow:"Should the platform itself make that call, with liability if it's wrong?",
+  yes:"Then a private company decides truth, and its legal risk sits on only one side. Guessing “remove” is always safer.",
+  no:"Then a court or agency decides. Courts take months, so the platform still has to guess first. An agency means government deciding which statements are false. Would you give that power to the government you trust least?",
+  qual:"“Experts or consensus decide.” Facebook followed the expert view in 2021, then reversed itself within four months. Should it have been liable for the first decision, or the second?",
+  win:"Every route costs speed, accuracy or independence.",
+  escape:"“Only for claims with overwhelming consensus.”",
+  reply:"Those are the easy cases platforms already remove. Liability only matters for the rest."},
+ {id:"Q3", owner:"P3", primary:true, link:"CONDUCT", title:"Host or Push",
+  open:"Picture a platform that just hosts posts in date order: no recommending, no ads, no promotion.",
+  likely:"“That's not how big platforms work.”",
+  follow:"Should that platform be liable for a user's false post?",
+  yes:"Then amplification isn't your reason. Your rule reaches every forum and comment section.",
+  no:"Then hosting a user's post isn't enough. It's what the platform does that matters, and that's our position.",
+  qual:"“Less liable.” Then let's judge the doing: the design, the promotion, the payment. That's conduct. If recommendation is the problem, regulate recommendation.",
+  win:"Agreement that pure hosting isn't the wrong.",
+  escape:"“Every platform ranks something.”",
+  reply:"Then target ranking design, which you can audit, not the truth of each post."},
+ {id:"Q4", owner:"P4", primary:true, link:"CONSEQUENCES", title:"The Error Budget",
+  open:"Any system makes mistakes both ways. Under your rule, which mistake costs the platform money: leaving a false post up, or taking a true one down?",
+  likely:"“Leaving false posts up.”",
+  follow:"Should taking down a true post cost the platform as much as leaving up a false one?",
+  yes:"Then platforms face lawsuits both ways on every disputed post. Who can afford that, apart from the biggest companies?",
+  no:"Then you've built a system that pushes every close call toward removal.",
+  qual:"Then show us the rule that balances both. We haven't heard it yet.",
+  win:"Group 5 must deal with the cost of removing true content, which means showing a net reduction in errors.",
+  escape:"“Removing some true posts is a price worth paying.”",
+  reply:"Meta estimated up to two in ten removals were already mistakes before any legal pressure. How many more is worth it?"},
+ {id:"Q5", owner:"P5", primary:true, link:"ALTERNATIVE", title:"Two Platforms",
+  open:"Picture two platforms: a huge feed with billions of users and an algorithm, and a cycling forum with 2,000 members and one volunteer admin.",
+  likely:"“The big one is the problem.”",
+  follow:"Should the same rule apply to both?",
+  yes:"The forum can't afford lawyers or moderators, so it closes or bans topics. And it has no algorithm, so amplification was never the reason.",
+  no:"Then the trigger isn't the false post. It's something about the platform. What is it?",
+  qual:"“Duties scaled to size.” That's a fair distinction. Then the justification is reach, control and system design. What duty does that create, and how does the platform satisfy it without having to adjudicate disputed truth?",
+  win:"The justification moves from users' falsehoods to reach, control and design.",
+  escape:"“We only mean the biggest platforms.”",
+  reply:"Then the motion has narrowed to a handful of companies, and even for them someone still has to decide what's false."},
+ {id:"Q6", owner:"P1", primary:false, link:"TRIGGER", title:"Court order or complaint",
+  open:"When a post is disputed, should a platform act on a court ruling, or on a complaint?",
+  likely:"“Both.”",
+  follow:"Should a complaint alone be enough to make the platform liable if it doesn't act?",
+  yes:"Then anyone's accusation becomes a takedown. Where complaints trigger takedowns in copyright, studies found a lot of questionable complaints.",
+  no:"Then a court or a defined law decides. That's our model.",
+  qual:"“A complaint, for obvious cases.” Who certifies “obvious”?",
+  win:"The decision-maker, not the label, is the real dispute.",
+  escape:"“Courts are too slow.”",
+  reply:"Fast and wrong isn't better. Speed is where most mistakes happen."},
+ {id:"Q7", owner:"P2", primary:false, link:"TRUTH", title:"Encrypted chat",
+  open:"Some messaging services can't read their users' messages at all.",
+  likely:"“Then they're different.”",
+  follow:"Should a service that can't read messages be liable for false messages sent through it?",
+  yes:"That's only possible by breaking the encryption that protects everyone's messages.",
+  no:"Then knowledge and control decide liability, not falsity.",
+  qual:"“Only public content.” Then private chats, where a lot of misinformation travels, are outside your rule, and the trigger is reach.",
+  win:"Knowledge and control, not falsity, are the real trigger.",
+  escape:"“Platforms could scan before encryption.”",
+  reply:"That's a different and much bigger debate about privacy. The motion didn't ask for it."},
+ {id:"Q8", owner:"P3", primary:false, link:"CONDUCT", title:"The comment section",
+  open:"A reader posts a false comment under a local newspaper's article.",
+  likely:"“The paper should moderate its comments.”",
+  follow:"Should the paper be legally liable for that comment?",
+  yes:"We've seen what happens. When Australia made page owners responsible for comments, CNN pulled its Facebook pages there. Comment sections close.",
+  no:"Then hosting someone else's words isn't enough. That's our position.",
+  qual:"“Only if the paper promoted it.” Promotion is the paper's own conduct. That's our line.",
+  win:"Hosting is not authorship.",
+  escape:"“Big platforms aren't newspapers.”",
+  reply:"The motion says online platforms. If the rule only fits big platforms, tell us what about them triggers it."},
+ {id:"Q9", owner:"P4", primary:false, link:"CONSEQUENCES", title:"Volunteer moderators",
+  open:"On community sites, volunteer moderators decide what stays up.",
+  likely:"“The company is responsible.”",
+  follow:"Should the volunteer who actually saw the post be liable?",
+  yes:"Then you're suing volunteers. Who moderates after that?",
+  no:"Then the person with the knowledge and control isn't liable, so knowledge isn't really your test.",
+  qual:"“Both.” Then the community model ends. Who volunteers under that risk?",
+  win:"Liability has to follow control, not falsity.",
+  escape:"“Only the company, because it profits.”",
+  reply:"Then the trigger is profit and design. That's the platform's conduct, not the user's falsehood."},
+ {id:"Q10", owner:"P5", primary:false, link:"ALTERNATIVE", title:"Who can sue?",
+  open:"Under your rule, a false post goes viral.",
+  likely:"“The people it harmed can sue.”",
+  follow:"Should anyone who was misled be able to sue the platform?",
+  yes:"Then every viral post creates unlimited claims. What platform keeps hosting anything contested?",
+  no:"Then only directly harmed people can sue, and existing claims against speakers and for platform conduct largely cover them. What gap remains?",
+  qual:"“A government regulator enforces it.” Then a government decides which statements are false. That power outlasts any one government.",
+  win:"Either the remedy already exists, or it becomes unlimited.",
+  escape:"“Class actions handle it.”",
+  reply:"Class actions still need someone to decide the post was false. The referee problem doesn't go away."}
+];
+
+/* Evidence Vault. Types: BH binding holding, NB non-binding, EMP empirical, CO company, ADV advocacy, INF inference. */
+const EVIDENCE = [
+ {id:"E1", type:"BH", title:"Section 230", src:"47 U.S.C. §230", date:"1996, amended 2018", find:"No provider or user of an interactive computer service is treated as the publisher or speaker of another's content. Exclusions: federal criminal law, intellectual property, communications privacy, sex-trafficking claims.", limit:"Courts disagree about its edges (algorithms, design).", say:"US law protects services and users for what others post, with exceptions for crimes and copyright.", url:"https://www.law.cornell.edu/uscode/text/47/230"},
+ {id:"E2", type:"NB", title:"Cubby and Stratton Oakmont", src:"S.D.N.Y. 1991; N.Y. Sup. Ct. 1995", date:"1991, 1995", find:"The service that didn't moderate wasn't liable; the one that moderated was treated as a publisher.", limit:"Trial-level cases before Section 230. History, not current law.", say:"Before 1996, the site that tried to moderate got sued. That's why the law changed.", url:"https://en.wikipedia.org/wiki/Stratton_Oakmont,_Inc._v._Prodigy_Services_Co."},
+ {id:"E3", type:"BH", title:"Smith v. California", src:"US Supreme Court", date:"1959", find:"Strict liability for booksellers over books they hadn't read violated the First Amendment, because it would make sellers restrict protected books too.", limit:"About obscenity and booksellers. An analogy for platforms.", say:"The Supreme Court rejected making bookshops liable for books they hadn't read.", url:"https://supreme.justia.com/cases/federal/us/361/147/"},
+ {id:"E4", type:"BH", title:"United States v. Alvarez", src:"US Supreme Court (6–3)", date:"2012", find:"Struck down the Stolen Valor Act. A four-justice plurality said false statements aren't a categorically unprotected class; a two-justice concurrence used a lighter test and suggested a narrower law could survive.", limit:"No single majority rationale. Narrower false-speech laws can survive.", say:"The Supreme Court has said a statement isn't automatically unprotected just because it's false.", url:"https://www.scotusblog.com/?p=147938"},
+ {id:"E5", type:"NB", title:"Moody v. NetChoice", src:"US Supreme Court", date:"July 2024", find:"The majority said curating feeds like Facebook's News Feed is expressive activity and that Texas's law likely couldn't apply to them. The cases were sent back for proper analysis. A footnote left open feeds whose algorithms respond solely to user behaviour.", limit:"Not a final ruling on the laws. Two justices concurred only in the judgment. Backup only: P3 does not lead with it.", say:"The Supreme Court has signalled that ranking content is a platform's own protected speech.", url:"https://www.thefire.org/supreme-court/moody-v-netchoice/opinions"},
+ {id:"E6", type:"BH", title:"Twitter v. Taamneh", src:"US Supreme Court (9–0)", date:"May 2023", find:"Aiding-and-abetting under the anti-terrorism law needs conscious, culpable participation. Hosting content, imperfect removal and generally available recommendation algorithms weren't enough on those facts.", limit:"About terrorism aiding-and-abetting, not Section 230 or misinformation. Left room for more culpable conduct.", say:"The Supreme Court said running a service everyone uses, including its recommendations, isn't the same as knowingly helping wrongdoing.", url:"https://www.rcfp.org/scotus-twitter-taamneh-decision/"},
+ {id:"E7", type:"BH", title:"Anderson v. TikTok (Group 5's case)", src:"US Court of Appeals, 3rd Circuit", date:"Aug 2024; rehearing denied Oct 2024", find:"An algorithm that recommends content without a user's search is TikTok's own speech, so Section 230 doesn't bar the claim.", limit:"Binding in one circuit only; widely criticised. Supreme Court petition status unverified.", say:"One appeals court went the other way, in a case about a dangerous challenge pushed to a child. That's conduct.", url:"https://epic.org/in-anderson-v-tiktok-the-third-circuit-applies-questionable-first-amendment-reasoning-to-arrive-at-the-correct-section-230-outcome/"},
+ {id:"E8", type:"NB", title:"Design cases and the Los Angeles verdict", src:"Lemmon v. Snap (9th Cir.); KGM v. Meta & YouTube (L.A. jury)", date:"2021; 25 Mar 2026", find:"Lemmon: a design claim isn't barred by Section 230 (binding in the 9th Circuit). KGM: the jury found Meta and YouTube negligent and failed to warn, with design a substantial factor; $3M compensatory plus $3M punitive. First of several bellwether trials.", limit:"A jury verdict sets no precedent; appeals are likely. About design and addiction, not misinformation.", say:"Courts are already holding platforms responsible for how they design their products.", url:"https://www.aljazeera.com/economy/2026/3/25/us-jury-finds-meta-alphabet-liable-in-landmark-social-media-addiction-case"},
+ {id:"E9", type:"NB", title:"Doe v. X Corp. cert denied", src:"US Supreme Court, No. 25-949", date:"18 May 2026", find:"The Court declined to review a ruling that Section 230 shielded X in a child-exploitation case.", limit:"A refusal to hear a case says nothing about the merits.", say:"The Supreme Court still hasn't settled how far that protection goes.", url:"https://www.scotusblog.com/cases/doe-v-x-corp/"},
+ {id:"E10", type:"CO", title:"Meta's own error estimate", src:"Meta newsroom, “More Speech and Fewer Mistakes”", date:"7 Jan 2025", find:"Meta removed millions of items a day in December 2024 and estimated one to two in every ten of those actions may have been mistakes.", limit:"Company estimate under its own policies, not a liability regime. Issued alongside a policy shift.", say:"Meta itself estimated one or two in every ten removals may have been mistakes.", url:"https://about.fb.com/news/2025/01/meta-more-speech-fewer-mistakes/"},
+ {id:"E11", type:"CO", title:"Facebook's COVID-origin reversal", src:"Fortune; NY1", date:"26–27 May 2021", find:"Facebook stopped removing claims that COVID was man-made about four months after banning them, citing ongoing investigations and expert advice.", limit:"Says nothing about which origin theory is true.", say:"Facebook banned a claim and reversed itself within four months, because the facts were still being worked out.", url:"https://www.fortune.com/2021/05/27/facebook-covid-19-man-made-ban-lift"},
+ {id:"E12", type:"EMP", title:"How false news spreads", src:"Vosoughi, Roy & Aral, Science", date:"Mar 2018", find:"About 126,000 Twitter stories (2006–2017): false stories were about 70% more likely to be retweeted; the gap remained with bots removed. Only stories fact-checkers strongly agreed on were included.", limit:"Twitter only; before 2018; correlational.", say:"A large MIT study found people, not bots, mainly spread false stories.", url:"https://www.technologyreview.com/2018/04/25/143295/false-news-flies-faster/"},
+ {id:"E13", type:"EMP", title:"Chronological feed experiment", src:"Guess et al., Science", date:"July 2023", find:"In a three-month experiment, chronological feeds raised the share of political and untrustworthy-source content and didn't significantly change polarisation.", limit:"One election period; consenting users; a critique says the platform changed its feed during the study. Don't lead with it.", say:"One study found switching off ranking didn't reduce untrustworthy content. It's debated.", url:"https://csdp.princeton.edu/blogs/andy-guess-publishes-two-articles-social-media-science"},
+ {id:"E14", type:"EMP", title:"Copyright takedown complaints", src:"Urban, Karaganis & Schofield", date:"2016–17", find:"About 31% of sampled Google Search copyright notices, and about 70% of an Image Search sample, raised questions about accuracy or validity.", limit:"Copyright, not misinformation. An analogy.", say:"Where complaints trigger takedowns in copyright, studies found a lot of questionable complaints.", url:"https://papers.ssrn.com/abstract=2755628"},
+ {id:"E15", type:"EMP", title:"The 2018 trafficking law (FOSTA)", src:"US GAO report GAO-21-385; Craigslist notice", date:"June 2021; Mar 2018", find:"The Justice Department brought one criminal case under the new provision in about three years. Craigslist closed its US personals section, citing liability risk.", limit:"Early data; trafficking, not misinformation.", say:"When Congress added platform liability for trafficking ads, one big site simply closed the section.", url:"https://www.gao.gov/products/gao-21-385"},
+ {id:"E16", type:"EMP", title:"Community notes on X", src:"Slaughter, Saveski et al., PNAS", date:"2025", find:"Once a note was attached, reposts fell about 46%. Over a post's whole life, the drop was about 12%.", limit:"One platform; notes often arrive late.", say:"Adding context to posts cut resharing, although often late.", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC12478135/"},
+ {id:"E17", type:"BH", title:"EU Digital Services Act: hosting", src:"Regulation (EU) 2022/2065, Arts. 6 and 8", date:"2022", find:"Hosts are exempt from liability unless they know about illegal content and fail to act quickly. There's no general duty to monitor.", limit:"Europe does use knowledge-based liability, for illegal content. Lawful but false content isn't “illegal content” unless national law says so.", say:"Europe makes hosts act on illegal content once they know about it. It doesn't make them liable for content that's merely false.", url:"https://www.springlex.eu/en/packages/dsa/dsa-regulation/article-6/"},
+ {id:"E18", type:"BH", title:"TAKE IT DOWN Act", src:"US statute; FTC enforcement", date:"2025; enforced from 19 May 2026", find:"Covered platforms must remove non-consensual intimate images within 48 hours of a valid request; good-faith removal is protected.", limit:"Critics warn of abuse because requests aren't identity-checked. Intimate images, not misinformation.", say:"Congress has passed narrow, defined takedown laws, like the one for intimate images.", url:"https://www.ftc.gov/node/332128"},
+ {id:"E19", type:"NB", title:"Speakers held to account", src:"Dominion–Fox settlement; Sandy Hook verdicts against Alex Jones", date:"2023; 2022", find:"Speakers and broadcasters faced major consequences for their own falsehoods ($787.5M settlement; large defamation verdicts).", limit:"A settlement isn't a ruling; state-court verdicts.", say:"When speakers spread damaging lies, they've been held to account.", url:"https://en.wikipedia.org/wiki/Dominion_Voting_Systems_v._Fox_News_Network"},
+ {id:"E20", type:"ADV", title:"Cost of defending lawsuits", src:"Engine; CCIA", date:"various", find:"Industry groups estimate defending even a baseless suit can cost a startup tens of thousands of dollars or more.", limit:"Advocacy estimates. Don't quote the figures.", say:"Even winning a lawsuit is expensive for a small site.", url:"https://www.engine.is/news/primer/section230costs"},
+ {id:"E21", type:"INF", title:"Bills to sunset Section 230", src:"Senate (Graham/Durbin); House H.R. 10332", date:"Dec 2025; Sept 2026", find:"Bipartisan bills would end Section 230 after a set period unless it's replaced.", limit:"Introduced only. Recheck status before the debate.", say:"There are bipartisan bills to sunset that law. The debate is live.", url:"https://www.judiciary.senate.gov/press/dem/releases/durbin-graham-introduce-bill-to-sunset-section-230-immunity-for-tech-companies-protect-americans-online"},
+ {id:"E22", type:"BH", title:"Barrett v. Rosenthal", src:"California Supreme Court", date:"2006", find:"Section 230 protects individual users who repost others' content, even after notice. The court acknowledged troubling consequences.", limit:"Binding in California; persuasive elsewhere.", say:"The law protects ordinary users who share someone else's post.", url:"https://www.dmlp.org/print/322"},
+ {id:"E23", type:"BH", title:"Zeran v. AOL", src:"US Court of Appeals, 4th Circuit", date:"1997", find:"Section 230 bars liability based simply on the platform being notified about a post.", limit:"One circuit, widely followed; some justices have questioned it.", say:"Courts have rejected liability just because a platform was told about a post.", url:"https://en.wikipedia.org/wiki/Zeran_v._America_Online,_Inc."},
+ {id:"E24", type:"BH", title:"Roommates.com and Kimzey v. Yelp", src:"US Court of Appeals, 9th Circuit", date:"2008; 2016", find:"A platform that materially contributes to unlawful content loses protection; a neutral tool like an aggregate star rating doesn't.", limit:"9th Circuit.", say:"Courts treat a platform differently when it helps create the content.", url:"https://blog.ericgoldman.org/archives/2016/09/ninth-circuit-criticizes-attempts-to-plead-around-secton-230-kimzey-v-yelp.htm"},
+ {id:"E25", type:"BH", title:"Texas and Florida platform laws", src:"Texas HB 20; Florida SB 7072", date:"2021", find:"Applied only to large platforms (Texas: reportedly over 50 million monthly US users; Florida: revenue or user thresholds).", limit:"Verify the thresholds. Both laws were sent back for further review.", say:"Even US states draw lines by size.", url:"https://en.wikipedia.org/wiki/Moody_v._NetChoice,_LLC"},
+ {id:"E26", type:"BH", title:"EU Digital Services Act: tiers", src:"Regulation (EU) 2022/2065, Arts. 4–6, 19, 33", date:"2022", find:"Separate rules for conduit, caching and hosting services. Micro and small platforms are exempt from most platform duties. Extra duties apply to very large platforms with 45 million or more EU users.", limit:"EU only.", say:"Europe sets different rules by type and size of service.", url:"https://presencis.com/regulations/dsa/applicability/"},
+ {id:"E27", type:"BH", title:"UK Online Safety Act thresholds", src:"Threshold Conditions Regulations 2025", date:"Feb 2025", find:"Top tier: a recommender system plus over 34 million UK users, or over 7 million with resharing. Messaging tier: over 3 million users with direct messaging. Wikimedia sought judicial review.", limit:"UK only; outcome of the challenge unknown.", say:"The UK sets duties by size and features.", url:"https://legislation.gov.uk/ukdsi/2025/9780348267174"},
+ {id:"E28", type:"BH", title:"Germany's NetzDG", src:"Network Enforcement Act", date:"2017", find:"Exempted platforms under 2 million German users; 24-hour removal only for manifestly unlawful content.", limit:"Largely superseded by the EU Digital Services Act since 2024.", say:"Germany limited its law to bigger platforms and clearly illegal content.", url:"https://cdt.org/insights/overview-of-the-netzdg-network-enforcement-law/"},
+ {id:"E29", type:"ADV", title:"Reddit's Supreme Court brief", src:"Reddit amicus brief, Gonzalez v. Google", date:"Jan 2023", find:"Argued that user votes and volunteer moderation depend on Section 230's protection for users.", limit:"Advocacy by an interested company.", say:"Community sites rely on volunteers. Liability would fall on them too.", url:"https://www.technologyreview.com/2023/02/01/1067520/supreme-court-section-230-gonzalez-reddit/"},
+ {id:"E30", type:"NB", title:"European and Australian comment cases", src:"Delfi v. Estonia and MTE v. Hungary (European Court of Human Rights); Fairfax v. Voller (High Court of Australia)", date:"2015; 2016; 2021", find:"Delfi: a commercial news portal could be liable for clearly unlawful hate speech and threats in comments. MTE: liability for merely offensive comments violated free expression. Voller: page owners are publishers of Facebook comments under Australian defamation law.", limit:"A human-rights court (not the EU) and Australian defamation law; not about misinformation.", say:"Europe's human-rights court limited liability to clearly illegal hate speech and refused it for merely offensive comments.", url:"https://wilmap.stanford.edu/node/30503"},
+ {id:"E31", type:"CO", title:"CNN's response in Australia", src:"Mediaweek; AdNews", date:"Sept 2021", find:"After the Voller ruling, CNN restricted its Facebook pages for Australian users, saying it couldn't disable comments page-wide.", limit:"One company's decision.", say:"After Australia's ruling, CNN pulled its Facebook pages there rather than carry the risk.", url:"https://mediaweek.com.au/cnn-disables-its-australian-facebook-page-in-response-to-high-court-ruling"},
+ {id:"E32", type:"NB", title:"New Mexico v. Meta verdict", src:"Santa Fe jury", date:"24 Mar 2026", find:"The jury found Meta violated the state Unfair Practices Act, including false or misleading statements and unconscionable practices about child safety; $375M in civil penalties. Meta says it will appeal.", limit:"A verdict, not precedent; consumer-protection law.", say:"A jury found Meta liable for its own misleading statements about safety. That's the platform's conduct.", url:"https://www.aljazeera.com/economy/2026/3/25/us-jury-orders-meta-to-pay-375m-for-endangering-children"},
+ {id:"E33", type:"BH", title:"EU Digital Services Act: systemic risk", src:"Regulation (EU) 2022/2065, Arts. 34–35", date:"2022", find:"Very large platforms must assess and reduce systemic risks, including effects on civic discourse, elections, public security and public health, taking account of their recommender and moderation systems.", limit:"Evidence on effectiveness is still emerging.", say:"Europe requires the biggest platforms to assess and reduce these risks in their systems.", url:"https://www.springlex.eu/en/packages/dsa/dsa-regulation/article-34/"},
+ {id:"E34", type:"CO", title:"Meta ends US fact-checking (Group 5's point)", src:"Meta", date:"Jan 2025", find:"Meta ended third-party fact-checking in the US in favour of community notes.", limit:"Group 5 will use this (V3).", say:"Voluntary steps can be reversed. If regulation is needed, process-based duties are a more targeted alternative than liability for the truth of users' posts.", url:"https://about.fb.com/news/2025/01/meta-more-speech-fewer-mistakes/"}
+];
+const TYPE_NAMES = { BH:"Binding law or holding", NB:"Non-binding (reasoning, verdict, foreign)", EMP:"Empirical finding", CO:"Company estimate or decision", ADV:"Advocacy claim", INF:"Legislative status / inference" };
+
+const PLATFORMS = [
+ ["Large algorithmic network","Facebook, TikTok, X","Machine ranking, ads, big moderation budget","Design claims proceed; rules abroad add duties at scale"],
+ ["Video / audio host","YouTube, podcast hosts","Recommendations; pays creators","Monetisation is the platform's own conduct"],
+ ["Volunteer-moderated community","Reddit, Discord servers","Users vote; volunteers moderate","Who is liable: the company or the volunteer?"],
+ ["Small independent forum","Hobby, local, patient forums","One volunteer admin; no algorithm","Can't absorb legal risk; closes or bans topics"],
+ ["Comment section","Local news site, business page","Owner wrote the article, not the comments","Australia: page owners liable → CNN pulled pages"],
+ ["Blog / newsletter host","Substack, Medium, WordPress.com","Hosts identifiable authors; may promote or pay","Author already liable; promotion is conduct"],
+ ["Review site","Yelp, Tripadvisor","Aggregates opinions","Opinions and disputed facts: the hardest truth calls"],
+ ["Collaborative knowledge","Wikipedia","Volunteer editors","Liability on a non-profit for good-faith edits"],
+ ["Encrypted messaging","WhatsApp, Signal","Provider can't read messages","Knowledge is impossible without breaking encryption"],
+ ["Infrastructure","Web hosts, CDNs, search","No relationship to individual posts","Liability here means blocking whole sites"]
+];
+
+const LIVE_TOPICS = [
+ {k:"Algorithms", g5:2},{k:"Profit", g5:1},
+ {k:"Free speech", owner:"P2", their:"Misinformation isn't protected speech anyway.", ten:"Fraud and defamation aren't protected. But a statement isn't automatically unprotected just because it's false.", q:"Who decides which false statements lose protection, and when?", fact:"E4"},
+ {k:"Harm", g5:3},{k:"Negligence", g5:4},{k:"Section 230", g5:11},{k:"Publisher", g5:6},{k:"AI moderation", g5:10},
+ {k:"Duty of care", owner:"P1", their:"Platforms owe their users a duty of care.", ten:"A duty about how platforms build their systems, set in advance, is different from liability for the truth of each user's post.", q:"Is the duty about how the platform is built, or about whether each post is true?", fact:"E33"},
+ {k:"Public health", owner:"P2", their:"Health misinformation during COVID cost lives.", ten:"The harm was real. But guidance changed as evidence changed. Facebook banned a claim and reversed itself within four months.", q:"Should the platform have been liable for the ban, or for lifting it?", fact:"E11"},
+ {k:"Elections", owner:"P2", their:"Election lies undermine democracy.", ten:"A narrow law can target the person who spreads a wrong voting date. Liability for disputed political claims makes a company the referee of politics.", q:"Who decides which political claims are false during a campaign?", fact:"E17"},
+ {k:"Victims", g5:8},{k:"Europe", g5:14},
+ {k:"Verdicts", owner:"P3", their:"Juries found Meta liable this year. The law is moving our way.", ten:"Those verdicts were about addictive design and Meta's own statements. That's conduct, which we accept. Not liability for users' false posts.", q:"Was either verdict about a user's false post?", fact:"E32"},
+ {k:"Fact-checking ended", g5:9},
+ {k:"Other", owner:"Domain owner", their:"Anything not listed.", ten:"That's a fair point. Which link does it answer: trigger, truth, conduct, consequences or alternative?", q:"What exactly would trigger liability in that case?", fact:"E10"}
+];
+
+const DONT_SAY = [
+ ["“Section 230 gives total immunity.”","False: crimes, copyright and trafficking are excluded, and a platform's own content isn't covered."],
+ ["“All online services are treated the same.”","False: rules differ by conduct, size and function, at home and abroad."],
+ ["“The Supreme Court held algorithms are protected speech.”","Overstates Moody. If used at all, say “signalled”. P3 leads with “regulate recommendation” instead."],
+ ["“Taamneh says platforms aren't responsible.”","It was about terrorism aiding-and-abetting only."],
+ ["“Europe doesn't make platforms liable.”","False for illegal content they know about."],
+ ["“Juries are finding platforms liable for misinformation.”","The verdicts were about design and Meta's own statements."],
+ ["“A false post doesn't become more false at user 45,000,001.”","Dismisses a reasonable point. Acknowledge size-scaled duties, then ask what duty they create."],
+ ["“We support mandated process duties.”","We're comparing alternatives, not designing a regime. Say: “If regulation is needed, process-based duties are a more targeted alternative…”"],
+ ["“Misinformation isn't harmful.”","Destroys credibility."],
+ ["“Platforms are neutral.”","They aren't, and we've conceded that ranking is a choice."],
+ ["“End of the internet.” / “Censorship.”","Hyperbole; sounds partisan."],
+ ["“The motion is too vague, so you lose.”","Judges penalise definition complaints. Use the breadth as a test instead."],
+ ["Partisan examples or unsourced numbers.","Corporate setting; easy to expose."],
+ ["Leading with case names.","Most of the room won't know them. Say “courts have found…” and keep names for challenges."]
+];
+
+const ACEC = [
+ ["ACKNOWLEDGE","Show fairness and that you listened","“That's a real concern. Ranking choices do shape what spreads.”"],
+ ["CHALLENGE","Name the gap","“But it tells us the system matters, not that the platform should pay for each user's false post.”"],
+ ["ESTABLISH","Our point plus one fact","“Courts are already holding platforms responsible for design. That's the right target.”"],
+ ["CONNECT","Link back to the chain and the weighing","“If recommendation is the problem, regulate recommendation. That's not liability triggered by what users say.”"]
+];
+
+const LEADERSHIP = [
+ ["Ethos, logos, pathos","Aristotle, Rhetoric","Ethos: concede real harm, cite modestly. Logos: the five-link chain. Pathos: acknowledge victims first; our appeal is protecting true speech and small communities."],
+ ["Executive presence","Hewlett (gravitas, communication, appearance)","Pause before answering a hard point. Answer the strongest version. Keep an even tone."],
+ ["Strategic concession","Debate practice","“That's fair. Here's why it doesn't get you to liability.” Concede the premise, contest the conclusion."],
+ ["Active listening","Rogers & Farson (1957)","Restate their point in one line before answering: “If I've understood you…”"],
+ ["Judge-centred communication","Debate judging practice","Signpost (“Two responses.”), compare outcomes, say why it matters. Speak to the judge, not the opponent."],
+ ["Team development","Tuckman (1965); Tuckman & Jensen (1977)","Forming: roles set. Storming: one session attacking our own case. Norming: agree handoffs and triage. Performing: timed full runs. Adjourning: debrief against the rubric."],
+ ["Constructive disagreement","Edmondson (1999), psychological safety","Anyone can say “that line won't survive” in prep without blame. Settle it before the debate; on the day the domain owner decides."],
+ ["Team handoffs","—","Fixed phrase: “[Name] on [link].” Your last line points to the next link in the chain."],
+ ["Shared leadership","Pearce & Conger (2003)","Leadership rotates by link. When Group 5 hits your link, you lead; others pass notes rather than speak over you. No captain."]
+];
+
+const RUBRIC = [
+ ["Argument strength",20,"Clear trigger; survives two rounds of attack"],
+ ["Evidence",15,"Accurate, modest, labelled; nothing overclaimed"],
+ ["Rebuttal quality",15,"Answers their best version; no dropped major points"],
+ ["Listening",10,"Restates accurately; responds to what was said"],
+ ["Team coordination",10,"Clean handoffs; owners lead their link"],
+ ["Persuasiveness",15,"Acknowledge → Challenge → Establish → Connect; explicit weighing"],
+ ["Professionalism",10,"Calm, courteous, non-partisan"],
+ ["Timing",5,"Finishes in time; landing lines used"]
+];
+
+const CLOSING = {
+ proved:"What Group 5 proved: misinformation can cause harm. We agreed in our first sentence.",
+ needed:"What Group 5 needed to prove: when and why another person's false statement should create legal liability for the platform.",
+ script:"“Group 5 showed that misinformation can cause real harm. We agreed with that in our first sentence. What they needed to show was when, and why, another person's false statement should make the platform legally liable. Walk the chain. Trigger: we still don't know what makes the platform liable. Truth: we still don't know who decides what's false, or how fast. Conduct: every real wrong they named was the platform's own design or statements, and we accept liability there. Consequences: their rule makes removing true posts free and leaving disputed ones costly. Alternative: narrower tools target what platforms actually control. That's why we oppose the motion.”",
+ short:"“Everyone here wants less misinformation. The question was whether making platforms legally liable for what users say gets us there. It doesn't. It needs someone to referee truth in seconds, it rewards removal over accuracy, and the law already reaches what platforms themselves do. Hold platforms to account for their conduct, not their users' mistakes. We oppose.”"
+};
+
+const EMERGENCY = {
+ responses:[
+  "“What exactly triggers liability: the post being false, the platform being told, or the platform's own conduct?”",
+  "“If recommendation is the problem, regulate recommendation. That still doesn't make the platform liable because a user's post is false.”",
+  "“If leaving a post up can get you sued and taking it down costs nothing, the rule rewards removal, not accuracy.”"
+ ],
+ questions:[
+  "Who decides it's false: the platform, a court, or the government?",
+  "Under your rule, what does it cost to take down a true post?",
+  "Does your rule apply to a small volunteer forum as well as a giant feed?"
+ ],
+ facts:[
+  "Meta itself estimated one or two in every ten removals may have been mistakes. (E10)",
+  "Facebook banned a COVID-origin claim and reversed itself within four months. (E11)",
+  "This year's jury verdicts were about addictive design and Meta's own statements, not users' posts. (E8, E32)"
+ ]
+};
+
+/* Mock debate (Structure A). Group 5 written as strong as possible. */
+const MOCK = [
+ ["ROUND","Opening · Group 6 (5:00)"],
+ ["G6·P1","Let's start with what we agree on. Misinformation can cause real harm, and platforms have enormous influence over what people see. Our disagreement isn't about whether that matters. It's about whether making a platform legally responsible for determining the truth of what someone else says actually solves it. So throughout this debate we'll ask one question: what exactly triggers liability? There are three answers: automatically, when the platform should have known or was told, or when the platform itself acts unlawfully. We oppose the first two and accept the third. [P2] on who decides what's false."],
+ ["G6·P2","Any liability for misinformation needs someone to decide what's false, quickly, usually before a court looks at it. Clearly false content is the easy part; platforms already remove it. The hard cases are open questions. In 2021 Facebook banned claims that COVID was man-made, then reversed itself within four months. Should it have been liable for the ban or for lifting it? [P3] on what platforms actually do."],
+ ["G6·P3","We agree platforms aren't neutral. When their own conduct is unlawful, they should pay, and juries this year did exactly that over addictive design and a company's own misleading statements about safety. The motion asks something different: liability because another person's post is false. If recommendation is the problem, regulate recommendation. [P4] on what this rule would make platforms do."],
+ ["G6·P4","If leaving a post up can get you sued and taking it down costs nothing, the rational choice is to remove anything contested. Before 1996, the service that tried to moderate got sued and the one that didn't look was fine. Meta itself estimated one or two in ten removals may already be mistakes. Liability rewards removal, not accuracy. [P5] on whether there's a better way."],
+ ["G6·P5","So compare. Speakers can be sued. Platforms can be held liable for their own conduct. Congress has passed narrow takedown laws. And if regulation is needed, process-based duties are a more targeted alternative than liability based on determining whether users' statements are true. Both sides want less misinformation. The question is which rule gets there without making a company the referee of truth."],
+ ["ROUND","Opening · Group 5 (5:00)"],
+ ["G5·1","A sixteen-year-old watched video after video telling her a supplement would cure her illness. The platform's system kept serving them. She stopped treatment. That isn't an abstract debate about truth."],
+ ["G5·2","We're not asking for automatic liability. We propose a duty: once a large platform is credibly notified of content that's demonstrably false and likely to cause serious harm, it must act within a reasonable time, or be liable."],
+ ["G5·3","Group 6 say the platform's conduct is fair game. Recommending is conduct. Monetising is conduct. When a platform pushes demonstrably false content to millions and profits from it, liability follows from conduct they already accept."],
+ ["G5·4","The law is moving. Two juries found against Meta in March. Europe requires the biggest platforms to manage risks to public health and elections. The US is the outlier."],
+ ["G5·5","And voluntary moderation isn't a plan. Meta ended its US fact-checking programme in 2025. Without legal consequences, safety lasts until the next strategy change."],
+ ["ROUND","Rebuttal · Group 6 (2:00, order P3 → P4 → P5 → P1 → P2)"],
+ ["G6·P3","That story matters, and if a design pushed it, that's conduct, and the verdicts they cite were exactly that: addictive design and Meta's own statements. Neither was about liability for a user's false post. If recommendation is the problem, regulate recommendation."],
+ ["G6·P4","Their duty makes leaving a flagged post up costly and taking it down free. Every close call goes to removal. That rewards removal, not accuracy."],
+ ["G6·P5","On fact-checking: agreed, voluntary steps can be reversed. If regulation is needed, process-based duties are a more targeted alternative than liability for the truth of users' posts, and that's closer to what Europe actually does."],
+ ["G6·P1","Notice the trigger they chose: “demonstrably false”. Demonstrated by whom, before or after removal? That's still a company deciding truth on a complaint."],
+ ["G6·P2","And “likely to cause serious harm” was the reason Facebook gave for its COVID-origin ban, which it reversed four months later. Their test would have made it liable either way."],
+ ["ROUND","Rebuttal · Group 5 (2:00)"],
+ ["G5·2","Group 6 keep asking who decides. Courts decide, after the fact, on a reasonableness standard, exactly as negligence works everywhere else. Platforms can follow expert bodies in the meantime."],
+ ["G5·3","And their alternative is slow. A court order arrives after the damage is done. Speed is the whole point in a health crisis or an election."],
+ ["G5·5","They've accepted liability for conduct, for court orders and for process duties. We're asking for one more step. That's a difference of degree, not principle."],
+ ["ROUND","Final · Group 6 (2:00, order P1 → P5)"],
+ ["G6·P1","Trigger. Their final answer is: courts decide later, platforms guess first. So the platform still decides truth, with a lawsuit if it guesses wrong."],
+ ["G6·P2","Truth. Following expert bodies is what Facebook did in 2021, before reversing itself. Their rule would have made it liable for both decisions."],
+ ["G6·P3","Conduct. Every real wrong they named was the platform's own design or statements. We accept liability there."],
+ ["G6·P4","Consequences. “One more step” is the step that makes removing true posts free. That's a difference in principle."],
+ ["G6·P5","Alternative. Group 5 proved misinformation can cause harm, which we agreed with in our first sentence. What they needed to prove was when and why another person's false statement should make the platform liable. They didn't show that their rule beats narrower tools. We oppose."],
+ ["JUDGE","Close. Group 6 had the clearer principle and better evidence discipline, and the chain made their case easy to follow. Group 5 had the stronger emotional opening and a real point on speed in emergencies, which Group 6 answered only partly. Group 6 also couldn't show that process duties work better in practice. Group 5's “difference of degree” line was effective until Group 6's P4 reframed it. Narrow edge to Group 6 on clash and weighing, but it depends on conceding harm convincingly and keeping evidence modest. Not a default win."]
+];
+
+const DEBATE_SOURCES = [
+ {t:"WUDC Debating & Judging Manual", o:"World Universities Debating Championship", why:"How judges weigh clash, burdens and comparison.", url:"https://docs.google.com/document/d/1-hL11nr2nUE7sRJXdoO2hC31IRgPCTGhZzt_Lk-g3Oc/export?format=pdf"},
+ {t:"World Schools judging guidance", o:"WSDC", why:"Both teams share the burden of clash; the opposition must raise more than reasonable doubt.", url:"https://www.wsdcdebating.org/_files/ugd/669183_e826f0d7b5654cc887dee95756efb377.pdf"},
+ {t:"Tuckman: forming, storming, norming, performing", o:"infed.org", why:"Our team preparation sequence.", url:"https://infed.org/dir/bruce-w-tuckman-forming-storming-norming-and-performing-in-groups/"},
+ {t:"Psychological Safety and Learning Behavior in Work Teams", o:"Amy Edmondson, Administrative Science Quarterly (1999)", why:"Why open disagreement in prep makes the team stronger.", url:"https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Group_Performance/Edmondson%20Psychological%20safety.pdf"},
+ {t:"Cultivating executive presence", o:"Forté Foundation, on Sylvia Ann Hewlett's research", why:"Gravitas under pressure.", url:"https://www.fortefoundation.org/cultivating-executive-presence-with-sylvia-ann-hewlett/"},
+ {t:"Shared leadership", o:"Pearce & Conger (2003), summary", why:"Leadership that rotates by expertise.", url:"https://en.wikipedia.org/wiki/Shared_leadership"}
+];
+
+/* ============================================================
+   STATE + HELPERS
+   ============================================================ */
+const LS = {
+  get(k, d){ try{ const v = localStorage.getItem("g6."+k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("g6."+k, JSON.stringify(v)); }catch(e){} }
+};
+const state = {
+  mode: LS.get("mode","home"),
+  person: LS.get("person", null),
+  learnTab: LS.get("learnTab","position"),
+  practiseTab: LS.get("practiseTab","drill"),
+  structure: LS.get("structure", CONFIG.defaultStructure),
+  liveLink: null, liveTopic: null,
+  drill: null, drillStep: 0
+};
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+const ev = id => EVIDENCE.find(e => e.id === id);
+const g5 = n => G5.find(x => x.n === n);
+const qById = id => QUESTIONS.find(q => q.id === id);
+const pName = p => p ? p + " · " + PEOPLE[p].link : "Team";
+const fmt = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0"); };
+const app = document.getElementById("app");
+
+function save(){ LS.set("mode", state.mode); LS.set("person", state.person); LS.set("learnTab", state.learnTab); LS.set("practiseTab", state.practiseTab); LS.set("structure", state.structure); }
+
+function tag(kind, text){ const m={them:"t-them",us:"t-us",fact:"t-fact",q:"t-q",warn:"t-warn",n:"t-neutral"}; return `<span class="tag ${m[kind]}">${esc(text)}</span>`; }
+function evLine(id){ const e = ev(id); if(!e) return ""; return `<div class="blk fact">${tag("fact", e.id + " · " + e.type)}<p class="say">${esc(e.say)}</p><p class="small muted">${esc(e.title)} — ${esc(e.limit)}</p></div>`; }
+function list(items, cls){ return `<ul class="tight ${cls||""}">${items.map(i => `<li>${i}</li>`).join("")}</ul>`; }
+
+/* Progressive disclosure card */
+let discId = 0;
+function discCard(opts){
+  const id = "d" + (discId++);
+  const parts = [];
+  if(opts.why) parts.push(["WHY?", `<div class="blk us"><p>${esc(opts.why)}</p></div>`]);
+  if(opts.evidence && opts.evidence.length) parts.push(["EVIDENCE", opts.evidence.map(evLine).join("")]);
+  if(opts.counter) parts.push(["THEIR COUNTER", opts.counter.map(c => `<div class="blk them">${tag("them","Group 5")}<p class="say">${esc(c.replace(/^“|”$/g,""))}</p></div>`).join("")]);
+  if(opts.response) parts.push(["OUR RESPONSE", opts.response.map(c => `<div class="blk us">${tag("us","Group 6")}<p class="say">${esc(c.replace(/^“|”$/g,""))}</p></div>`).join("")]);
+  return `<article class="panel stack" id="${id}">
+    <div class="row">${opts.tags||""}</div>
+    <h3>${esc(opts.title)}</h3>
+    <p class="prose">${esc(opts.claim)}</p>
+    <div class="disc-btns">${parts.map((p,i)=>`<button class="btn" type="button" aria-pressed="false" data-disc="${id}" data-part="${i}">${p[0]}</button>`).join("")}</div>
+    ${parts.map((p,i)=>`<div class="reveal" data-discbody="${id}-${i}" hidden>${p[1]}</div>`).join("")}
+  </article>`;
+}
+
+/* Strategic question widget (YES / NO / QUALIFIED) */
+function questionCard(q){
+  return `<article class="panel qcard" data-q="${q.id}">
+    <div class="row">${tag("q", q.primary ? "Primary" : "Backup")} ${tag("n", q.owner + " · " + q.link)}</div>
+    <h3>${esc(q.title)}</h3>
+    <div class="blk q"><span class="label">Opening</span><p class="say">${esc(q.open)}</p></div>
+    <div class="blk them"><span class="label">Likely answer</span><p>${esc(q.likely)}</p></div>
+    <div class="blk q"><span class="label">Follow-up</span><p class="say">${esc(q.follow)}</p></div>
+    <div class="branch">
+      <button class="btn" type="button" data-branch="yes" aria-pressed="false">YES</button>
+      <button class="btn" type="button" data-branch="no" aria-pressed="false">NO</button>
+      <button class="btn" type="button" data-branch="qual" aria-pressed="false">QUALIFIED</button>
+    </div>
+    <div class="blk us" data-branchout hidden><span class="label">Our next move</span><p class="say" data-branchtext></p></div>
+    <details><summary>What we win · their escape · our reply</summary>
+      <div class="stack" style="padding-top:8px">
+        <div class="blk us"><span class="label">Concession won</span><p>${esc(q.win)}</p></div>
+        <div class="blk them"><span class="label">Their best escape</span><p>${esc(q.escape)}</p></div>
+        <div class="blk us"><span class="label">Our reply</span><p class="say">${esc(q.reply)}</p></div>
+      </div>
+    </details>
+  </article>`;
+}
+
+/* ============================================================
+   VIEWS
+   ============================================================ */
+function chainDiagram(){
+  return `<div class="chain" aria-label="The spine of the debate">
+    <div class="start">User posts false information</div>
+    ${CHAIN.map(c => `<div class="arrow" aria-hidden="true"></div>
+      <button class="link" type="button" data-golive="${c.key}"><span class="key">${c.key}</span><span>${esc(c.q)}</span><span class="who">${c.p}</span></button>`).join("")}
+  </div>`;
+}
+
+function viewHome(){
+  return `<div class="stack" style="gap:26px">
+    <section class="hero">
+      <div class="stack">
+        <span class="label">Group 6 · Opposing the motion</span>
+        <h1>Debate War Room</h1>
+        <div class="panel stack">
+          <span class="label">Motion</span>
+          <p class="motion">“${esc(MOTION)}”</p>
+          <span class="label">Our position</span>
+          <p class="position">${esc(POSITION_SHORT)}</p>
+          <p class="prose">${esc(ONE_LINER)}</p>
+        </div>
+      </div>
+      <div class="stack">
+        <span class="label">The spine: one link per speaker</span>
+        ${chainDiagram()}
+      </div>
+    </section>
+    <section class="stack">
+      <h2>Choose your role</h2>
+      <div class="roles">
+        ${Object.keys(PEOPLE).map(p => `<button class="role" type="button" data-person="${p}" aria-pressed="${state.person===p}"><b>I AM ${p.replace("P","PERSON ")}</b><span class="small muted">${PEOPLE[p].link} · ${esc(PEOPLE[p].domain)}</span></button>`).join("")}
+        <button class="role" type="button" data-person="" aria-pressed="${!state.person}"><b>TEAM VIEW</b><span class="small muted">Everything, unfiltered</span></button>
+      </div>
+    </section>
+    <section class="stack">
+      <h2>Choose a mode</h2>
+      <div class="modecards">
+        <button class="modecard" type="button" data-mode="learn"><b>LEARN</b><span class="muted">Position, arguments, evidence, Group 5's playbook, legal distinctions.</span></button>
+        <button class="modecard" type="button" data-mode="practise"><b>PRACTISE</b><span class="muted">Random attacks, strategic questions, timed drills, scoring, mock debate.</span></button>
+        <button class="modecard" type="button" data-mode="live"><b>LIVE</b><span class="muted">For the debate itself: the chain, instant responses, timer and notes.</span></button>
+      </div>
+    </section>
+  </div>`;
+}
+
+function personaBar(){
+  if(!state.person) return "";
+  const P = PEOPLE[state.person];
+  return `<div class="persona"><span><b>${state.person} · ${P.link}</b> <span class="muted">— ${esc(P.domain)}</span></span><button class="btn" type="button" data-person="">BACK TO TEAM VIEW</button></div>`;
+}
+
+const LEARN_TABS = [
+ ["brief","My brief"],["position","Position"],["spine","Spine & roles"],["arguments","Our arguments"],["playbook","Group 5's playbook"],
+ ["map","Dependency map"],["questions","Strategic questions"],["risks","Weak points"],["evidence","Evidence vault"],["platforms","Platforms"],
+ ["communication","Communication"],["dontsay","Do not say"],["sources","Sources"]
+];
+
+function viewLearn(){
+  const tabs = LEARN_TABS.filter(t => t[0] !== "brief" || state.person);
+  if(!tabs.find(t => t[0] === state.learnTab)) state.learnTab = state.person ? "brief" : "position";
+  const body = ({brief:learnBrief, position:learnPosition, spine:learnSpine, arguments:learnArguments, playbook:learnPlaybook, map:learnMap, questions:learnQuestions, risks:learnRisks, evidence:learnEvidence, platforms:learnPlatforms, communication:learnComm, dontsay:learnDont, sources:learnSources})[state.learnTab]();
+  return `<div class="stack">${personaBar()}
+    <div class="tabs" role="tablist">${tabs.map(t => `<button class="tab" role="tab" type="button" aria-selected="${state.learnTab===t[0]}" data-learn="${t[0]}">${t[1]}</button>`).join("")}</div>
+    ${body}</div>`;
+}
+
+function speechBlock(o){
+  return `<div class="stack">
+    <div class="blk us">${tag("us","Must say")}${o.must.map(m=>`<p>${esc(m)}</p>`).join("")}</div>
+    <div class="blk">${tag("n","Good to say")}${o.good.map(m=>`<p>${esc(m)}</p>`).join("")}</div>
+    <div class="blk warn">${tag("warn","Cut first")}${o.cut.map(m=>`<p>${esc(m)}</p>`).join("")}</div>
+    <div class="blk q">${tag("q","Stop here")}<p>${esc(o.stop)}</p></div>
+  </div>`;
+}
+
+function learnBrief(){
+  const p = state.person, P = PEOPLE[p], A = ARGS[P.arg], link = CHAIN.find(c => c.key === P.link);
+  const myG5 = P.g5.map(g5);
+  const V = VULNS.find(v => v.v === P.vuln);
+  return `<div class="stack">
+    <section class="panel stack"><span class="label">My mission</span><h2>${esc(link.key)}: ${esc(link.q)}</h2><p class="prose">${esc(P.mission)}</p></section>
+    <section class="panel stack"><span class="label">My opening (≈55s; 35s if the opening is 3:00)</span>${speechBlock(P.opening)}</section>
+    <section class="stack"><span class="label">My core argument</span>${discCard({title:A.title, claim:A.claim, why:A.why, evidence:A.evidence, counter:A.counter, response:A.response, tags:tag("us",A.owner+" · "+P.arg)})}</section>
+    <section class="panel stack"><span class="label">What I need to listen for</span>${list(P.listen.map(esc))}</section>
+    <section class="panel stack"><span class="label">What Group 5 may say</span>${myG5.map(x => `<div class="blk them">${tag("them","#"+x.n+" "+x.title)}<p>${esc(x.claim)}</p></div>`).join("")}</section>
+    <section class="panel stack"><span class="label">My rebuttals</span>
+      ${A.counter.map((c,i)=>`<div class="blk them">${tag("them","They say")}<p class="say">${esc(c.replace(/^“|”$/g,""))}</p></div><div class="blk us">${tag("us","We say")}<p class="say">${esc(A.response[i].replace(/^“|”$/g,""))}</p></div>`).join("")}
+      <div class="blk warn">${tag("warn",V.v+" · my weak point to defend")}<p><b>${esc(V.title)}</b> — ${esc(V.resp)}</p></div>
+    </section>
+    <section class="stack"><span class="label">My strategic questions</span>${questionCard(qById(P.primary))}${questionCard(qById(P.backup))}</section>
+    <section class="panel stack"><span class="label">My key evidence</span>${P.evidence.map(evLine).join("")}</section>
+    <section class="panel stack"><span class="label">My 10-second responses</span>${myG5.map(x=>`<div class="blk us">${tag("them",x.title)}<p class="say">${esc(x.ten)}</p></div>`).join("")}</section>
+    <section class="panel stack"><span class="label">My 30-second responses</span>${myG5.map(x=>`<div class="blk us">${tag("them",x.title)}<p class="say">${esc(x.thirty)}</p></div>`).join("")}</section>
+    <section class="panel stack"><span class="label">My final contribution</span><p class="say">${esc(P.final.replace(/^“|”$/g,""))}</p><p class="small muted">In a closing speech, use the full mirror-closing (Communication tab).</p></section>
+    <section class="panel stack"><span class="label">My backup responsibility</span><p>If ${P.backupFor} is unavailable or stuck, I cover <b>${PEOPLE[P.backupFor].link}</b>: their emergency line is <span class="say">${esc(PEOPLE[P.backupFor].emergency.replace(/^“|”$/g,""))}</span></p></section>
+  </div>`;
+}
+
+function learnPosition(){
+  return `<div class="stack">
+    <section class="panel stack"><span class="label">Motion</span><p class="motion">“${esc(MOTION)}”</p></section>
+    <section class="panel stack"><span class="label">Our position — everyone memorises</span><p class="say big" style="font-size:17px">${esc(POSITION)}</p><p><b>One-liner:</b> ${esc(ONE_LINER)}</p></section>
+    <section class="stack"><h2>Three kinds of liability</h2>
+      <div class="tablewrap"><table><thead><tr><th>Tier</th><th>What it means</th><th>Example</th><th>Our stance</th></tr></thead><tbody>
+      ${TIERS.map(t=>`<tr><td><b>${esc(t.t)}</b></td><td>${esc(t.what)}</td><td>${esc(t.ex)}</td><td>${t.stance==="Oppose"?tag("them","Oppose"):tag("us",t.stance)}</td></tr>`).join("")}
+      </tbody></table></div></section>
+    <section class="panel stack"><h3>The trigger test</h3><p class="muted">Why we can oppose tiers 1 and 2 and accept tier 3 without contradicting ourselves. Tier 3 passes all three questions; tiers 1 and 2 fail at least one.</p>
+      <ol class="tight">${TRIGGER_TEST.map(t=>`<li>${esc(t)}</li>`).join("")}</ol>
+      <div class="blk us">${tag("us","Say it")}<p class="say">We're not saying platforms can never be sued. If they design something dangerous, mislead people themselves, or ignore a court, they should pay. What we oppose is liability triggered by a user's post being false, because then the company has to decide what's true, under threat of a lawsuit.</p></div>
+    </section>
+    <section class="panel stack"><h3>The hard case: “reasonable systems” negligence</h3>
+      <p class="prose">If it means duties set in advance on how big platforms build and audit their systems, that's a more targeted alternative than falsity-based liability. If it means a jury deciding afterwards, post by post, that something was false and should have come down, it's tier 2 in disguise.</p>
+      <div class="blk us">${tag("us","Say it")}<p class="say">If you mean rules on how big platforms design and audit their systems, set in advance, that's a more targeted alternative than liability for the truth of users' posts. If you mean a jury deciding afterwards that a post was false and should have come down, that's the referee problem again.</p></div>
+      <p class="small muted">Raise this ourselves in P1's opening so it reads as precision, not retreat.</p>
+    </section>
+    <section class="grid g2">
+      <div class="panel stack"><h3>We concede</h3>${list(["Misinformation causes real harm.","Platforms aren't neutral; ranking is a choice.","Section 230 deserves review.","Size-scaled duties for the largest services can be reasonable."].map(esc))}</div>
+      <div class="panel stack"><h3>We never concede</h3>${list(["That falsity alone should trigger liability.","That a flag makes the platform responsible for a post's truth.","That one rule fits every kind of platform.","That a jury after the fact should define “reasonable” truth-policing."].map(esc))}</div>
+    </section>
+  </div>`;
+}
+
+function learnSpine(){
+  return `<div class="stack">
+    <section class="grid g2"><div class="panel stack"><h2>The spine</h2><p class="muted prose">Every speech, rebuttal and question maps to one link. Click a link to open it in LIVE mode.</p>${chainDiagram()}</div>
+    <div class="panel stack"><h2>Opening and closing mirror each other</h2>
+      <div class="blk us">${tag("us","P1 opens")}<p><b>ACKNOWLEDGE · CLASH · FRAME</b></p><p class="small">${PEOPLE.P1.opening.must.slice(0,3).map(esc).join("<br>")}</p></div>
+      <div class="blk us">${tag("us","The close")}<p>${esc(CLOSING.proved)}</p><p>${esc(CLOSING.needed)}</p><p class="small muted">Then walk the chain: trigger → truth → conduct → consequences → comparison.</p></div>
+    </div></section>
+    <section class="stack"><h2>Five equal roles</h2>
+      <div class="tablewrap"><table><thead><tr><th></th>${Object.keys(PEOPLE).map(p=>`<th>${p}</th>`).join("")}</tr></thead><tbody>
+        <tr><td><b>Link</b></td>${Object.values(PEOPLE).map(P=>`<td>${P.link}</td>`).join("")}</tr>
+        <tr><td><b>Domain</b></td>${Object.values(PEOPLE).map(P=>`<td>${esc(P.domain)}</td>`).join("")}</tr>
+        <tr><td><b>Core argument</b></td>${Object.values(PEOPLE).map(P=>`<td>${P.arg} · ${esc(ARGS[P.arg].title)}</td>`).join("")}</tr>
+        <tr><td><b>Primary question</b></td>${Object.values(PEOPLE).map(P=>`<td>${esc(qById(P.primary).title)}</td>`).join("")}</tr>
+        <tr><td><b>Backup question</b></td>${Object.values(PEOPLE).map(P=>`<td>${esc(qById(P.backup).title)}</td>`).join("")}</tr>
+        <tr><td><b>Monitors (Group 5 #)</b></td>${Object.values(PEOPLE).map(P=>`<td class="mono">${P.g5.join(", ")}</td>`).join("")}</tr>
+        <tr><td><b>Defends weak point</b></td>${Object.values(PEOPLE).map(P=>`<td>${P.vuln}</td>`).join("")}</tr>
+        <tr><td><b>Backup for</b></td>${Object.values(PEOPLE).map(P=>`<td>${P.backupFor}</td>`).join("")}</tr>
+      </tbody></table></div>
+      <p class="small muted">Speaking allocation is configurable in PRACTISE → Speaking plan, until the rules are confirmed.</p>
+    </section>
+  </div>`;
+}
+
+function learnArguments(){
+  const ids = Object.keys(ARGS);
+  return `<div class="stack"><p class="muted prose">Default view is the short claim. Open WHY, EVIDENCE, THEIR COUNTER and OUR RESPONSE only as needed.</p>
+    <div class="grid g2">${ids.map(a => { const A = ARGS[a]; return discCard({title:a+" · "+A.title, claim:A.claim, why:A.why, evidence:A.evidence, counter:A.counter, response:A.response, tags:tag("us",A.owner+" · "+PEOPLE[A.owner].link)+(state.person===A.owner?" "+tag("q","Mine"):"")}); }).join("")}</div>
+    <div class="panel stack"><span class="label">Weighing line for the final speech</span><p class="say">Both sides want less misinformation. Their rule needs someone to decide what's false, fast, under legal threat, across platforms that look nothing alike. Ours targets what platforms actually control and actually do.</p></div>
+  </div>`;
+}
+
+function g5Card(x){
+  return `<article class="panel stack">
+    <div class="row">${tag("them","Group 5 · #"+x.n)} ${tag("n","Owner "+x.owner)} ${tag("n","Rests on "+x.assume)}</div>
+    <h3>${esc(x.title)}</h3>
+    <div class="blk them"><p>${esc(x.claim)}</p></div>
+    <div class="blk us">${tag("us","10 seconds")}<p class="say">${esc(x.ten)}</p></div>
+    <details><summary>30 seconds · question back · their counter · our final</summary>
+      <div class="stack" style="padding-top:8px">
+        <div class="blk us">${tag("us","30 seconds")}<p class="say">${esc(x.thirty)}</p></div>
+        <div class="blk q">${tag("q","Question back")}<p class="say">${esc(x.q)}</p></div>
+        <div class="blk them">${tag("them","Their counter")}<p class="say">${esc(x.counter)}</p></div>
+        <div class="blk us">${tag("us","Our final response")}<p class="say">${esc(x.final)}</p></div>
+      </div></details>
+  </article>`;
+}
+
+function learnPlaybook(){
+  const items = state.person ? G5.filter(x => x.owner === state.person).concat(G5.filter(x => x.owner !== state.person)) : G5;
+  return `<div class="stack">
+    <p class="muted prose">The arguments ChatGPT, Claude or Gemini are most likely to give Group 5, in their strongest form. Search or filter below.</p>
+    <div class="row"><input id="fwSearch" type="search" placeholder="Search Group 5 arguments…" style="flex:1;min-width:200px;padding:8px 10px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--ink)">
+      <select id="fwOwner" style="padding:8px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--ink)"><option value="">All owners</option>${Object.keys(PEOPLE).map(p=>`<option value="${p}">${p}</option>`).join("")}</select></div>
+    <div class="grid g2" id="fwList">${items.map(g5Card).join("")}</div>
+  </div>`;
+}
+
+function learnMap(){
+  return `<div class="stack"><p class="muted prose">Group 5's arguments rest on six assumptions. Knock out an assumption and the whole family weakens.</p>
+    <div class="grid g2">${ASSUMPTIONS.map(f=>`<article class="panel stack">
+      <div class="row">${tag("them",f.f)}</div><h3>${esc(f.a)}</h3>
+      <div class="blk them"><span class="label">Group 5 arguments resting on it</span><p>${f.deps.map(n=>"#"+n+" "+esc(g5(n).title)).join(" · ")}</p></div>
+      <div class="blk us"><span class="label">How we attack it</span><p>${esc(f.attack)}</p></div>
+      <div class="blk"><span class="label">What remains if we succeed</span><p>${esc(f.remains)}</p></div>
+    </article>`).join("")}</div></div>`;
+}
+
+function learnQuestions(){
+  const qs = state.person ? QUESTIONS.filter(q=>q.owner===state.person).concat(QUESTIONS.filter(q=>q.owner!==state.person)) : QUESTIONS;
+  return `<div class="stack"><p class="muted prose">Pressure-test questions. Ask the opening, then the follow-up; pick how Group 5 answered to see our next move. Q1–Q5 are primary (one per speaker); Q6–Q10 are backups.</p>
+    <div class="grid g2">${qs.map(questionCard).join("")}</div></div>`;
+}
+
+function learnRisks(){
+  return `<div class="stack"><p class="muted prose">Group 5's best coach would attack here. Two are only partly resolved; say so to yourselves, and don't overclaim on the day.</p>
+    ${VULNS.map(v=>`<article class="panel stack"><div class="row">${tag("warn",v.v)} ${tag("n","Owner "+v.owner)}</div><h3>${esc(v.title)}</h3>
+      <div class="blk them"><span class="label">1 · Their attack</span><p>${esc(v.attack)}</p></div>
+      <div class="blk"><span class="label">2 · Why a judge might accept it</span><p>${esc(v.why)}</p></div>
+      <div class="blk us"><span class="label">3 · Our response</span><p>${esc(v.resp)}</p></div>
+      <div class="blk them"><span class="label">4 · They attack again</span><p>${esc(v.again)}</p></div>
+      <div class="blk warn"><span class="label">5 · Still unresolved</span><p>${esc(v.open)}</p></div></article>`).join("")}</div>`;
+}
+
+function learnEvidence(){
+  return `<div class="stack">
+    <p class="muted prose">Spoken lines never lead with case names. Use the “Say” line; keep names for when someone challenges a claim. Every entry shows what it actually establishes and its limits.</p>
+    <div class="row" id="evFilters"><button class="btn" type="button" aria-pressed="true" data-evtype="">All</button>${Object.keys(TYPE_NAMES).map(t=>`<button class="btn" type="button" aria-pressed="false" data-evtype="${t}">${t} · ${esc(TYPE_NAMES[t])}</button>`).join("")}</div>
+    <div class="grid g2" id="evList">${EVIDENCE.map(e=>`<article class="panel stack" data-type="${e.type}">
+      <div class="row">${tag("fact",e.id)} ${tag("n",e.type)} <span class="small muted">${esc(e.date)}</span></div>
+      <h3>${esc(e.title)}</h3>
+      <div class="blk us">${tag("us","Say")}<p class="say">${esc(e.say)}</p></div>
+      <details><summary>Finding · limitation · source</summary><div class="stack" style="padding-top:8px">
+        <div class="blk fact"><span class="label">Exact finding</span><p>${esc(e.find)}</p></div>
+        <div class="blk warn"><span class="label">Limitation</span><p>${esc(e.limit)}</p></div>
+        <p class="small"><span class="label">Source</span> ${esc(e.src)} · <a href="${esc(e.url)}" target="_blank" rel="noopener">open source</a></p>
+      </div></details></article>`).join("")}</div>
+  </div>`;
+}
+
+function learnPlatforms(){
+  return `<div class="stack">
+    <div class="panel stack"><span class="label">P1 opening line</span><p class="say">The motion says online platforms. That isn't just Facebook. It's Reddit, Wikipedia, YouTube, a newsletter host, a local paper's comment section, a 2,000-member hobby forum. Any rule has to work across them, or tell us where it stops.</p>
+    <p class="small muted">US law starts from the same baseline for providers and users of every size, but outcomes still differ by conduct and control. Other countries set rules by size and function. Never say all services are treated the same.</p></div>
+    <div class="tablewrap"><table><thead><tr><th>Type</th><th>Examples</th><th>Control</th><th>Why falsity liability fits badly</th></tr></thead><tbody>
+    ${PLATFORMS.map(r=>`<tr>${r.map((c,i)=>`<td>${i===0?"<b>"+esc(c)+"</b>":esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+  </div>`;
+}
+
+function learnComm(){
+  return `<div class="stack">
+    <section class="panel stack"><h2>Every response: Acknowledge → Challenge → Establish → Connect</h2>
+      <p class="muted">Example: Group 5 says “Algorithms amplify misinformation for profit.” Under 10 seconds, use Acknowledge + Challenge only.</p>
+      <div class="tablewrap"><table><thead><tr><th>Step</th><th>Purpose</th><th>Example</th></tr></thead><tbody>${ACEC.map(r=>`<tr><td><b>${r[0]}</b></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody></table></div></section>
+    <section class="panel stack"><h2>The closing (mirrors the opening)</h2>
+      <div class="blk them">${tag("them","What Group 5 proved")}<p>Misinformation can cause harm.</p></div>
+      <div class="blk us">${tag("us","What Group 5 needed to prove")}<p>When and why another person's false statement should create legal liability for the platform.</p></div>
+      <div class="blk us">${tag("us","Full closing ≈ 55s")}<p class="say">${esc(CLOSING.script.replace(/^“|”$/g,""))}</p></div>
+    </section>
+    <section class="panel stack"><h2>Judge-centred rules</h2>${list(["Open by telling the judge what you'll prove: “Two points: who decides, and what it costs.”","Answer Group 5's best version, not their weakest line.","Compare explicitly: “Even if they're right about X, Y matters more because…”","Use the chain as a scorecard: “We asked five questions. We've heard answers to two.”","No case names unless challenged.","Finish 5–10 seconds early. Landing lines are mandatory."].map(esc))}</section>
+    <section class="stack"><h2>Leadership behaviours (shape how we act; never recite)</h2>
+      <div class="tablewrap"><table><thead><tr><th>Framework</th><th>Source</th><th>What we do</th></tr></thead><tbody>${LEADERSHIP.map(r=>`<tr><td><b>${esc(r[0])}</b></td><td class="small">${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody></table></div>
+      <p class="small muted">The “Giovanni principle” isn't included: no published source could be found. Send the reference and it can be added.</p>
+    </section>
+    <section class="panel stack"><h2>Live listening</h2>
+      <p>Note template: THEY CLAIM · EVIDENCE · HIDDEN ASSUMPTION · MY LINK? · CONCEDE / NARROW / REFUTE / TURN / OUTWEIGH · BEST RESPONSE · QUESTION.</p>
+      <p><b>Major (must answer):</b> rests on an assumption F1–F6, brings new evidence, or Group 5 repeats it. <b>Minor (let go):</b> rhetoric, examples that rely on an assumption already answered, tangents.</p></section>
+  </div>`;
+}
+
+function learnDont(){
+  return `<div class="stack"><p class="muted">Tempting lines that hand Group 5 an easy win.</p>
+    <div class="tablewrap"><table><thead><tr><th>Don't say</th><th>Why</th></tr></thead><tbody>${DONT_SAY.map(r=>`<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td></tr>`).join("")}</tbody></table></div></div>`;
+}
+
+function learnSources(){
+  return `<div class="stack">
+    <div class="tablewrap"><table><thead><tr><th>Title</th><th>Organisation / author</th><th>Why it matters</th></tr></thead><tbody>
+    ${EVIDENCE.map(e=>`<tr><td><a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.title)}</a></td><td>${esc(e.src)}</td><td>${esc(e.say)}</td></tr>`).join("")}
+    ${DEBATE_SOURCES.map(s=>`<tr><td><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.t)}</a></td><td>${esc(s.o)}</td><td>${esc(s.why)}</td></tr>`).join("")}
+    </tbody></table></div>
+    <p class="small muted">Court websites couldn't be reached directly while this was prepared; each legal entry was cross-checked against at least two secondary sources. Recheck E7, E21, E25 and E27 before the debate.</p></div>`;
+}
+
+/* ---------- PRACTISE ---------- */
+const PRACTISE_TABS = [["drill","Random attack"],["qtrainer","Strategic questions"],["timer","Timed drill"],["score","Score yourself"],["mock","Mock debate"],["plan","Speaking plan"]];
+
+function viewPractise(){
+  const body = ({drill:prDrill, qtrainer:prQ, timer:prTimer, score:prScore, mock:prMock, plan:prPlan})[state.practiseTab]();
+  return `<div class="stack">${personaBar()}
+    <div class="tabs" role="tablist">${PRACTISE_TABS.map(t=>`<button class="tab" role="tab" type="button" aria-selected="${state.practiseTab===t[0]}" data-practise="${t[0]}">${t[1]}</button>`).join("")}</div>${body}</div>`;
+}
+
+function pickDrill(){
+  const pool = state.person ? G5.filter(x=>x.owner===state.person) : G5;
+  let next; do { next = pool[Math.floor(Math.random()*pool.length)]; } while(pool.length>1 && state.drill && next.n===state.drill.n);
+  state.drill = next; state.drillStep = 0;
+}
+function prDrill(){
+  if(!state.drill) pickDrill();
+  const x = state.drill, s = state.drillStep;
+  return `<div class="stack">
+    <p class="muted prose">${state.person ? "Drawing from your link's arguments. Switch to Team view for all fifteen." : "Drawing from all fifteen Group 5 arguments."} Answer out loud before revealing. Aim for 30 seconds: Acknowledge → Challenge → Establish → Connect.</p>
+    <article class="panel stack">
+      <div class="row">${tag("them","They say · #"+x.n)} ${tag("n","Owner "+x.owner)}</div>
+      <p style="font-size:19px;line-height:1.45">${esc(x.claim)}</p>
+      <div class="row"><button class="btn" type="button" data-quick="30">Start 0:30 think timer</button></div>
+      ${s>=1?`<div class="blk us">${tag("us","Best response")}<p class="say">${esc(x.thirty)}</p><p class="small"><b>Question back:</b> ${esc(x.q)}</p></div>`:""}
+      ${s>=2?`<div class="blk them">${tag("them","Their counter")}<p class="say">${esc(x.counter)}</p></div>`:""}
+      ${s>=3?`<div class="blk us">${tag("us","Our final response")}<p class="say">${esc(x.final)}</p></div>`:""}
+      <div class="row">
+        ${s<1?`<button class="btn primary" type="button" data-drill="1">SHOW BEST RESPONSE</button>`:""}
+        ${s===1?`<button class="btn primary" type="button" data-drill="2">SHOW THEIR COUNTER</button>`:""}
+        ${s===2?`<button class="btn primary" type="button" data-drill="3">SHOW OUR FINAL RESPONSE</button>`:""}
+        <button class="btn" type="button" data-drill="next">Next argument</button>
+      </div>
+    </article></div>`;
+}
+
+let qtrainerId = null;
+function prQ(){
+  const pool = state.person ? QUESTIONS.filter(q=>q.owner===state.person) : QUESTIONS;
+  if(!qtrainerId || !pool.find(q=>q.id===qtrainerId)) qtrainerId = pool[0].id;
+  return `<div class="stack"><p class="muted prose">Practise in pairs: one asks, one plays Group 5 and chooses an answer. Then try the escape and see if the reply holds.</p>
+    <div class="row">${pool.map(q=>`<button class="btn" type="button" aria-pressed="${q.id===qtrainerId}" data-qpick="${q.id}">${q.id} · ${esc(q.title)}</button>`).join("")}<button class="btn" type="button" data-qpick="random">Random</button></div>
+    ${questionCard(qById(qtrainerId))}</div>`;
+}
+
+function prTimer(){
+  return `<div class="stack">
+    <div class="timer-big js-timer" id="timerBig">${fmt(timer.remaining)}</div>
+    <div class="row" style="justify-content:center">${CONFIG.presets.map(s=>`<button class="btn" type="button" data-preset="${s}">${fmt(s)}</button>`).join("")}</div>
+    <div class="row" style="justify-content:center"><button class="btn primary" type="button" data-timer="start">START</button><button class="btn" type="button" data-timer="pause">PAUSE</button><button class="btn" type="button" data-timer="reset">RESET</button>
+      <label class="row small"><input type="checkbox" id="soundToggle" ${timer.sound?"checked":""}> Sound at 0:30 and 0:00 (off by default)</label></div>
+    <div class="grid g3">
+      <div class="panel stack"><h3>5:00 opening</h3><p class="small">Structure A: five speakers ≈55s each, 25s buffer. Hard stop by 4:50.</p></div>
+      <div class="panel stack"><h3>3:00 opening</h3><p class="small">≈35s each. Say only MUST lines and the STOP line.</p></div>
+      <div class="panel stack"><h3>2:00 / 1:00 rebuttal</h3><p class="small">≈20s or ≈10s each. Acknowledge + Challenge, then hand off.</p></div>
+      <div class="panel stack"><h3>0:30 emergency closing</h3><p class="say small">${esc(CLOSING.short.replace(/^“|”$/g,""))}</p></div>
+    </div></div>`;
+}
+
+function prScore(){
+  const scores = LS.get("scores", {});
+  const total = RUBRIC.reduce((a,r)=>a + (scores[r[0]]||3)/5*r[1], 0);
+  return `<div class="stack">
+    <div class="panel stack"><div class="row" style="justify-content:space-between"><h2>Self-score after a run</h2>${tag("warn","Provisional weights")}</div>
+      <p class="small muted">Weights are placeholders until the official rubric arrives. Scores are kept in this browser only.</p></div>
+    <div class="grid g2 score">${RUBRIC.map((r,i)=>`<div class="panel stack"><label for="sc${i}"><b>${esc(r[0])}</b> <span class="muted small">(${r[1]}%)</span></label><input id="sc${i}" type="range" min="1" max="5" step="1" value="${scores[r[0]]||3}" data-score="${esc(r[0])}"><p class="small muted">5 = ${esc(r[2])}</p></div>`).join("")}</div>
+    <div class="panel row" style="justify-content:space-between"><b>Weighted score</b><span class="mono" style="font-size:22px" id="scoreTotal">${total.toFixed(0)} / 100</span></div>
+  </div>`;
+}
+
+function prMock(){
+  return `<div class="stack"><p class="muted prose">A strong Group 5 and a neutral judge, run under Structure A. Read it aloud in parts to rehearse timing.</p>
+    <div class="panel transcript">${MOCK.map(m=>{
+      if(m[0]==="ROUND") return `<h3 style="padding-top:12px">${esc(m[1])}</h3>`;
+      const cls = m[0].startsWith("G6")?"g6":m[0].startsWith("G5")?"g5":"jd";
+      return `<div class="turn"><span class="who ${cls}">${esc(m[0])}</span><p>${esc(m[1])}</p></div>`;}).join("")}</div></div>`;
+}
+
+function prPlan(){
+  const S = STRUCTURES[state.structure];
+  const roundRows = Object.keys(S.rounds).map(r=>{
+    const who = S.rounds[r]; const len = CONFIG.rounds[r] || 120; const buf = CONFIG.buffer[r] || 10;
+    const each = Math.floor((len - buf)/who.length);
+    return `<tr><td><b>${r}</b></td><td class="mono">${fmt(len)}</td><td>${who.map(p=>`${p} <span class="muted">(${PEOPLE[p].link})</span>`).join(" → ")}</td><td class="mono">≈${each}s each</td></tr>`;
+  }).join("");
+  const totals = {}; Object.keys(PEOPLE).forEach(p=>totals[p]=0);
+  Object.keys(S.rounds).forEach(r=>{ if(r==="cross") return; const who=S.rounds[r]; const each=Math.floor(((CONFIG.rounds[r]||120)-(CONFIG.buffer[r]||10))/who.length); who.forEach(p=>totals[p]+=each); });
+  return `<div class="stack">
+    <div class="panel stack"><div class="row" style="justify-content:space-between"><h2>Speaking plan</h2>${tag("warn","Not final until rules are confirmed")}</div>
+      <p class="small muted">Change round lengths in the CONFIG block at the top of the file. Your choice here is remembered in this browser.</p>
+      <div class="row">${Object.keys(STRUCTURES).map(k=>`<button class="btn" type="button" aria-pressed="${state.structure===k}" data-structure="${k}">${esc(STRUCTURES[k].name)}</button>`).join("")}</div>
+      <p>${esc(S.note)}</p></div>
+    <div class="tablewrap"><table><thead><tr><th>Round</th><th>Length</th><th>Speakers in order</th><th>Time</th></tr></thead><tbody>${roundRows}</tbody></table></div>
+    <div class="tablewrap"><table><thead><tr><th>Person</th><th>Total speaking time</th><th>Link</th></tr></thead><tbody>${Object.keys(totals).map(p=>`<tr><td>${p}</td><td class="mono">${totals[p]}s</td><td>${PEOPLE[p].link}</td></tr>`).join("")}</tbody></table></div>
+  </div>`;
+}
+
+/* ---------- LIVE ---------- */
+function liveTopicData(t){
+  if(t.g5){ const x = g5(t.g5); return {owner:x.owner, their:x.claim, ten:x.ten, q:x.q, factId: {1:"E32",2:"E12",3:"E10",4:"E3",5:"E10",6:"E2",8:"E19",9:"E34",10:"E10",11:"E1",14:"E17"}[x.n] || "E10"}; }
+  return {owner:t.owner, their:t.their, ten:t.ten, q:t.q, factId:t.fact};
+}
+function viewLive(){
+  const link = state.liveLink ? CHAIN.find(c=>c.key===state.liveLink) : null;
+  let linkPanel = `<p class="muted">Tap a link above for the owner, their primary strategic question and their 10-second line.</p>`;
+  if(link){
+    const P = PEOPLE[link.p], Q = qById(P.primary), A = ARGS[P.arg];
+    linkPanel = `<div class="row">${tag("us",link.p+" · "+link.key)} <span class="muted">${esc(link.q)}</span></div>
+      <div class="blk q">${tag("q","Strategic question · "+Q.title)}<p class="say" style="font-size:17px">${esc(Q.open)}</p><p class="small"><b>Follow-up:</b> ${esc(Q.follow)}</p></div>
+      <div class="blk us">${tag("us","10-second response")}<p class="say" style="font-size:17px">${esc(P.emergency.replace(/^“|”$/g,""))}</p><p class="small muted">${esc(A.claim)}</p></div>`;
+  }
+  let topicPanel = "";
+  if(state.liveTopic !== null){
+    const t = LIVE_TOPICS[state.liveTopic], d = liveTopicData(t), e = ev(d.factId);
+    topicPanel = `<article class="panel livepanel">
+      <div class="row">${tag("them",t.k)} ${tag("n","Owner: "+d.owner+(PEOPLE[d.owner]?" · "+PEOPLE[d.owner].link:""))}</div>
+      <div class="blk them"><span class="label">They say</span><p>${esc(d.their)}</p></div>
+      <div class="blk us"><span class="label">10-second response</span><p class="say" style="font-size:18px">${esc(d.ten)}</p></div>
+      <div class="blk q"><span class="label">Question back</span><p class="say" style="font-size:17px">${esc(d.q)}</p></div>
+      ${e?`<div class="blk fact"><span class="label">Key fact · ${e.id}</span><p>${esc(e.say)}</p></div>`:""}
+    </article>`;
+  }
+  const notes = LS.get("notes", {});
+  return `<div class="stack">
+    <div class="chainbar" id="chainbar"><div class="links">${CHAIN.map(c=>`<button class="clink" type="button" aria-pressed="${state.liveLink===c.key}" data-link="${c.key}"><b>${c.key}</b><span>${c.p}</span></button>`).join("")}</div></div>
+    <section class="panel stack">${linkPanel}</section>
+    <div class="grid livegrid">
+      <div class="stack">
+        <span class="label">They raised…</span>
+        <div class="topics">${LIVE_TOPICS.map((t,i)=>`<button class="topic" type="button" aria-pressed="${state.liveTopic===i}" data-topic="${i}">${esc(t.k)}</button>`).join("")}</div>
+        ${topicPanel}
+      </div>
+      <div class="stack">
+        <div class="timer-big js-timer">${fmt(timer.remaining)}</div>
+        <div class="row" style="justify-content:center">${CONFIG.presets.map(s=>`<button class="btn" type="button" data-preset="${s}">${fmt(s)}</button>`).join("")}</div>
+        <div class="row" style="justify-content:center"><button class="btn primary" type="button" data-timer="start">START</button><button class="btn" type="button" data-timer="pause">PAUSE</button><button class="btn" type="button" data-timer="reset">RESET</button></div>
+        <button class="btn danger" type="button" data-emergency="1">EMERGENCY: I'M STUCK</button>
+      </div>
+    </div>
+    <section class="stack"><div class="row" style="justify-content:space-between"><h2>Live notes</h2><button class="btn" type="button" id="clearNotes">Clear all notes</button></div>
+      <p class="small muted">Saved in this browser as you type, so a refresh won't erase them.</p>
+      <div id="clearConfirm" hidden class="panel row"><span>Clear all five note pads?</span><button class="btn danger" type="button" id="clearYes">Clear</button><button class="btn" type="button" id="clearNo">Keep</button></div>
+      <div class="notes">${Object.keys(PEOPLE).map(p=>`<div class="panel note"><b>${p} · ${PEOPLE[p].link}</b>
+        ${["THEY CLAIM","ASSUMPTION","RESPONSE"].map(f=>{const id=`n-${p}-${f.replace(" ","")}`; return `<label for="${id}">${f}</label><textarea id="${id}" data-note="${p}|${f}">${esc((notes[p]||{})[f]||"")}</textarea>`;}).join("")}
+      </div>`).join("")}</div></section>
+  </div>`;
+}
+
+/* ---------- Emergency overlay ---------- */
+function renderEmergency(){
+  const el = document.getElementById("emergency");
+  el.innerHTML = `<div class="wrap emerg stack">
+    <div class="row" style="justify-content:space-between"><h2>EMERGENCY</h2><button class="btn primary" type="button" data-emergency="0">CLOSE</button></div>
+    <section class="panel stack"><span class="label">Our position</span><p class="big"><b>${esc(ONE_LINER)}</b></p><p>${esc(POSITION)}</p></section>
+    <div class="grid g3">
+      <section class="panel stack"><span class="label">3 strongest responses</span><ol class="tight big">${EMERGENCY.responses.map(r=>`<li>${esc(r)}</li>`).join("")}</ol></section>
+      <section class="panel stack"><span class="label">3 strongest questions</span><ol class="tight big">${EMERGENCY.questions.map(r=>`<li>${esc(r)}</li>`).join("")}</ol></section>
+      <section class="panel stack"><span class="label">3 facts</span><ol class="tight big">${EMERGENCY.facts.map(r=>`<li>${esc(r)}</li>`).join("")}</ol></section>
+    </div>
+    <section class="panel stack"><span class="label">30-second closing</span><p class="big">${esc(CLOSING.short)}</p></section>
+  </div>`;
+}
+
+/* ============================================================
+   TIMER
+   ============================================================ */
+const timer = { total: CONFIG.presets[0], remaining: CONFIG.presets[0], running:false, endAt:0, iv:null, sound: LS.get("sound", false), warned:false };
+let audioCtx = null;
+function beep(freq){ if(!timer.sound) return; try{ audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.frequency.value=freq; o.connect(g); g.connect(audioCtx.destination); g.gain.setValueAtTime(0.15,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.4); o.start(); o.stop(audioCtx.currentTime+0.4);}catch(e){} }
+function paintTimer(){
+  const cls = timer.remaining <= CONFIG.criticalAt ? "crit" : timer.remaining <= CONFIG.warnAt ? "warn" : "";
+  document.querySelectorAll(".js-timer").forEach(el=>{ el.textContent = fmt(timer.remaining); el.classList.toggle("warn", cls==="warn"); el.classList.toggle("crit", cls==="crit"); });
+}
+function tick(){
+  timer.remaining = Math.max(0, (timer.endAt - Date.now())/1000);
+  if(!timer.warned && timer.remaining <= CONFIG.warnAt && timer.total > CONFIG.warnAt){ timer.warned = true; beep(660); }
+  if(timer.remaining <= 0){ timerPause(); timer.remaining = 0; beep(440); setTimeout(()=>beep(440),450); }
+  paintTimer();
+}
+function timerStart(){ if(timer.running || timer.remaining<=0) return; timer.running=true; timer.endAt = Date.now() + timer.remaining*1000; timer.iv = setInterval(tick, 200); try{ audioCtx && audioCtx.resume(); }catch(e){} }
+function timerPause(){ timer.running=false; clearInterval(timer.iv); timer.iv=null; }
+function timerReset(){ timerPause(); timer.remaining = timer.total; timer.warned=false; paintTimer(); }
+function timerSet(s){ timerPause(); timer.total = s; timer.remaining = s; timer.warned=false; paintTimer(); }
+
+/* ============================================================
+   RENDER + EVENTS
+   ============================================================ */
+function render(){
+  discId = 0;
+  document.querySelectorAll(".mode").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.mode===state.mode)));
+  document.getElementById("roleChip").textContent = state.person ? state.person + " · " + PEOPLE[state.person].link : "TEAM VIEW";
+  app.innerHTML = state.mode==="learn" ? viewLearn() : state.mode==="practise" ? viewPractise() : state.mode==="live" ? viewLive() : viewHome();
+  paintTimer();
+  const bar = document.getElementById("bar"); document.documentElement.style.setProperty("--barh", bar.offsetHeight + "px");
+  save();
+}
+
+function go(mode){ state.mode = mode; render(); window.scrollTo(0,0); }
+
+document.addEventListener("click", e=>{
+  const t = e.target.closest("button, [data-golive]"); if(!t) return;
+  const d = t.dataset;
+  if(t.id==="homeBtn") return go("home");
+  if(t.id==="roleChip") return go("home");
+  if(t.id==="timerPill"){ timer.running ? timerPause() : timerStart(); return; }
+  if(t.id==="emergBtn" || d.emergency==="1"){ renderEmergency(); document.getElementById("emergency").hidden=false; return; }
+  if(d.emergency==="0"){ document.getElementById("emergency").hidden=true; return; }
+  if(d.mode) return go(d.mode);
+  if(d.person !== undefined){ state.person = d.person || null; if(state.person){ state.learnTab="brief"; } else if(state.learnTab==="brief"){ state.learnTab="position"; } state.drill=null; qtrainerId=null; if(state.mode==="home"){ state.mode="learn"; } render(); window.scrollTo(0,0); return; }
+  if(d.golive){ state.liveLink = d.golive; return go("live"); }
+  if(d.learn){ state.learnTab = d.learn; render(); return; }
+  if(d.practise){ state.practiseTab = d.practise; render(); return; }
+  if(d.disc){ const body = document.querySelector(`[data-discbody="${d.disc}-${d.part}"]`); const open = body.hidden; body.hidden = !open; t.setAttribute("aria-pressed", String(open)); return; }
+  if(d.branch){ const card = t.closest("[data-q]"); const q = qById(card.dataset.q); card.querySelectorAll("[data-branch]").forEach(b=>b.setAttribute("aria-pressed", String(b===t))); const out = card.querySelector("[data-branchout]"); out.hidden=false; out.querySelector("[data-branchtext]").textContent = q[d.branch]; return; }
+  if(d.drill){ if(d.drill==="next"){ pickDrill(); } else { state.drillStep = Number(d.drill); } render(); return; }
+  if(d.quick){ timerSet(Number(d.quick)); timerStart(); return; }
+  if(d.qpick){ const pool = state.person ? QUESTIONS.filter(q=>q.owner===state.person) : QUESTIONS; qtrainerId = d.qpick==="random" ? pool[Math.floor(Math.random()*pool.length)].id : d.qpick; render(); return; }
+  if(d.preset){ timerSet(Number(d.preset)); return; }
+  if(d.timer){ ({start:timerStart, pause:timerPause, reset:timerReset})[d.timer](); return; }
+  if(d.structure){ state.structure = d.structure; render(); return; }
+  if(d.link){ state.liveLink = state.liveLink===d.link ? null : d.link; render(); return; }
+  if(d.topic !== undefined){ const i = Number(d.topic); state.liveTopic = state.liveTopic===i ? null : i; render(); return; }
+  if(d.evtype !== undefined){ document.querySelectorAll("[data-evtype]").forEach(b=>b.setAttribute("aria-pressed", String(b===t))); document.querySelectorAll("#evList [data-type]").forEach(c=>{ c.hidden = !!d.evtype && c.dataset.type!==d.evtype; }); return; }
+  if(t.id==="clearNotes"){ document.getElementById("clearConfirm").hidden=false; return; }
+  if(t.id==="clearNo"){ document.getElementById("clearConfirm").hidden=true; return; }
+  if(t.id==="clearYes"){ LS.set("notes", {}); render(); return; }
+});
+
+document.addEventListener("input", e=>{
+  const t = e.target;
+  if(t.dataset.note){ const [p,f] = t.dataset.note.split("|"); const notes = LS.get("notes", {}); notes[p] = notes[p]||{}; notes[p][f] = t.value; LS.set("notes", notes); }
+  if(t.dataset.score){ const s = LS.get("scores", {}); s[t.dataset.score] = Number(t.value); LS.set("scores", s); const total = RUBRIC.reduce((a,r)=>a + (s[r[0]]||3)/5*r[1], 0); const el = document.getElementById("scoreTotal"); if(el) el.textContent = total.toFixed(0) + " / 100"; }
+  if(t.id==="fwSearch" || t.id==="fwOwner") filterPlaybook();
+});
+document.addEventListener("change", e=>{
+  if(e.target.id==="soundToggle"){ timer.sound = e.target.checked; LS.set("sound", timer.sound); if(timer.sound) beep(880); }
+  if(e.target.id==="fwOwner") filterPlaybook();
+});
+function filterPlaybook(){
+  const q = (document.getElementById("fwSearch").value||"").toLowerCase(), o = document.getElementById("fwOwner").value;
+  const items = G5.filter(x => (!o || x.owner===o) && (!q || [x.title,x.claim,x.ten,x.thirty,x.q].join(" ").toLowerCase().includes(q)));
+  document.getElementById("fwList").innerHTML = items.length ? items.map(g5Card).join("") : `<p class="muted">No Group 5 argument matches “${esc(q)}”. Try “Other” in LIVE mode.</p>`;
+}
+document.addEventListener("keydown", e=>{ if(e.key==="Escape"){ document.getElementById("emergency").hidden=true; } });
+window.addEventListener("resize", ()=>{ const bar=document.getElementById("bar"); document.documentElement.style.setProperty("--barh", bar.offsetHeight+"px"); });
+
+render();
+</script>
+</body>
+</html>

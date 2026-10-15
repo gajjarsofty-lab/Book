@@ -5,6 +5,46 @@
 
 ---
 
+## v2.1 FINAL ADJUSTMENTS (approved; supersede anything below that conflicts)
+
+### The spine of the debate
+USER POSTS FALSE INFORMATION
+→ **TRIGGER** — what triggers platform liability? (**P1**)
+→ **TRUTH** — who determines falsity? (**P2**)
+→ **CONDUCT** — what did the platform itself do? (**P3**)
+→ **CONSEQUENCES** — what behaviour does the liability rule incentivise? (**P4**)
+→ **ALTERNATIVE** — is that better than a more targeted alternative? (**P5**)
+
+Every speech, rebuttal and question maps to one link. The chain replaces the earlier "Five-Question Test" labels.
+
+### Naming
+In team-facing material, "Socratic traps" / "traps" are **Strategic Questions** (pressure-test questions). The branching logic (YES / NO / QUALIFIED) is unchanged.
+
+### P1 opening structure
+- **ACKNOWLEDGE:** "Let's start with what we agree on. Misinformation can cause real harm, and platforms have enormous influence over what people see."
+- **CLASH:** "Our disagreement isn't about whether the problem matters. It's about whether making a platform legally responsible for determining the truth of what someone else says actually solves it."
+- **FRAME:** "So throughout this debate, we're going to ask one simple question: what exactly triggers liability?"
+- Then P1's argument (A1).
+
+### Closing mirrors the opening
+- **What Group 5 proved:** misinformation can cause harm. (We agreed at the start.)
+- **What Group 5 needed to prove:** when and why another person's false statement should create legal liability for the platform.
+- Walk the chain once: trigger → truth → conduct → consequences → comparison. Name the link they never answered.
+
+### P3 default line
+"If recommendation is the problem, regulate recommendation. That still doesn't establish liability simply because the underlying user post is false." Free-speech cases stay in the Evidence Vault as backup only.
+
+### Two Platforms repair
+Never argue "a false post doesn't become more false at user 45,000,001". If G5 proposes size-scaled duties, acknowledge it as reasonable, then ask: "Then the justification is reach, control and system design. What duty does that create, and how does the platform satisfy it without having to adjudicate disputed truth?"
+
+### Language on alternatives
+Don't say "we support mandated process duties". Say: "If regulation is needed, process-based duties are a more targeted alternative than liability based on determining whether users' statements are true." We are comparing alternatives, not designing a regulatory regime.
+
+### Scope freeze
+No new legal research or arguments unless correcting a factual error. Speaking allocation stays configurable until the rules and rubric are confirmed.
+
+---
+
 ## 0. Executive summary
 
 **Central position (memorise)**
@@ -32,7 +72,7 @@
 | V4 | "Your over-removal evidence is borrowed from copyright and trafficking law, not misinformation." |
 | V5 | "Most viral misinformation isn't contested. It's plainly false." |
 
-**Five primary Socratic sequences** (Section 6)
+**Five primary strategic questions** (Section 6)
 
 | Owner | Trap | Question |
 |---|---|---|
@@ -104,10 +144,10 @@ Ask three questions of any proposed liability:
 ### The honest hard case: system-level negligence
 G5's best version: "Not per-post. Liability for failing to have *reasonable systems* against foreseeable misinformation harm."
 
-Our answer: if it's an up-front, defined process duty (risk assessments, transparency, audits) enforced by a regulator, that's regulation of the platform's own systems, i.e. tier 3. We accept that kind of rule for the largest services. Europe does it for very large platforms (E33). If instead it means a jury decides after the fact, post by post, that a platform should have removed false content, it's tier 2 in disguise.
+Our answer: if it's an up-front, defined process duty (risk assessments, transparency, audits) enforced by a regulator, that's regulation of the platform's own systems, i.e. tier 3. That is a more targeted alternative than falsity-based liability, and Europe uses something like it for very large platforms (E33). We compare it; we don't need to design it. If instead it means a jury decides after the fact, post by post, that a platform should have removed false content, it's tier 2 in disguise.
 
 **Spoken version:**
-> "If you mean rules on how big platforms design and audit their systems, set in advance, we're with you. If you mean a jury deciding afterwards that a post was false and should have come down, that's the referee problem again."
+> "If you mean rules on how big platforms design and audit their systems, set in advance, that's a more targeted alternative than liability for the truth of users' posts. If you mean a jury deciding afterwards that a post was false and should have come down, that's the referee problem again."
 
 **Flag:** a judge may see accepting process duties as a partial concession. We raise it ourselves, early (P1 opening), so it reads as precision rather than retreat.
 
@@ -118,7 +158,7 @@ Our answer: if it's an up-front, defined process duty (risk assessments, transpa
 | Misinformation causes real harm | That falsity alone should trigger liability |
 | Platforms aren't neutral; ranking is a choice | That flagging a post as false makes the platform responsible for its truth |
 | Section 230 deserves review | That one rule fits every kind of platform |
-| The largest services can carry process duties | That a jury after the fact should define "reasonable" truth-policing |
+| Size-scaled duties for the largest services can be reasonable | That a jury after the fact should define "reasonable" truth-policing |
 
 ### "Online platforms" is broad (kept from v1, condensed)
 - **P1 opening line:** "The motion says *online platforms*. That isn't just Facebook. It's Reddit, Wikipedia, YouTube, a newsletter host, a local paper's comment section, a 2,000-member hobby forum. Any rule has to work across them, or tell us where it stops."
@@ -181,8 +221,8 @@ Our answer: if it's an up-front, defined process duty (risk assessments, transpa
 - **Attack 1:** "Ranking and recommending *is* conduct."
   - **Repair:** "Agreed, so judge the ranking system: its design, its audits, its effects. You don't need a truth verdict on each post for that."
 - **Attack 2:** "One appeals court has said the algorithm is the platform's own speech" (E7).
-  - **Repair:** "That case was about pushing a dangerous challenge to a child, which is conduct. And if the ranking is the platform's speech, the Supreme Court has signalled it gets free-speech protection (E5), and false statements aren't automatically unprotected (E4)."
-  - Careful: say "signalled". It isn't a final ruling.
+  - **Repair (spoken):** "If recommendation is the problem, regulate recommendation. That still doesn't establish liability simply because the underlying user post is false."
+  - Backup only, if pressed on law: the free-speech cases (E4, E5) stay in the Evidence Vault. If used, say "signalled", never "held".
 
 **A4 — The incentive (P4)**
 - **Claim:** when keeping a post up risks a lawsuit and taking it down costs nothing, the rational move is to remove anything contested, or stop looking.
@@ -205,7 +245,7 @@ Our answer: if it's an up-front, defined process duty (risk assessments, transpa
   - Large services can be given process duties (E33).
   - User context tools reduce sharing (E16).
 - **Attack 1:** "Voluntary tools get reversed" (V3).
-  - **Repair:** "That's why we support mandated process duties for big services, not liability for each post."
+  - **Repair:** "If regulation is needed, process-based duties are a more targeted alternative than liability based on determining whether users' statements are true."
 - **Attack 2:** "Process duties are toothless."
   - **Repair:** "Process duties come with penalties too. Europe's are large. The difference is what triggers them: a failed system, not a disputed sentence."
   - *Unresolved:* evidence on whether process duties work is still thin (see V3).
@@ -220,7 +260,7 @@ Our answer: if it's an up-front, defined process duty (risk assessments, transpa
 | # | G5 argument | Assumption it rests on | Our 10-second answer | Owner |
 |---|---|---|---|---|
 | 1 | They profit from engagement | F2/F3 | "Profit tells us who can afford rules. It doesn't tell us which posts are false." | P3 |
-| 2 | Algorithms amplify | F3 | "Then judge the system's design. That's conduct, and we support it." | P3 |
+| 2 | Algorithms amplify | F3 | "If recommendation is the problem, regulate recommendation. That doesn't make the platform liable because a user's post is false." | P3 |
 | 3 | Real-world harm | F1 | "The harm is real. The question is whether lawsuits over falsity reduce it." | P5 |
 | 4 | Duty of care / negligence | F1, F2 | "Process duties set in advance, yes. A jury deciding afterwards what was true, no." | P1 |
 | 5 | They already moderate | F1 | "Moderating under your own policy differs from moderating under threat of a lawsuit." | P4 |
@@ -271,7 +311,7 @@ For each: G5's attack, why a judge might accept it, our response, G5's attack on
 **V3 — "Voluntary moderation is reversible"**
 1. **Attack:** "In January 2025 Meta ended US third-party fact-checking. Without liability, protection disappears whenever a company changes its mind."
 2. **Why a judge might buy it:** it's true and recent.
-3. **Response:** we don't rely on voluntary action. We support mandated process duties and transparency for the largest services, plus existing speaker and conduct liability.
+3. **Response:** we don't rely on voluntary action. Existing speaker and conduct liability remain. "If regulation is needed, process-based duties are a more targeted alternative than liability based on determining whether users' statements are true."
 4. **Attack again:** "Then why not add liability as the enforcement mechanism?"
 5. **Unresolved:** we can't show that process duties work better. Evidence on that is still emerging (E33 limitation). We hold the line on the trigger, but this is our **biggest open weakness.**
 
@@ -298,7 +338,7 @@ We lose if we sound legalistic, overclaim cases, or get drawn into defending vol
 
 ---
 
-## 6. Socratic trap audit
+## 6. Strategic (pressure-test) questions: audit
 
 **Audit criteria:**
 - **Valid:** the conclusion follows.
@@ -373,8 +413,8 @@ We lose if we sound legalistic, overclaim cases, or get drawn into defending vol
 - **Setup:** "Picture two platforms: a huge feed with billions of users and an algorithm, and a cycling forum with 2,000 members and one volunteer admin."
 - **Opening:** "Does your rule apply to both?"
 - **If yes:** "The forum can't afford lawyers or moderators, so it shuts or bans topics. It has no algorithm, so amplification was never the reason."
-- **If no:** "Then where's the line, and why there? Europe uses 45 million users, the UK 34 million, Germany 2 million. A false post doesn't become more false at the next user."
-- **If they qualify ("scaled duties"):** "Scaled *process* duties for big services, we support. That's regulating systems, not liability for users' posts."
+- **If no:** "Then the trigger isn't the false post. It's something about the platform. What is it?"
+- **If they qualify ("size-scaled duties"):** acknowledge it as reasonable: "That's a fair distinction. Then the justification is reach, control and system design. What duty does that create, and how does the platform satisfy it without having to adjudicate disputed truth?"
 - **What we win:** the trigger becomes size and design, not misinformation.
 - **Escape:** "We only mean the biggest platforms."
 - **Our reply:** "Then the motion has shrunk from online platforms to a handful of companies, and even for them, the referee problem remains."
@@ -441,7 +481,7 @@ We lose if we sound legalistic, overclaim cases, or get drawn into defending vol
 | E31 | CO | CNN statement, reported by Mediaweek/AdNews · Sept 2021 | After Voller, CNN restricted its Facebook pages for Australian users, saying it couldn't disable comments page-wide | One company's choice | "After Australia's ruling, CNN pulled its Facebook pages there rather than carry the risk." |
 | E32 | NB (jury verdict) | New Mexico v. Meta, Santa Fe jury · 24 Mar 2026 | Jury found Meta violated the state Unfair Practices Act, including false or misleading statements and unconscionable practices on child safety; $375M civil penalties. Meta says it will appeal | Verdict, not precedent; consumer-protection law | "A jury found Meta liable for its own misleading statements about safety. That's the platform's conduct." |
 | E33 | BH (EU law) | DSA Arts. 34–35 | Very large platforms must assess and mitigate systemic risks, including effects on civic discourse, elections, public security and public health, considering their recommender and moderation systems | Effectiveness evidence still emerging | "Europe requires the biggest platforms to assess and reduce these risks in their systems." |
-| E34 | CO / news | Meta, Jan 2025 | Meta ended third-party fact-checking in the US in favour of community notes | **G5 weapon (V3)** | Acknowledge it: "Voluntary steps can be reversed. That's why we support defined process duties." |
+| E34 | CO / news | Meta, Jan 2025 | Meta ended third-party fact-checking in the US in favour of community notes | **G5 weapon (V3)** | Acknowledge it: "Voluntary steps can be reversed. If regulation is needed, process-based duties are a more targeted alternative than liability for the truth of users' posts." |
 
 ---
 
@@ -452,9 +492,9 @@ We lose if we sound legalistic, overclaim cases, or get drawn into defending vol
 | | P1 Frame & Trigger | P2 Truth & Knowledge | P3 Conduct & Design | P4 Incentives & Control | P5 Harm, Tools & Weighing |
 |---|---|---|---|---|---|
 | Core argument | A1 | A2 | A3 | A4 | A5 |
-| Five-Question Test | Which platforms? | What knowledge? | What conduct? | What control? | What threshold? |
-| Primary trap | The Trigger | The Referee | Host or Push | Error Budget | Two Platforms |
-| Backup trap | Court order vs complaint | Encrypted chat | Comment section | Volunteer moderators | Who can sue? |
+| Spine link | TRIGGER: what triggers liability? | TRUTH: who determines falsity? | CONDUCT: what did the platform itself do? | CONSEQUENCES: what behaviour does the rule incentivise? | ALTERNATIVE: is it better than narrower options? |
+| Primary strategic question | The Trigger | The Referee | Host or Push | Error Budget | Two Platforms |
+| Backup strategic question | Court order vs complaint | Encrypted chat | Comment section | Volunteer moderators | Who can sue? |
 | Monitors (G5 #) | 4, 6, 11 | 3*, 13 + health/election | 1, 2, 7, 12 | 5, 9, 10 | 3, 8, 14, 15 |
 | Key evidence | E1–E3, E17, E23 | E4, E10–E12 | E5–E8, E24, E32 | E10, E14, E15, E31 | E16, E18, E19, E33 |
 | Answers vulnerability | V1 | V5 | V2 | V4 | V3 |
@@ -465,7 +505,7 @@ We lose if we sound legalistic, overclaim cases, or get drawn into defending vol
 ### Structure A — all five may speak in every round
 - **Opening (5:00):** P1 → P2 → P3 → P4 → P5, ~55s each, with a 25s buffer.
 - **Rebuttal (e.g. 2:00):** five 20s rebuttals by domain. Order rotates: **P3 → P4 → P5 → P1 → P2**.
-- **Final (e.g. 2:00):** five 20s "what we proved" lines. Order: **P5 → P1 → P2 → P3 → P4**, so P4 delivers the closing sentence.
+- **Final (e.g. 2:00):** five 20s lines that walk the chain in order **P1 → P2 → P3 → P4 → P5**; P5 delivers the mirror-closing sentence (v2.1).
 - **Totals:** ≈95s each. Everyone opens, rebuts and closes. Nobody is always first or last.
 - **Risk:** five handoffs per round cost time.
   - **Fix:** a scripted handoff: "[Name] on control."
@@ -552,7 +592,7 @@ We lose if we sound legalistic, overclaim cases, or get drawn into defending vol
   - P2 runs The Referee and the reversed Facebook ban.
   - P3 reframes the verdicts as design and Meta's own statements.
   - P4 runs the Error Budget.
-  - P5 runs Two Platforms and the support for process duties.
+  - P5 runs Two Platforms and compares targeted alternatives.
 - **Neutral judge:** close.
   - G6 was ahead on clarity of principle and evidence discipline.
   - G5 was ahead on emotional weight and the speed-of-harm argument (V1).
@@ -590,7 +630,7 @@ We lose if we sound legalistic, overclaim cases, or get drawn into defending vol
 - **LEARN:** position and tiers; trigger test; platform spectrum; five arguments (progressive disclosure: WHY / EVIDENCE / THEIR COUNTER / OUR RESPONSE); G5 playbook; dependency map; evidence vault (filter by type BH/NB/EMP/CO/ADV/INF); legal distinctions; leadership layer; do-not-say.
 - **PRACTISE:**
   - Random G5 attack → show response → their counter → our final.
-  - Socratic trainer: YES / NO / QUALIFIED branches.
+  - Strategic-question trainer: YES / NO / QUALIFIED branches.
   - Timed drills (5:00, 3:00, 2:00, 1:00, 0:30).
   - Self-scoring against the provisional rubric.
   - Mock debate transcript with judge notes.
