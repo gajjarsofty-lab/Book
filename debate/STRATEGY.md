@@ -654,3 +654,23 @@ We lose if we sound legalistic, overclaim cases, or get drawn into defending vol
 5. Prep time, and whether notes or devices are allowed on stage. Affects how LIVE mode is used.
 6. The source of the "Giovanni principle".
 7. Is the audience judging, or only appointed judges?
+
+---
+
+## v3 — Team-facing simplification (HTML)
+The HTML now leads with a 20-minute prep flow; the research above is unchanged and lives in **Advanced prep**.
+
+- **Four areas:** Our strategy · Your role · Practice · Debate day. Advanced prep is a secondary link.
+- **Flow:** 0–3 understand the case → 3–8 know your role → 8–13 challenge our case → 13–18 Group 5 attacks → 18–20 final huddle.
+- **Position (spoken):** "Platforms should be responsible for what they do — not automatically liable whenever one of their users says something false."
+- **Three reasons:** someone has to decide what's false; the safe move becomes "delete anything disputed"; better-targeted tools already exist.
+- **Central distinction:** what the platform DID vs. what a USER SAID.
+- **Human role labels:**
+  - P1: What exactly are we making platforms liable for?
+  - P2: Who decides what counts as misinformation?
+  - P3: When does platform conduct become platform responsibility?
+  - P4: What happens if we create broad liability?
+  - P5: What should we do instead, and why is it better?
+- **Each role card shows only:** job (plus what I listen for), argument, 30–45s explanation, example, they may say / I respond, and one question sequence (ASK / IF YES / IF NO / IF THEY QUALIFY / what we're establishing). Evidence, legal background, the second-level counter and the backup question sit behind "Go deeper".
+- **Practice:** five "Challenge our case" cards (attack → repair → concede → don't concede) and eight Group 5 attacks (profit, algorithms, harm, "they know", already moderate, no incentive, duty of care, victims). Each attack runs: 20s team answer → best response + question back → their counter → our final, with a points board.
+- Every simplified answer was checked through: they say → we say → they counter → we respond.
