@@ -7,6 +7,35 @@
 - Skills repo (biyachuev/claude-debate-skills): two of its three skills need Codex. I'm using its creator–critic method instead (value / flaw / hidden assumption / failure scenario) for the red-team passes below. Nothing gets installed.
 - Assumption: create branch `debate-generator` as requested and push there. This replaces the session default branch.
 
+## 0. How we cite out loud (applies to every spoken line)
+- Most of the audience won't know case names. **Spoken lines never lead with a case name, a citation or a court level.**
+- Use a casual reference to the source, then the point:
+  - "Courts have already found…"
+  - "The Supreme Court has said…"
+  - "We saw this when…"
+  - "Meta itself estimated…"
+  - "Europe's own rules…"
+  - "A large study found…"
+- At most one number per point, rounded ("one or two in every ten", "about half").
+- Case names, citations and links stay in the **Evidence Vault** (Section 3) and behind the EVIDENCE button in the HTML. Use them only if the other side or a judge challenges a claim ("Happy to give you the case afterwards").
+
+### Plain-language phrasebook (what to say instead)
+| Instead of | Say |
+|---|---|
+| *Smith v. California* | "The Supreme Court rejected making bookshops liable for books they hadn't read." |
+| *U.S. v. Alvarez* | "The Supreme Court has said a statement isn't unprotected just because it's false." |
+| *Moody v. NetChoice* | "The Supreme Court has said choosing and ranking content is the platform's own protected speech." |
+| *Twitter v. Taamneh* | "The Supreme Court said running a recommendation system isn't the same as knowingly helping wrongdoing." |
+| *Anderson v. TikTok* (theirs) | "One appeals court went the other way, in a case about a dangerous challenge pushed to a child. That's conduct, and our line covers it." |
+| *Stratton Oakmont / Cubby* | "Before the 1996 law, the site that tried to moderate got sued, and the site that didn't look got off. That's the trap we'd recreate." |
+| *Lemmon* / 2026 jury verdicts | "Courts are already holding platforms responsible for how they design their products." |
+| *Roommates.com* / *Kimzey* | "Courts already treat a platform differently when it helps create the content." |
+| *Barrett* / *Zeran* | "Today the law protects even ordinary users who share someone else's post." |
+| *Delfi* / *MTE* / *Voller* | "Europe's court limited liability to clearly illegal hate speech. In Australia, comment sections closed." |
+| DSA / OSA / NetzDG | "Europe, the UK and Germany all set different rules by size and function, and none makes a host liable just because a post is false." |
+| GAO-21-385 | "A government review found the 2018 trafficking law was used in one criminal case in three years." |
+| Vosoughi et al. | "A large MIT study found people, not bots, mainly spread false stories." |
+
 ---
 
 ## 1. Debate theory in use (why each technique works)
@@ -157,9 +186,9 @@ The HTML holds the full 11-field version.
    - Concede: profit motives distort incentives.
    - Never concede: profit ⇒ content liability.
 2. **Algorithms amplify, so the platform is an active participant**
-   - Us: amplification is the platform's conduct, so regulate the system (design, transparency, DSA-style risk audits). But Moody says curation is protected speech, and Alvarez says false speech is generally protected. Their "first-party speech" theory walks into the First Amendment.
-   - Them: Anderson v. TikTok.
-   - Us: Anderson was about pushing a lethal challenge to a child — a dangerous-product/conduct claim, which our line already covers. Its reasoning has been sharply criticised, and the Supreme Court hasn't adopted it (Doe v. X cert denied 2026).
+   - Us: amplification is the platform's conduct, so regulate the system (design, transparency, DSA-style risk audits). But the Supreme Court has said choosing and ranking content is the platform's own protected speech, and that false statements aren't automatically unprotected. Their "it's the platform's speech" theory runs straight into free-speech protection.
+   - Them: "A US appeals court has said the algorithm is the platform's own speech."
+   - Us: "That case was about an app pushing a dangerous challenge to a child. That's conduct, which our line already covers. And the Supreme Court hasn't adopted that reasoning."
    - Escape → Final: chronological feed (E13). Removing ranking didn't reduce untrustworthy content in the best natural experiment. Humans spread falsehood (E12).
 3. **Real-world harm (public health, elections, violence)**
    - Concede: the harm is real.
@@ -179,7 +208,7 @@ The HTML holds the full 11-field version.
    - Us: a publisher selects each item before publication. Platforms carry billions of posts that no one sees beforehand.
    - Them: "Algorithms select."
    - Us: → T4 fork (recommendation vs hosting).
-   - Final: even newspapers are liable only with fault (Sullivan). They're asking for more liability for platforms than newspapers have.
+   - Final: "Even newspapers are generally only liable when they're at fault, not just because something turned out wrong. They're asking for more liability for platforms than newspapers have."
 7. **Product liability**
    - Concede: design can be a defect (E8).
    - Us: a product-defect claim targets the design, not the falsity of a user's sentence. That proves our line exists and works.
@@ -205,7 +234,7 @@ The HTML holds the full 11-field version.
     - Them: "Platforms aren't phone companies; they curate."
     - Us: curation is protected speech (E5). Curating true and false content alike isn't knowing participation (E6).
 13. **Platforms know misinformation exists / repeat offenders**
-    - Us: general knowledge that falsehood exists ≠ knowledge that *this* post is false (Taamneh logic, E6).
+    - Us: general knowledge that falsehood exists ≠ knowledge that *this* post is false ("the Supreme Court has said general awareness isn't the same as knowingly helping", E6).
     - Repeat offenders: account-level enforcement is a policy tool; we support transparency on it.
     - Final: knowledge-based liability tells platforms to stop looking (E2).
 14. **Power and influence like a utility; the EU does it**
@@ -229,9 +258,10 @@ The HTML holds the full 11-field version.
   - Response: then the motion has shrunk from "online platforms" to a handful of companies, and the trigger is scale and design, not user misinformation.
   - Even for those, F1 (no reliable truth referee) and F2 (liability drives removal, not accuracy) still hold.
   - The real regimes for those companies (DSA VLOPs, UK Category 1) impose process duties and keep the hosting safe harbour.
-- **"Europe and Australia already do it" (*Delfi*, *Voller*).**
-  - Response: *Delfi* was limited to clearly unlawful hate speech and threats on a commercial news portal. The same court in *MTE* refused liability for merely offensive comments.
-  - *Voller* is Australian defamation law, not misinformation. Its practical result was CNN restricting its Facebook pages in Australia. Both cases illustrate our line: illegality, not falsity.
+- **"Europe and Australia already do it."**
+  - Say: "The European cases were about clearly illegal hate speech and threats. The same court refused liability for merely offensive comments."
+  - Say: "In Australia, a defamation ruling made page owners responsible for comments, and the practical result was CNN pulling its Facebook pages there."
+  - Both illustrate our line: illegality, not falsity.
 
 ## 6. Group 6 core case (red-teamed twice)
 Scored on support, logic, simplicity, resilience, and how fast it can be explained.
@@ -254,13 +284,13 @@ Scored on support, logic, simplicity, resilience, and how fast it can be explain
 **A2 — Nobody can be a reliable referee of truth at speed (P2)**
 - Mechanism: truth is often disputed and evolving. Liability makes the platform decide in seconds, under penalty.
 - Evidence: E11, E12, E4.
-- Attack 1: "Courts decide truth in defamation." Repair: yes — one statement, one identifiable victim, after trial, with fault standards (Sullivan). Not a moderator in seconds.
+- Attack 1: "Courts decide truth in defamation." Repair: yes — one statement, one identifiable victim, after trial, with a requirement to show fault. Not a moderator in seconds.
 - Attack 2: "Only liable for obvious falsehoods." Repair: obvious falsehoods are already removed under policy. Liability only bites in the grey zone, where the errors are.
 
 **A3 — Responsibility follows conduct (P3)**
 - Mechanism: the user authors. The platform is accountable for what it does — its own speech, design, ads, or knowing help with crime — and the law already reaches that (E8, E19, E1).
 - Attack 1: "Amplification is conduct." Repair: agreed. Regulate amplification as design (DSA audits). Falsity-based liability adds nothing but a truth referee. Chronological feeds don't fix it (E13).
-- Attack 2: Anderson v. TikTok. Repair: see Section 4, #2.
+- Attack 2: "A court said the algorithm is the platform's own speech." Repair: see Section 4, #2.
 
 **A4 — Liability gets removal, not accuracy; better tools exist (P4 + P5)**
 - P4 (mechanism): asymmetric cost leads to over-removal or wilful blindness (E2, E10, E14, E15).
@@ -275,14 +305,14 @@ Each one in the HTML will have opening, likely answer, follow-up, YES/NO/QUALIFI
 
 | # | Owner | Opening question | Fork | Concession won |
 |---|---|---|---|---|
-| T1 | P1 | "Which legal standard: strict, negligence, or after notice?" | Strict → Smith v. California; negligence → who defines reasonable for truth?; notice → you've abandoned "merely because users post" | They must pick, and each choice costs |
+| T1 | P1 | "Which legal standard: strict, negligence, or after notice?" | Strict → "the Supreme Court rejected exactly that for bookshops decades ago"; negligence → who defines reasonable for truth?; notice → you've abandoned "merely because users post" | They must pick, and each choice costs |
 | T2 | P2 | "Who decides what counts as misinformation: platform, court, or government?" | Platform → private truth-arbiter under lawsuit pressure; court → too slow, so the platform decides first anyway; government → would you give that power to an administration you disagree with? | A truth-arbiter is required |
 | T3 | P2 | "Can something labelled misinformation later become mainstream?" | Yes → liable for hosting it, or for removing it?; No → E11 | Truth evolves |
 | T4 | P3 | "Is it recommending, or hosting, that creates responsibility?" | Recommending → pure hosting is fine: motion conceded; hosting → algorithms were never their reason; qualified → amplification is conduct: our line | Hosting alone isn't enough |
 | T5 | P3 | "When a user posts a lie, who's first responsible?" | User → why isn't speaker liability enough?; escape "anonymous" → identification fix | Primary responsibility lies with the speaker |
 | T6 | P4 | "Would you accept removing some true posts to catch more false ones?" | Yes → how many? 1–2 in 10 already; No → you can't back a rule whose rational outcome is over-removal | Error costs count |
 | T7 | P4 | "Does AI decide what's true, or predict what was labelled false before?" | Predicts → new disputed claims escape it; decides → who audits it? | AI ≠ truth |
-| T8 | P5 | "Who exactly gets to sue: the harmed person or anyone misled?" | Specific person → defamation/fraud already exist; anyone → millions of plaintiffs; government → Alvarez/capture | Remedy already exists or explodes |
+| T8 | P5 | "Who exactly gets to sue: the harmed person or anyone misled?" | Specific person → defamation/fraud already exist; anyone → millions of plaintiffs; government → "false speech isn't automatically unprotected, and that power outlasts any one government" | Remedy already exists or explodes |
 | T9 | P5 | "If someone hears a claim on TV, from a friend, and online, then acts — who caused it?" | Causation is shared → why single out the platform? | Causation is diffuse |
 | T10 | P1 | "Is a newspaper liable for letters it chooses to print? Does a platform choose each post beforehand?" | Yes it chooses → T4; No → the analogy breaks at selection | Publisher analogy fails |
 | T11 | P5 | "If there's no liability now, why do platforms moderate at all?" | Advertisers/users → incentives exist; the question is what liability adds | "No incentive" is false |
@@ -290,7 +320,7 @@ Each one in the HTML will have opening, likely answer, follow-up, YES/NO/QUALIFI
 | T13 | P5 | "Where's the line: 2 million, 34 million, 45 million users? Does a false post become actionable at user 45,000,001?" | Picks a number → that's a process duty for big services, which we support; no number → the rule hits everyone → T12; "the regulator decides" → a blank cheque | Size justifies process, not falsity liability |
 | T14 | P4 | "On Reddit, who's liable: the company, or the volunteer moderator who actually saw the post?" | Company → the person with knowledge and control is exempt, so knowledge isn't your test; Moderator → you're suing volunteers; Both → who volunteers to moderate after that? | Liability must track control |
 | T15 | P2 | "In an end-to-end encrypted group chat the provider can't read messages. Liable or not?" | Yes → only possible by breaking encryption; No → knowledge and control decide, not falsity; Qualified ("only public content") → private chats, where much misinformation travels, are excluded | Knowledge, not falsity, is the trigger |
-| T16 | P3 | "Is a local newspaper liable for a false comment a reader leaves under its article?" | Yes → *Voller* outcome: comment sections close, as CNN's did in Australia; No → hosting without endorsement isn't enough, which is our position; Only if the paper promotes it → conduct, our line | Hosting ≠ authorship |
+| T16 | P3 | "Is a local newspaper liable for a false comment a reader leaves under its article?" | Yes → "we've seen what happens: when Australia did this, comment sections closed and CNN pulled its Facebook pages there"; No → hosting without endorsement isn't enough, which is our position; Only if the paper promotes it → conduct, our line | Hosting ≠ authorship |
 
 T9 is now a shared reserve trap; anyone can use it.
 
@@ -352,9 +382,9 @@ T9 is now a shared reserve trap; anyone can use it.
 
 **Repairs adopted (already in the strategy above):**
 1. Concede harm in the first 20 seconds of P1.
-2. Make the bright line explicit: **illegality/conduct, not falsity**. KGM/New Mexico are design/conduct cases, so they support us.
+2. Make the bright line explicit: **illegality/conduct, not falsity**. The 2026 jury verdicts were about addictive design, which is conduct, so they support us.
 3. Pre-load the answer to the notice retreat in P2: notice of a disputed claim still needs a truth referee, and E14 shows notice systems get abused.
-4. Answer Anderson with the Moody/Alvarez fork in P3.
+4. P3 answers the "algorithm is the platform's own speech" claim with a fork: if it's the platform's speech, it's protected speech.
 5. Use the listening triage rule: rebut only arguments that would decide the judge's ballot, i.e. that hit a foundational assumption (F1–F6). Ignore the rest.
 6. **Platform-scope repair** (added after the scope review):
    - **G5's best adaptation:** in their opening they define the motion as "very large algorithmic platforms only".
@@ -374,7 +404,7 @@ T9 is now a shared reserve trap; anyone can use it.
 |---|---|
 | "§230 gives total immunity" | False: criminal, IP, and FOSTA exclusions; the platform's own content isn't covered |
 | "Misinformation isn't harmful" | Loses credibility |
-| "Platforms are neutral" | Moody says curation is expressive |
+| "Platforms are neutral" | The Supreme Court has said curating content is the platform's own expression |
 | "1A protects all speech" | Fraud, defamation, and incitement aren't protected |
 | "End of the internet" | Hyperbole |
 | "Bots spread it" | E12: humans drive the spread |
@@ -408,6 +438,7 @@ T9 is now a shared reserve trap; anyone can use it.
      - Timer: presets 5:00/3:00/2:00/1:00/0:30, start/pause/reset; amber at 30s, red at 10s; optional sound via a toggle that defaults to off.
      - Emergency overlay.
      - Practice Mode: random argument → best response → their counter → final response.
+   - **Citation rule:** all spoken text (openings, 10s/30s responses, traps, Live Mode) uses the Section 0 phrasebook style. Case names appear only in the Evidence Vault and behind the EVIDENCE buttons.
    - **Visual tokens:** THEM / US / FACT / QUESTION / TRAP / WARNING. Neutral palette with light/dark tokens, responsive down to 360px, no gradients.
 4. Verify:
    - Open with Playwright (`/opt/pw-browsers/chromium`) at 1280px and 390px.
