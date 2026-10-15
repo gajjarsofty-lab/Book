@@ -1,449 +1,616 @@
-# Group 6 Debate War Room: Final Strategy (for approval)
+# Group 6 Debate Strategy — v2 (revised for approval)
 
-## Context
-- Motion: "Should online platforms be held legally liable for user-posted misinformation?" Group 6 argues NO.
-- Five debaters with equal roles, a corporate setting, provisional timings, and an overtime penalty.
-- This document covers Steps 1–14 (research → strategy → mock debate → judging → repairs). After approval, Step 15 builds the HTML War Room.
-- Skills repo (biyachuev/claude-debate-skills): two of its three skills need Codex. I'm using its creator–critic method instead (value / flaw / hidden assumption / failure scenario) for the red-team passes below. Nothing gets installed.
-- Assumption: create branch `debate-generator` as requested and push there. This replaces the session default branch.
-
-## 0. How we cite out loud (applies to every spoken line)
-- Most of the audience won't know case names. **Spoken lines never lead with a case name, a citation or a court level.**
-- Use a casual reference to the source, then the point:
-  - "Courts have already found…"
-  - "The Supreme Court has said…"
-  - "We saw this when…"
-  - "Meta itself estimated…"
-  - "Europe's own rules…"
-  - "A large study found…"
-- At most one number per point, rounded ("one or two in every ten", "about half").
-- Case names, citations and links stay in the **Evidence Vault** (Section 3) and behind the EVIDENCE button in the HTML. Use them only if the other side or a judge challenges a claim ("Happy to give you the case afterwards").
-
-### Plain-language phrasebook (what to say instead)
-| Instead of | Say |
-|---|---|
-| *Smith v. California* | "The Supreme Court rejected making bookshops liable for books they hadn't read." |
-| *U.S. v. Alvarez* | "The Supreme Court has said a statement isn't unprotected just because it's false." |
-| *Moody v. NetChoice* | "The Supreme Court has said choosing and ranking content is the platform's own protected speech." |
-| *Twitter v. Taamneh* | "The Supreme Court said running a recommendation system isn't the same as knowingly helping wrongdoing." |
-| *Anderson v. TikTok* (theirs) | "One appeals court went the other way, in a case about a dangerous challenge pushed to a child. That's conduct, and our line covers it." |
-| *Stratton Oakmont / Cubby* | "Before the 1996 law, the site that tried to moderate got sued, and the site that didn't look got off. That's the trap we'd recreate." |
-| *Lemmon* / 2026 jury verdicts | "Courts are already holding platforms responsible for how they design their products." |
-| *Roommates.com* / *Kimzey* | "Courts already treat a platform differently when it helps create the content." |
-| *Barrett* / *Zeran* | "Today the law protects even ordinary users who share someone else's post." |
-| *Delfi* / *MTE* / *Voller* | "Europe's court limited liability to clearly illegal hate speech. In Australia, comment sections closed." |
-| DSA / OSA / NetzDG | "Europe, the UK and Germany all set different rules by size and function, and none makes a host liable just because a post is false." |
-| GAO-21-385 | "A government review found the 2018 trafficking law was used in one criminal case in three years." |
-| Vosoughi et al. | "A large MIT study found people, not bots, mainly spread false stories." |
+**Motion:** "Should online platforms be held legally liable for user-posted misinformation?"
+**Group 6:** NO. **Group 5:** YES. **Status:** strategy only. HTML waits for approval and the confirmed debate rules.
 
 ---
 
-## 1. Debate theory in use (why each technique works)
-| Technique | Use here | Why it works |
+## 0. Executive summary
+
+**Central position (memorise)**
+> "A platform shouldn't be legally liable just because a user posted something false — not automatically, and not because someone flagged it or a jury later decides it should have caught it. Platforms should answer for their own unlawful conduct: what they say, sell and design, and what they knowingly help do, under laws that apply to any business."
+
+- **One-liner:** "Hold platforms to account for what they do, not for every false thing their users say."
+
+**Five strongest arguments**
+
+| # | Owner | Argument |
 |---|---|---|
-| Burden of proof | G5 proposes changing the law, so they must show a definable wrong, a standard platforms can meet, net benefit, and that it beats alternatives | Judges reward the team that sets the test. The other side then spends its time meeting our test. |
-| Framing / weighing | "Everyone wants less misinformation. The question is whether lawsuits get us there." | It moves the debate from intentions (where they win) to mechanisms (where we win). |
-| Strategic concession | Concede harm, platform influence, and imperfect Section 230 | Conceding the obvious builds credibility and narrows the clash to our strongest ground. |
-| "Even if" layering | "Even if algorithms amplify, X still follows" | One lost premise doesn't sink the argument. |
-| Fork questions | Every trap gives two or three answers, and each one costs them something | A nuanced answer can't escape a real dilemma, but it can escape a cheap gotcha. |
-| Attacking assumptions | Dependency map (Section 5) | Knocking out one assumption takes down an entire family of arguments. |
-| Flowing | 7-field note template, by domain | Dropped arguments lose debates. Domain ownership means nothing gets dropped. |
-| Signposting + landing lines | Every speech has STOP HERE points | Prevents overtime and keeps the structure clear for judges. |
+| A1 | P1 | Any liability rule needs a clear trigger. "Misinformation" isn't one, so every version of the rule either over-reaches or quietly becomes something else. |
+| A2 | P2 | Someone has to decide what's false, at speed. Automatic and notice-based liability both hand that job to a company under threat of lawsuit. |
+| A3 | P3 | Liability should follow control and conduct. Platforms range from MegaFeed (an invented giant feed) to a volunteer forum. A rule keyed to users' falsehoods ignores who controls what. |
+| A4 | P4 | Liability for falsity rewards removing contested speech, or not looking at all. It doesn't reward accuracy. |
+| A5 | P5 | Better tools already target the real problems: speaker liability, liability for platform conduct, court orders, and process duties for the largest services. |
 
-Sources: WUDC Debating & Judging Manual; WSDC burden guidance (opposition must cast more than reasonable doubt; both teams share the burden of clash).
+**Five strongest opposition attacks** (Section 5)
 
-## 2. Motion definitions (Step 3)
-- **Online platform:** deliberately broad. It means any service that hosts or distributes content its users create, not just Facebook/X/TikTok. See Section 2A for the spectrum and the legal distinctions. We use the breadth as a **test** of G5's rule, not as a technicality.
-- **User-posted:** the platform didn't create it. Content the platform creates or materially develops is already outside Section 230 (*Roommates.com*, 9th Cir. 2008).
-- **Misinformation:** false or misleading content regardless of intent. It is NOT a legal category. Distinguish it from:
-  - disinformation (intentional)
-  - defamation (false fact about an identifiable person; already actionable against the speaker)
-  - fraud (already illegal)
-  - opinion, satire and predictions (not falsifiable)
-  - disputed claims
-  - harmful-but-legal content
-- **Legally liable:** civil damages or penalties. There are four possible standards:
-  - strict (liable regardless of knowledge)
-  - negligence (failed reasonable care)
-  - knowledge/notice (liable after being told)
-  - own-conduct (liable for its own acts)
-- **Conduct spectrum:** host → rank/recommend → amplify → monetise → edit → co-create → knowingly distribute illegal content. Liability rises as we move right, toward the platform's own conduct.
+| # | Attack |
+|---|---|
+| V1 | "You've conceded our case." Narrow, notice- or negligence-based liability looks like what we accept. |
+| V2 | Concrete harm stories, plus the 2026 jury verdicts: "the law is already moving our way." |
+| V3 | "Voluntary moderation is reversible." Meta ended US fact-checking in 2025. |
+| V4 | "Your over-removal evidence is borrowed from copyright and trafficking law, not misinformation." |
+| V5 | "Most viral misinformation isn't contested. It's plainly false." |
 
-### FINAL POSITION (stress-tested)
-> **"Platforms shouldn't be legally liable because a user posted something false. They should answer for their own conduct — their own speech, their own product design, knowingly helping illegal activity — and for content a court or a clearly written law has already defined as illegal."**
+**Five primary Socratic sequences** (Section 6)
 
-- **Memorise:** "Liability for what platforms *do* — not for what users *say* that turns out to be untrue."
-- **Bright line:** illegality and conduct trigger liability. Falsity alone does not.
-- This blocks "platforms can do anything" and survives G5's best retreat ("knowingly monetising known falsehoods after notice"): notice of "misinformation" is still notice of a *disputed claim*.
-- Rejected wording: "only after notice." It concedes too much, because notice-based liability for falsity still forces the platform to judge truth.
-
-## 2A. "Online platforms" is deliberately broad: the platform spectrum
-**P1 opening line:** "The motion says *online platforms*. That isn't just Facebook. It's Reddit, Wikipedia, YouTube, a newsletter host, a local paper's comment section, a 2,000-member hobby forum. Any liability rule has to work across all of them, or tell us exactly where it stops."
-
-### What US law actually does: same baseline, different outcomes
-- **FACT: one broad baseline.** §230 protects any "provider or user of an interactive computer service" for content provided by *another* information content provider (E1). It isn't size-based or social-media-only, and it covers individual users who repost others' content (*Barrett v. Rosenthal*, Cal. 2006, E22). Courts have also rejected notice-based "distributor" liability (*Zeran v. AOL*, 4th Cir. 1997, E23).
-- **FACT: outcomes still diverge by conduct, control and context.** Never say every service gets identical treatment. The differences:
-  - **The platform's own content or "material contribution" isn't protected:** *Roommates.com* (2008). "Neutral tools" like an aggregate star rating stay protected (*Kimzey v. Yelp*, 9th Cir. 2016, E24).
-  - **Product-design claims proceed:** *Lemmon v. Snap*; the 2026 jury verdicts (E8).
-  - **Algorithmic curation is contested:** treated as the platform's own speech in the 3rd Circuit (*Anderson*, E7) and as protected expression under *Moody* (E5). The Supreme Court hasn't resolved it.
-  - **Statutory exclusions apply to every service:** federal criminal law, IP, and sex trafficking under FOSTA (E1, E15). Copyright has its own conditional safe harbour (DMCA §512, which requires a takedown process).
-  - **Some state laws target only large platforms:** Texas HB 20 (>50M monthly US users) and Florida SB 7072 (revenue/user thresholds), both reviewed in *Moody* (E25; verify the exact thresholds).
-- **FACT: other democracies tier by function and size:**
-  - **EU DSA:** separate regimes for "mere conduit", caching and hosting (Arts. 4–6). Micro/small platforms are exempt from most platform duties (Art. 19). Extra duties apply only to very large platforms with ≥45M EU users (Art. 33) (E26).
-  - **UK Online Safety Act:** Category 1 requires a recommender system plus >34M UK users, or >7M with resharing; Category 2B covers >3M with direct messaging (E27).
-  - **Germany NetzDG:** exempted platforms under 2M registered users and set 24h removal only for *manifestly unlawful* content (E28).
-- **INFERENCE:** every serious regime distinguishes platforms by function, size, control and knowledge, and triggers duties on illegality or systemic process. None imposes liability on a hosting service simply because a user's post is false.
-
-### The spectrum (what changes legally and practically)
-| Category | Example | Control / knowledge | Legally relevant distinction | Why falsity liability fits badly |
-|---|---|---|---|---|
-| Large algorithmic social network | Facebook, TikTok, X | ML ranking, ads, huge moderation budget | Design claims proceed (E8); curation is contested (E5/E7); size-tiered duties abroad (E26–27) | Even here: no truth referee at scale (E10, E11) |
-| Video/audio host | YouTube, podcast hosts | Recommendations; monetisation via partner programmes | Monetisation and ads are the platform's own commercial conduct | Liability should attach to the conduct (paying for or promoting content), not the falsity |
-| Volunteer-moderated community | Reddit, Discord servers | Users vote; volunteer moderators decide | §230 protects *users*; Reddit argued votes and moderators are protected (E29) | Who's liable: the company or the volunteer who actually saw it? |
-| Small independent forum | Hobby/local/patient forums | One volunteer admin, chronological threads, no algorithm | Same §230 baseline; exempt from DSA Art. 19 and NetzDG duties | Can't afford lawyers or moderators, so it shuts or bans topics; no amplification exists to blame |
-| Comment section | Local news site, business page | Owner writes the article but not the comments | US: §230 covers comments. Abroad: *Delfi* (2015) allowed liability for clearly unlawful hate speech; *MTE v. Hungary* (2016) rejected it for offensive comments; *Voller* (Aus. 2021) made page owners publishers (E30) | After *Voller*, CNN restricted its Facebook pages in Australia (E31) |
-| Blogging / newsletter host | Substack, Medium, WordPress.com | Hosts authors and sometimes promotes or pays them | Editorial picks and payments are the platform's own conduct; ordinary hosting is not | The author is identifiable and already liable |
-| Review site | Yelp, Tripadvisor, Google reviews | Aggregates opinions | *Kimzey*: aggregate rating is a neutral tool (E24) | Reviews are opinions and disputed facts, the hardest truth calls |
-| Collaborative knowledge | Wikipedia | Volunteer editors; the foundation doesn't edit articles | Wikimedia challenged the UK categorisation rules (E27) | Liability would fall on a non-profit for volunteers' good-faith edits |
-| Private/encrypted messaging | WhatsApp, Signal | Provider *cannot read* end-to-end messages | UK Category 2B duties; encryption limits knowledge | A knowledge standard is impossible without breaking encryption |
-| Infrastructure | Web hosts, CDNs, search | No relationship to individual posts | DSA mere conduit/caching; §230 "access software provider" | Liability here means blocking whole sites |
-
-### THE FIVE-QUESTION TEST (one question per person, asked of any G5 standard)
-| Question | Owner | Why it bites |
+| Owner | Trap | Question |
 |---|---|---|
-| **Which platforms?** | P1 | All of them hits forums, Wikipedia and comment sections. Only big ones means size is the trigger, not misinformation. |
-| **What knowledge?** | P2 | General awareness vs. this-post knowledge vs. notice. Encrypted services know nothing. |
-| **What conduct?** | P3 | Hosting, ranking, monetising or co-creating? Each gives a different answer, and conduct is our line. |
-| **What control?** | P4 | Company, volunteer moderator, or nobody (encryption)? Liability without control just produces shutdowns. |
-| **What threshold?** | P5 | Strict, negligence or notice? 2M, 34M or 45M users? Every line is arbitrary for *falsity* but sensible for *process duties*. |
+| P1 | The Trigger | Which standard? |
+| P2 | The Referee | Who decides, and when? |
+| P3 | Host or Push | What does the platform have to *do*? |
+| P4 | The Error Budget | Which mistakes are you willing to accept? |
+| P5 | Two Platforms | Does the rule work for both? |
 
-### The two-platform stress test (use in rebuttal)
-These are labelled hypotheticals for illustration, not real data:
-- **"MegaFeed"**: 3 billion users, ML-ranked feed, ad revenue, a 10,000-person moderation team.
-- **"Riverside Cyclists Forum"**: 2,000 members, one volunteer admin, chronological threads, no ads.
+**Five equal speaker roles** (Section 8)
+- One domain, one core argument, one primary trap, one backup trap, and one of the Five Questions per person.
+- Speaking allocation stays open until the rules are confirmed. Section 8 gives two structures.
 
-Apply G5's principle to both:
-- **Same rule for both:** the forum can't comply, so it closes, bans topics, or goes offline. The forum has no algorithm, so "amplification" was never the reason for liability.
-- **Different rules:** then what triggers liability is size, design and conduct, not user misinformation. That's our position.
-- **Threshold:** where, and why? A false post doesn't become more false at user 45,000,001. Size is a good reason for **process duties** (audits, transparency), which we support. It isn't a reason to impose liability for falsity.
+**Judge-centred communication**
+- Concede first, then compare. Use the ACKNOWLEDGE → CHALLENGE → ESTABLISH → CONNECT sequence (Section 9).
+- Speak to the judge, not the opponent. One idea per turn.
 
-## 3. Evidence vault (label: FACT / INFERENCE / ARGUMENT)
+**Confirmed evidence:** 34 entries, each labelled by type with its limitation (Section 7). The strongest are E3, E5, E8, E10, E11 and E32.
 
-| # | Claim | Label | Source |
+**Remaining weaknesses:** V1 and V3 are only partly resolved (Section 5). We have no direct US evidence on how a misinformation-liability regime would behave.
+
+**Outstanding rules questions** (Section 15):
+- Speaking slots per round and who may speak.
+- Whether there is a cross-examination or points-of-information stage.
+- The judging rubric.
+- Prep time and whether notes or devices are allowed.
+- The overtime penalty and grace period.
+
+**"Giovanni principle":** I couldn't find a published source for it. Please send where you heard it; I won't invent a definition.
+
+---
+
+## 1. What changed from v1, and why
+
+| v1 | Problem | v2 |
+|---|---|---|
+| "Conduct, not content" | G5 could argue notice- or negligence-based liability *is* conduct ("failing to act after notice") and claim we conceded | Three-tier position plus a **trigger test** (Section 2) |
+| "Liable for content a court or clear law defines as illegal" | Read as conceding notice-based liability | We accept acting on **court orders** and **narrow, defined categories** that need no truth ruling, and we say why that differs from tier 2 |
+| 16 traps | Several were shallow or easy to escape | 5 primary + 5 backup, audited (Section 6) |
+| Evidence overstated | Moody, Taamneh, Alvarez, the EU DSA and the verdicts were described too broadly | Every entry now has type, limitation and safe use (Section 7) |
+| P2–P4 rebut, P1 and P5 close | May fail staff's equal-participation rule | Two structures, left open until rules are known (Section 8) |
+| No leadership layer | Behaviour under pressure was unplanned | Section 9 |
+
+---
+
+## 2. Central position, repaired
+
+### Three tiers of "liability" (G5 will blur these, so we separate them out loud)
+
+| Tier | What it means | Example | Our stance |
 |---|---|---|---|
-| E1 | §230(c)(1): no provider "shall be treated as the publisher or speaker" of another's content. §230(e) excludes federal criminal law, IP, ECPA, and sex-trafficking claims (FOSTA). | FACT | law.cornell.edu/uscode/text/47/230 |
-| E2 | Section 230 responded to *Stratton Oakmont v. Prodigy* (1995): a moderating service was treated as publisher. *Cubby v. CompuServe* (1991): a non-moderating one was not. This created the "moderator's dilemma". | FACT | Cornell LII / case reporters |
-| E3 | *Smith v. California* (1959): strict liability for a bookseller is unconstitutional. It would make the seller restrict even protected material. | FACT | supreme.justia.com/cases/federal/us/361/147 |
-| E4 | *U.S. v. Alvarez* (2012): false statements are not, as a category, outside First Amendment protection. | FACT | law.cornell.edu/supremecourt/text/11-210 |
-| E5 | *Moody v. NetChoice* (2024): curating and ranking feeds is expressive activity protected by the First Amendment. | FACT | supremecourt.gov/opinions/23pdf/22-277_d18f.pdf |
-| E6 | *Twitter v. Taamneh* (2023), unanimous: recommendation algorithms as "agnostic" infrastructure did not amount to aiding and abetting. *Gonzalez v. Google* (2023) was vacated without reaching §230. | FACT | supremecourt.gov/opinions/22pdf/21-1496_d18f.pdf ; 21-1333 |
-| E7 | *Anderson v. TikTok* (3d Cir. 2024): algorithmic recommendation is first-party speech, so not §230-protected. **This is a G5 weapon.** | FACT | ca3 opinion; Goldman blog critique |
-| E8 | Courts already reach platform conduct: *Lemmon v. Snap* (9th Cir. 2021), design defect not barred; LA jury (Mar 25 2026, KGM v. Meta/YouTube), negligent design, $6M total; New Mexico jury v. Meta, $375M. | FACT | CNBC 2026-03-25; CalMatters |
-| E9 | SCOTUS denied cert in *Doe v. X Corp.* (No. 25-949) on May 18 2026. §230 scope is still unresolved at the Supreme Court. | FACT | scotusblog.com/cases/doe-v-x-corp |
-| E10 | Meta (Jan 7 2025): removed millions of items daily; estimated 1–2 in 10 removals in Dec 2024 "may have been mistakes". | FACT (company estimate) | about.fb.com/news/2025/01/meta-more-speech-fewer-mistakes |
-| E11 | Facebook banned "man-made COVID" claims ~Feb 2021 and reversed on May 26 2021, citing ongoing investigations. | FACT | Fortune 2021-05-27 |
-| E12 | Vosoughi, Roy & Aral, *Science* 2018: false news was ~70% more likely to be retweeted. The gap remained after removing bots, so humans drove it. The study counted only stories where six fact-checkers agreed ≥95%. | FACT | doi.org/10.1126/science.aap9559 |
-| E13 | Guess et al., *Science* 2023: switching to a chronological feed *increased* exposure to untrustworthy-source content and did not reduce polarisation over 3 months. Contested: Grabowicz et al. cite 63 "break-glass" changes. | FACT + caveat | doi.org/10.1126/science.abp9364 |
-| E14 | DMCA notice-and-takedown (Urban, Karaganis & Schofield, 2016/17): ~31% of sampled Google Search notices were questionable; ~70% in the Image Search sample. | FACT | papers.ssrn.com/abstract=2755628 |
-| E15 | FOSTA (2018): GAO-21-385 found 1 criminal case in 3 years. Craigslist shut its US personals: "Any tool or service can be misused." | FACT | gao.gov/products/gao-21-385 ; NPR 2018-03-23 |
-| E16 | Community Notes, *PNAS* 2025 (Slaughter, Saveski et al.): after a note was attached, reposts fell 46%; over the post's lifespan, about 12%. | FACT | pmc.ncbi.nlm.nih.gov/articles/PMC12478135 |
-| E17 | EU DSA (Reg. 2022/2065): hosting safe harbour retained (Art. 6), no general monitoring obligation (Art. 8), systemic-risk duties for very large platforms (Arts. 34–35). Even the strictest regulator doesn't make platforms liable for user falsehoods. | FACT + INFERENCE | eur-lex.europa.eu/eli/reg/2022/2065/oj |
-| E18 | TAKE IT DOWN Act (2025): 48-hour removal of nonconsensual intimate images after a valid request; FTC enforcement since May 19 2026. This is narrow, defined-category regulation. | FACT | ftc.gov |
-| E19 | Speaker liability works: Dominion–Fox settlement $787.5M (2023); Sandy Hook verdicts against Alex Jones. | FACT | court/press records |
-| E20 | Cost estimates: a baseless suit costs up to ~$80k (Engine) or ≥$100k (CCIA). These are **industry estimates**; say so aloud. | FACT (industry claim) | engine.is ; ccianet.org |
-| E21 | Sunset Section 230 Act (Graham/Durbin, bipartisan) proposes 230 expire unless reform is negotiated. Current status is unverified; recheck before the debate. | FACT | Senate press |
-| E22 | *Barrett v. Rosenthal* (Cal. 2006): §230 protects individual *users* who republish others' content, even after notice. The court acknowledged "troubling consequences". | FACT | 40 Cal.4th 33 |
-| E23 | *Zeran v. AOL* (4th Cir. 1997): §230 bars notice-based "distributor" liability. | FACT | 129 F.3d 327 |
-| E24 | *Kimzey v. Yelp* (9th Cir. 2016): an aggregate star rating is a neutral tool, so Yelp isn't the author of the review. | FACT | Goldman blog 2016-09 |
-| E25 | Texas HB 20 covered platforms with >50M monthly US users; Florida SB 7072 used revenue/user thresholds. Both were remanded in *Moody* (2024). | FACT (verify thresholds) | supremecourt.gov 22-277 |
-| E26 | EU DSA: Arts. 4–6 cover conduit, caching and hosting; Art. 19 exempts micro/small platforms; Art. 33 designates VLOPs at ≥45M EU users. | FACT | eur-lex 2022/2065 |
-| E27 | UK OSA Threshold Regulations 2025: Category 1 = recommender + >34M UK users, or >7M + resharing; Category 2B = >3M + direct messaging. Wikimedia sought judicial review. | FACT | legislation.gov.uk/ukdsi/2025/9780348267174 |
-| E28 | Germany NetzDG: platforms with <2M registered users exempt; 24h removal for *manifestly unlawful* content, 7 days otherwise. | FACT | CDT overview |
-| E29 | Reddit's *Gonzalez* amicus (2023): user votes and volunteer moderation depend on §230's protection for *users*. | FACT (party's argument) | supremecourt.gov 21-1333 Reddit brief |
-| E30 | *Delfi v. Estonia* (ECtHR GC 2015): commercial news portal liable for clearly unlawful hate speech/threats in comments. *MTE v. Hungary* (2016): liability for merely offensive comments violated Art. 10; notice-and-takedown can be appropriate. *Fairfax v. Voller* [2021] HCA 27: page owners are publishers of Facebook comments. **G5 weapons; none concerns misinformation as such.** | FACT | Stanford WILMap; hcourt.gov.au |
-| E31 | After *Voller*, CNN restricted its Facebook pages for Australian users (Sept 2021), saying Facebook would not let it disable comments page-wide. | FACT | Mediaweek; AdNews 2021-09 |
+| **1. Automatic liability** | A platform pays whenever a user's post is false and causes harm, regardless of knowledge | "Platforms are responsible for misinformation on their sites" | **Oppose** |
+| **2. Negligence / notice liability for falsity** | Liable if it "should have known" a post was false, or failed to remove it after a flag | "Liable if they ignore reports of misinformation" | **Oppose** |
+| **3. Independent unlawful platform conduct** | Liable for the platform's own wrongful acts, judged by laws that apply to any business | Defective or addictive design; the platform's own misleading statements; selling ads it knows are fraudulent; knowingly helping a crime; ignoring a court order | **Support, where the law defines the wrong** |
 
-Before the debate, recheck E21 and the current §230 docket.
+### The trigger test: why we can oppose tier 2 and support tier 3 without contradiction
 
-## 4. Group 5's predicted AI case (steelmanned), with two rounds of clash
-Format for each entry:
-- **Claim**
-- **Why judges like it**
-- **Hidden assumption**
-- **Us → Them → Us** (rebuttal, their counter, our counter-counter)
-- **Escape → Final** (their best escape, our final response)
-- **Concede / Never concede**
+Ask three questions of any proposed liability:
+1. **Is the wrong defined independently of a truth judgment?** Design defects, fraud by the platform itself, and ignoring a court order are. "Misinformation" isn't.
+2. **Is the platform's own act the wrong?** Designing, selling, misrepresenting and disobeying are. Hosting a user's sentence isn't.
+3. **Can the platform comply without becoming the referee of disputed facts?** Following a court order or removing a defined illegal image category, yes. Judging whether a health or political claim is true, no.
 
-The HTML holds the full 11-field version.
+- **Tier 3 passes all three. Tiers 1 and 2 fail at least one.** That's the principle, not a redefinition of the motion.
+- Tier 2 still depends on falsity. "Notice" just moves the truth decision from the court to a complaint inbox.
 
-1. **Profit from engagement**
-   - Claim: they profit from virality, so they should bear the costs.
-   - Hidden assumption: profit from a system = responsibility for each piece of content.
-   - Us: profit is also earned from true content. Profit tells you who to regulate, not what standard to apply. Liability for falsity forces removal of disputed content, not accuracy.
-   - Them: "Banks profit from transactions and must stop fraud."
-   - Us: Banks act on *defined* illegality (fraud, laundering), not on "false statements". That's our line.
-   - Escape → Final: "Monetised misinformation specifically." Then the target is ad policy and design — the platform's own conduct.
-   - Concede: profit motives distort incentives.
-   - Never concede: profit ⇒ content liability.
-2. **Algorithms amplify, so the platform is an active participant**
-   - Us: amplification is the platform's conduct, so regulate the system (design, transparency, DSA-style risk audits). But the Supreme Court has said choosing and ranking content is the platform's own protected speech, and that false statements aren't automatically unprotected. Their "it's the platform's speech" theory runs straight into free-speech protection.
-   - Them: "A US appeals court has said the algorithm is the platform's own speech."
-   - Us: "That case was about an app pushing a dangerous challenge to a child. That's conduct, which our line already covers. And the Supreme Court hasn't adopted that reasoning."
-   - Escape → Final: chronological feed (E13). Removing ranking didn't reduce untrustworthy content in the best natural experiment. Humans spread falsehood (E12).
-3. **Real-world harm (public health, elections, violence)**
-   - Concede: the harm is real.
-   - Us: harm proves a problem, not that this remedy works. The question is whether lawsuits over falsity reduce the harm or just remove contested speech, including the true speech (E11).
-   - Them: "Some harm is clear-cut: 'drink bleach'."
-   - Us: clear-cut dangerous content is already removable under platform policy. Where it's illegal, a defined law can address it (E18). The fight is over the grey zone, which is where liability does damage.
-4. **Duty of care / negligence / foreseeability**
-   - Us: duty of care for *design* is already being litigated and won (E8) — conduct. A duty of care for the *truth of billions of posts* has no workable "reasonable" standard. Juries would decide truth after the fact.
-   - Them: "UK Online Safety Act does it."
-   - Us: the UK model is a systems/process duty enforced by a regulator, not private suits over individual falsehoods. That's our alternative.
-5. **"They already moderate, so they can do more"**
-   - Us: moderating under your own policy is different from moderating under threat of a lawsuit. Errors are already 1–2 in 10 (E10). Liability makes removing a mistake free and leaving it up costly.
-   - Them: "Errors are acceptable."
-   - Us: the errors fall on true speech too (E11).
-   - Escape → Final: "Good-faith safe harbour." That's a notice/process regime, i.e. our position.
-6. **Publishers are liable, so platforms should be too**
-   - Us: a publisher selects each item before publication. Platforms carry billions of posts that no one sees beforehand.
-   - Them: "Algorithms select."
-   - Us: → T4 fork (recommendation vs hosting).
-   - Final: "Even newspapers are generally only liable when they're at fault, not just because something turned out wrong. They're asking for more liability for platforms than newspapers have."
-7. **Product liability**
-   - Concede: design can be a defect (E8).
-   - Us: a product-defect claim targets the design, not the falsity of a user's sentence. That proves our line exists and works.
-8. **Victims need remedies**
-   - Us: victims can sue the speaker (E19). Platforms aren't immune for their own conduct, design, or federal crimes (E1).
-   - Them: "Anonymous speakers."
-   - Us: subpoenas for identity exist. Fix the identification gap, not the liability rule.
-   - Final: who sues for "misinformation" — anyone misled? → T8.
-9. **"No liability = no incentive"**
-   - Us: they moderate now without liability (advertisers, users, regulators, DSA).
-   - Them: "Not enough."
-   - Us: then debate *how much and what kind* of incentive. Liability for falsity produces removal, not accuracy (DMCA E14, FOSTA E15).
-10. **AI makes moderation feasible**
-    - Us: AI predicts what humans labelled false in the past. It can't adjudicate new disputed claims — exactly the ones that matter. Meta's 2025 own admission (E10).
-    - Them: "AI is improving."
-    - Us: better tools are an argument for better voluntary systems, not for liability that punishes every miss.
-11. **Section 230 is outdated (1996)**
-    - Concede: it deserves review.
-    - Us: the motion isn't "reform 230". It's liability for user falsehood. Courts are already narrowing 230 for conduct (E7, E8).
-    - Final: even the EU kept the hosting safe harbour (E17).
-12. **Other industries are liable for harms they facilitate**
-    - Us: they're liable for defects in what *they* make, not for what customers say. Phone companies aren't liable for lies told on calls.
-    - Them: "Platforms aren't phone companies; they curate."
-    - Us: curation is protected speech (E5). Curating true and false content alike isn't knowing participation (E6).
-13. **Platforms know misinformation exists / repeat offenders**
-    - Us: general knowledge that falsehood exists ≠ knowledge that *this* post is false ("the Supreme Court has said general awareness isn't the same as knowingly helping", E6).
-    - Repeat offenders: account-level enforcement is a policy tool; we support transparency on it.
-    - Final: knowledge-based liability tells platforms to stop looking (E2).
-14. **Power and influence like a utility; the EU does it**
-    - Us: the EU does *not* do it (E17). It regulates systemic risk and process. We endorse that model.
-15. **Fraud, scam ads, defamation**
-    - Concede: fraud is already illegal. Paid ads are the platform's own commercial conduct, and liability there is consistent with our line.
-    - Defamation: liability stays with the speaker; the court decides truth.
+**Spoken version (P1/P2):**
+> "We're not saying platforms can never be sued. If they design something dangerous, mislead people themselves, or ignore a court, they should pay. What we oppose is liability that's triggered by a user's post being false — because then the company has to decide what's true, under threat of a lawsuit."
 
-## 5. Argument dependency map (the 5 foundational assumptions)
-| Foundational assumption | G5 arguments resting on it | How we attack it | What remains if we win |
-|---|---|---|---|
-| F1 Misinformation can be reliably identified at scale | 3, 4, 5, 10, 13 | E11 lab-leak reversal; E10 error rate; E12 relied on ≥95% fact-checker agreement (easy cases only); E4 | Defined illegal categories, which we accept |
-| F2 Liability produces accuracy, not just removal | 1, 5, 8, 9 | Asymmetric cost; E14 DMCA; E15 FOSTA; E2 moderator's dilemma | Liability for the platform's own conduct |
-| F3 Distributing = authoring/causing | 1, 2, 6, 7, 12 | E6 Taamneh; E12 human spread; E13; E5 (if it's the platform's speech, it's protected speech) | Design-defect claims (E8), which fit our line |
-| F4 Current law leaves victims with nothing | 8, 11, 15 | E19 speaker liability; E1 exclusions; E8 design verdicts | Anonymity gap → targeted identification tools |
-| F5 Scale/power justifies content liability | 12, 14, 11 | E17 DSA keeps the safe harbour; regulate process, not speech | Transparency/audit regulation, which we endorse |
-| F6 "Online platforms" are one kind of actor with similar knowledge, control and capacity | 1, 2, 4, 5, 9, 10, 14 | Two-platform test; Five-Question Test; every regime tiers by function and size (E25–E28); encrypted services can't know; volunteer moderators (E29) | Size- and design-scaled *process* duties, which we endorse. Not falsity liability. |
+### The honest hard case: system-level negligence
+G5's best version: "Not per-post. Liability for failing to have *reasonable systems* against foreseeable misinformation harm."
 
-**G5 escapes on platform scope:**
-- **"We only mean big algorithmic platforms."**
-  - Response: then the motion has shrunk from "online platforms" to a handful of companies, and the trigger is scale and design, not user misinformation.
-  - Even for those, F1 (no reliable truth referee) and F2 (liability drives removal, not accuracy) still hold.
-  - The real regimes for those companies (DSA VLOPs, UK Category 1) impose process duties and keep the hosting safe harbour.
-- **"Europe and Australia already do it."**
-  - Say: "The European cases were about clearly illegal hate speech and threats. The same court refused liability for merely offensive comments."
-  - Say: "In Australia, a defamation ruling made page owners responsible for comments, and the practical result was CNN pulling its Facebook pages there."
-  - Both illustrate our line: illegality, not falsity.
+Our answer: if it's an up-front, defined process duty (risk assessments, transparency, audits) enforced by a regulator, that's regulation of the platform's own systems, i.e. tier 3. We accept that kind of rule for the largest services. Europe does it for very large platforms (E33). If instead it means a jury decides after the fact, post by post, that a platform should have removed false content, it's tier 2 in disguise.
 
-## 6. Group 6 core case (red-teamed twice)
-Scored on support, logic, simplicity, resilience, and how fast it can be explained.
-- **Kept:** A1–A4.
-- **Cut:**
-  - "chilling effect" in the abstract
-  - "end of the internet"
-  - "platforms are neutral"
-  - "censorship"
-  - "small platforms will die" as a standalone argument; demoted to support for A2, because G5 answers it with a size exemption.
+**Spoken version:**
+> "If you mean rules on how big platforms design and audit their systems, set in advance, we're with you. If you mean a jury deciding afterwards that a post was false and should have come down, that's the referee problem again."
 
-**A1 — Liability needs a definable wrong (P1)**
-- Mechanism: every standard fails or collapses into our position.
-  - Strict liability: unconstitutional in spirit (E3), and total removal.
-  - Negligence: no "reasonable care" for truth across billions of posts.
-  - Notice: rewards not looking and invites abusive notices (E14).
-- Attack 1: "Legislature will define it." Repair: then the motion is a blank cheque. Judges can't weigh an undescribed mechanism.
-- Attack 2: "Notice + clear falsity." Repair: who certifies "clear"? → A2.
+**Flag:** a judge may see accepting process duties as a partial concession. We raise it ourselves, early (P1 opening), so it reads as precision rather than retreat.
 
-**A2 — Nobody can be a reliable referee of truth at speed (P2)**
-- Mechanism: truth is often disputed and evolving. Liability makes the platform decide in seconds, under penalty.
-- Evidence: E11, E12, E4.
-- Attack 1: "Courts decide truth in defamation." Repair: yes — one statement, one identifiable victim, after trial, with a requirement to show fault. Not a moderator in seconds.
-- Attack 2: "Only liable for obvious falsehoods." Repair: obvious falsehoods are already removed under policy. Liability only bites in the grey zone, where the errors are.
+### What we concede, and what we never concede
 
-**A3 — Responsibility follows conduct (P3)**
-- Mechanism: the user authors. The platform is accountable for what it does — its own speech, design, ads, or knowing help with crime — and the law already reaches that (E8, E19, E1).
-- Attack 1: "Amplification is conduct." Repair: agreed. Regulate amplification as design (DSA audits). Falsity-based liability adds nothing but a truth referee. Chronological feeds don't fix it (E13).
-- Attack 2: "A court said the algorithm is the platform's own speech." Repair: see Section 4, #2.
+| Concede | Never concede |
+|---|---|
+| Misinformation causes real harm | That falsity alone should trigger liability |
+| Platforms aren't neutral; ranking is a choice | That flagging a post as false makes the platform responsible for its truth |
+| Section 230 deserves review | That one rule fits every kind of platform |
+| The largest services can carry process duties | That a jury after the fact should define "reasonable" truth-policing |
 
-**A4 — Liability gets removal, not accuracy; better tools exist (P4 + P5)**
-- P4 (mechanism): asymmetric cost leads to over-removal or wilful blindness (E2, E10, E14, E15).
-- P5 (comparison): context labels (E16), process regulation (E17), defined-category laws (E18), speaker liability (E19).
-- Attack 1: "Over-removal of misinformation is fine." Repair: the errors include true speech and whistleblowers, and they hit smaller platforms hardest.
-- Attack 2: "Community Notes are slow/voluntary." Repair: we don't claim self-regulation is enough. We support regulation of process. We oppose liability for content.
+### "Online platforms" is broad (kept from v1, condensed)
+- **P1 opening line:** "The motion says *online platforms*. That isn't just Facebook. It's Reddit, Wikipedia, YouTube, a newsletter host, a local paper's comment section, a 2,000-member hobby forum. Any rule has to work across them, or tell us where it stops."
+- **US baseline:** Section 230 covers providers *and users*, regardless of size (E1, E22). Outcomes still differ by conduct and control:
+  - a platform's own or co-created content isn't covered (E24)
+  - design claims proceed (E8)
+  - federal criminal law and IP are excluded (E1)
+  - some state laws target only large platforms (E25)
+- **Abroad:** rules are tiered by function and size (E26–E28). Do **not** say all services are treated the same.
+- **The Five-Question Test, one per speaker:**
+  - **Which platforms?** P1
+  - **What knowledge?** P2
+  - **What conduct?** P3
+  - **What control?** P4
+  - **What threshold?** P5
 
-**Weighing (P5 + P1, in final):** compare the mechanisms. Theirs depends on a truth referee that doesn't exist and produces removal. Ours targets conduct, which the law can actually prove.
+**Platform spectrum** (detail goes in the HTML LEARN mode):
 
-## 7. Socratic traps (16) — Bait → Commitment → Fork
-Each one in the HTML will have opening, likely answer, follow-up, YES/NO/QUALIFIED branches, concession won, escape, and our reply to the escape.
+| Platform type | Who controls the content |
+|---|---|
+| Large algorithmic network | Machine ranking, ads, big moderation budget |
+| Video/audio host | Monetisation is the platform's own conduct |
+| Volunteer-moderated community | Users vote; volunteers moderate |
+| Small forum | One admin, no algorithm |
+| Comment section | Owner wrote the article, not the comments |
+| Blog/newsletter host | Author identifiable; host may promote or pay |
+| Review site | Opinions and disputed facts |
+| Wikipedia-style | Volunteer editors |
+| Encrypted messaging | Provider can't read messages |
+| Infrastructure | No relationship to individual posts |
 
-| # | Owner | Opening question | Fork | Concession won |
+---
+
+## 3. Core arguments, each attacked twice
+
+**A1 — The Trigger (P1)**
+- **Claim:** liability needs a clear trigger. "Misinformation" isn't a legal category, so each version of the rule either overreaches or turns into something else.
+- **Mechanism:**
+  - Automatic: a bookshop rule the Supreme Court rejected (E3).
+  - Negligence: no workable "reasonable care" about truth across millions of posts.
+  - Notice: a complaint becomes a truth verdict.
+- **Attack 1:** "Legislatures define terms all the time."
+  - **Repair:** "Then define it for us now. Which claims, decided by whom, at what point?" Undefined, it's a blank cheque the judge can't weigh.
+- **Attack 2:** "Define it as demonstrably false and harmful."
+  - **Repair:** "Who demonstrates it, and before or after removal?" That leads straight to A2.
+- **Survives?** Yes, as long as we press for specifics rather than claim the motion is meaningless.
+
+**A2 — The Referee (P2)**
+- **Claim:** both automatic and notice-based liability make a company decide disputed facts quickly, under legal threat.
+- **Evidence:**
+  - Facebook banned, then allowed, "man-made COVID" claims within four months (E11).
+  - The most-cited false-news study only counted stories where six fact-checkers agreed (E12). That shows clear cases exist and are a subset.
+- **Attack 1:** "Courts decide truth in defamation every day."
+  - **Repair:** "Yes, one statement about one person, after a trial, with a requirement to show fault. Not a moderator in seconds."
+- **Attack 2:** "Most viral misinformation is plainly false."
+  - **Repair:** plainly false content is the easy part and is already removable under platform policy and existing law. Liability changes behaviour only in the grey zone, which is where mistakes happen. *(Partial. See V5.)*
+
+**A3 — Control and conduct (P3)**
+- **Claim:** responsibility should follow who controls what. The law already reaches platform conduct: design verdicts (E8), the platform's own misleading statements (E32), and content it helps create (E24).
+- **Attack 1:** "Ranking and recommending *is* conduct."
+  - **Repair:** "Agreed, so judge the ranking system: its design, its audits, its effects. You don't need a truth verdict on each post for that."
+- **Attack 2:** "One appeals court has said the algorithm is the platform's own speech" (E7).
+  - **Repair:** "That case was about pushing a dangerous challenge to a child, which is conduct. And if the ranking is the platform's speech, the Supreme Court has signalled it gets free-speech protection (E5), and false statements aren't automatically unprotected (E4)."
+  - Careful: say "signalled". It isn't a final ruling.
+
+**A4 — The incentive (P4)**
+- **Claim:** when keeping a post up risks a lawsuit and taking it down costs nothing, the rational move is to remove anything contested, or stop looking.
+- **Evidence:**
+  - Before 1996, the moderating service got sued and the hands-off one didn't (E2).
+  - Meta's own estimate: one to two in ten removals may have been mistakes, even without liability pressure (E10).
+  - When Australia made page owners responsible for comments, CNN pulled its Facebook pages there (E31).
+  - After the 2018 trafficking law, Craigslist closed its personals section (E15).
+- **Honesty flag:** these are analogies or company decisions, not studies of misinformation liability. Present them as "what we've seen when liability shifts", never as proof.
+- **Attack 1:** "Over-removal of misinformation is a good thing."
+  - **Repair:** "Mistakes don't only hit false posts. They hit true ones and still-open questions."
+- **Attack 2:** "Add a good-faith safe harbour."
+  - **Repair:** "Then you've built a process rule, not liability for misinformation. Tell us what it requires."
+
+**A5 — Better tools (P5)**
+- **Claim:**
+  - Speakers can already be sued (E19).
+  - Platforms are already liable for their own conduct (E8, E32).
+  - Narrow defined categories work (E18).
+  - Large services can be given process duties (E33).
+  - User context tools reduce sharing (E16).
+- **Attack 1:** "Voluntary tools get reversed" (V3).
+  - **Repair:** "That's why we support mandated process duties for big services, not liability for each post."
+- **Attack 2:** "Process duties are toothless."
+  - **Repair:** "Process duties come with penalties too. Europe's are large. The difference is what triggers them: a failed system, not a disputed sentence."
+  - *Unresolved:* evidence on whether process duties work is still thin (see V3).
+
+**Weighing line (final speech):**
+> "Both sides want less misinformation. Their rule needs someone to decide what's false, fast, under legal threat, across platforms that look nothing alike. Ours targets what platforms actually control and actually do."
+
+---
+
+## 4. Group 5's predicted AI case (15 lines, unchanged list; answers updated to v2)
+
+| # | G5 argument | Assumption it rests on | Our 10-second answer | Owner |
 |---|---|---|---|---|
-| T1 | P1 | "Which legal standard: strict, negligence, or after notice?" | Strict → "the Supreme Court rejected exactly that for bookshops decades ago"; negligence → who defines reasonable for truth?; notice → you've abandoned "merely because users post" | They must pick, and each choice costs |
-| T2 | P2 | "Who decides what counts as misinformation: platform, court, or government?" | Platform → private truth-arbiter under lawsuit pressure; court → too slow, so the platform decides first anyway; government → would you give that power to an administration you disagree with? | A truth-arbiter is required |
-| T3 | P2 | "Can something labelled misinformation later become mainstream?" | Yes → liable for hosting it, or for removing it?; No → E11 | Truth evolves |
-| T4 | P3 | "Is it recommending, or hosting, that creates responsibility?" | Recommending → pure hosting is fine: motion conceded; hosting → algorithms were never their reason; qualified → amplification is conduct: our line | Hosting alone isn't enough |
-| T5 | P3 | "When a user posts a lie, who's first responsible?" | User → why isn't speaker liability enough?; escape "anonymous" → identification fix | Primary responsibility lies with the speaker |
-| T6 | P4 | "Would you accept removing some true posts to catch more false ones?" | Yes → how many? 1–2 in 10 already; No → you can't back a rule whose rational outcome is over-removal | Error costs count |
-| T7 | P4 | "Does AI decide what's true, or predict what was labelled false before?" | Predicts → new disputed claims escape it; decides → who audits it? | AI ≠ truth |
-| T8 | P5 | "Who exactly gets to sue: the harmed person or anyone misled?" | Specific person → defamation/fraud already exist; anyone → millions of plaintiffs; government → "false speech isn't automatically unprotected, and that power outlasts any one government" | Remedy already exists or explodes |
-| T9 | P5 | "If someone hears a claim on TV, from a friend, and online, then acts — who caused it?" | Causation is shared → why single out the platform? | Causation is diffuse |
-| T10 | P1 | "Is a newspaper liable for letters it chooses to print? Does a platform choose each post beforehand?" | Yes it chooses → T4; No → the analogy breaks at selection | Publisher analogy fails |
-| T11 | P5 | "If there's no liability now, why do platforms moderate at all?" | Advertisers/users → incentives exist; the question is what liability adds | "No incentive" is false |
-| T12 | P1 | "Does your rule cover a 2,000-member hobby forum run by one volunteer?" | Yes → it closes or bans topics, and it has no algorithm, so amplification wasn't your reason; No → the trigger is size/design, not misinformation; Qualified ("proportionate") → then tell us the threshold → T13 | The motion's breadth is unworkable, or it's narrowed to our line |
-| T13 | P5 | "Where's the line: 2 million, 34 million, 45 million users? Does a false post become actionable at user 45,000,001?" | Picks a number → that's a process duty for big services, which we support; no number → the rule hits everyone → T12; "the regulator decides" → a blank cheque | Size justifies process, not falsity liability |
-| T14 | P4 | "On Reddit, who's liable: the company, or the volunteer moderator who actually saw the post?" | Company → the person with knowledge and control is exempt, so knowledge isn't your test; Moderator → you're suing volunteers; Both → who volunteers to moderate after that? | Liability must track control |
-| T15 | P2 | "In an end-to-end encrypted group chat the provider can't read messages. Liable or not?" | Yes → only possible by breaking encryption; No → knowledge and control decide, not falsity; Qualified ("only public content") → private chats, where much misinformation travels, are excluded | Knowledge, not falsity, is the trigger |
-| T16 | P3 | "Is a local newspaper liable for a false comment a reader leaves under its article?" | Yes → "we've seen what happens: when Australia did this, comment sections closed and CNN pulled its Facebook pages there"; No → hosting without endorsement isn't enough, which is our position; Only if the paper promotes it → conduct, our line | Hosting ≠ authorship |
+| 1 | They profit from engagement | F2/F3 | "Profit tells us who can afford rules. It doesn't tell us which posts are false." | P3 |
+| 2 | Algorithms amplify | F3 | "Then judge the system's design. That's conduct, and we support it." | P3 |
+| 3 | Real-world harm | F1 | "The harm is real. The question is whether lawsuits over falsity reduce it." | P5 |
+| 4 | Duty of care / negligence | F1, F2 | "Process duties set in advance, yes. A jury deciding afterwards what was true, no." | P1 |
+| 5 | They already moderate | F1 | "Moderating under your own policy differs from moderating under threat of a lawsuit." | P4 |
+| 6 | Publishers are liable | F3 | "Publishers pick each item before it goes out. Platforms don't." | P1 |
+| 7 | Product liability | F3 | "Design defects are already being litigated. That's our line." | P3 |
+| 8 | Victims need remedies | F4 | "Sue the speaker, and sue the platform for its own conduct. Both exist." | P5 |
+| 9 | No incentive without liability | F2 | "Incentive to do what: be accurate, or remove anything risky?" | P4 |
+| 10 | AI can moderate | F1 | "AI copies past labels. New disputed claims are exactly what it gets wrong." | P4 |
+| 11 | Section 230 is outdated | F4 | "Review it, sure. The motion is about falsity-triggered liability." | P1 |
+| 12 | Other industries are liable | F3 | "For what *they* make, not for what customers say." | P3 |
+| 13 | They know misinformation exists | F1 | "Knowing it exists isn't knowing *this* post is false." | P2 |
+| 14 | Europe does it | F5/F6 | "Europe regulates how big platforms run their systems. Hosting stays protected unless the content is illegal." | P5 |
+| 15 | Fraud and scam ads | — | "Paid ads are the platform's own business. Liability fits our line." | P5 |
 
-T9 is now a shared reserve trap; anyone can use it.
+**Foundational assumptions:**
 
-## 8. Five equal roles (Step 10)
-| | P1 Frame & Law | P2 Truth & Expression | P3 Conduct & Algorithms | P4 Enforcement & Consequences | P5 Harm, Alternatives & Weighing |
+| Code | Assumption |
+|---|---|
+| F1 | Falsity is reliably identifiable |
+| F2 | Liability yields accuracy |
+| F3 | Distributing = authoring |
+| F4 | Victims have no remedy |
+| F5 | Scale justifies content liability |
+| F6 | All platforms are alike |
+
+---
+
+## 5. Fresh adversarial review: G5's coach finds our five worst vulnerabilities
+
+For each: G5's attack, why a judge might accept it, our response, G5's attack on that response, and what remains unresolved.
+
+**V1 — "You've conceded our case"**
+1. **Attack:** "Group 6 accepts liability after court orders, for design, and process duties for big platforms. Our motion only needs *some* liability for misinformation. They agree platforms must act. We just say that includes misinformation they've been told about."
+2. **Why a judge might buy it:** it sounds like we're arguing about wording, and judges reward the team that seems reasonable.
+3. **Response:** the difference is the trigger, not the wording. Under their rule the company decides truth on a complaint. Under ours a court or a defined law does. Use the trigger test (Section 2).
+4. **Attack again:** "Court orders are too slow. By then the harm is done."
+5. **Unresolved:** speed. Answer: "Fast and wrong isn't better. Speed is where most mistakes happen" (E10). Some judges will still prefer speed in emergencies (elections, health crises). **Partial weakness.**
+
+**V2 — Harm stories and momentum**
+1. **Attack:** a named teenager's story, plus "two juries found Meta liable in March 2026; the law is moving our way."
+2. **Why a judge might buy it:** emotion plus apparent legal trend.
+3. **Response:**
+   - Acknowledge the harm first.
+   - Then point out what the verdicts were about: addictive design, failure to warn, and Meta's own misleading statements (E8, E32). That's conduct, our line, not liability for users' falsehoods.
+4. **Attack again:** "Design that spreads misinformation is the same thing."
+5. **Unresolved:** jury verdicts are being appealed and set no binding precedent. We must not overclaim them either. **Manageable.**
+
+**V3 — "Voluntary moderation is reversible"**
+1. **Attack:** "In January 2025 Meta ended US third-party fact-checking. Without liability, protection disappears whenever a company changes its mind."
+2. **Why a judge might buy it:** it's true and recent.
+3. **Response:** we don't rely on voluntary action. We support mandated process duties and transparency for the largest services, plus existing speaker and conduct liability.
+4. **Attack again:** "Then why not add liability as the enforcement mechanism?"
+5. **Unresolved:** we can't show that process duties work better. Evidence on that is still emerging (E33 limitation). We hold the line on the trigger, but this is our **biggest open weakness.**
+
+**V4 — "Your over-removal evidence is borrowed"**
+1. **Attack:** "Copyright takedowns, trafficking law and Australian defamation aren't misinformation. Meta's error rate was under its own policies."
+2. **Why a judge might buy it:** it's correct, and judges reward evidence discipline.
+3. **Response:** concede the analogy openly: "We're not claiming a study of misinformation liability exists." The pattern recurs across different laws, though: when hosting carries legal risk, services close or remove features (E15, E31). The burden is on the side proposing the change to show it won't happen here.
+4. **Attack again:** "Patterns aren't proof."
+5. **Unresolved:** agreed, it's an inference. We weigh it as risk, not certainty. **Manageable if framed honestly.**
+
+**V5 — "Most misinformation is plainly false"**
+1. **Attack:** "Wrong voting dates, fake cures, fabricated quotes. Your lab-leak example is one edge case."
+2. **Why a judge might buy it:** it's largely true for the most viral harmful items.
+3. **Response:** clearly false content isn't where liability changes anything. It's already removable under platform policy, and where it's defined as illegal, narrow laws can target it. Liability's real effect falls on the contested middle.
+4. **Attack again:** "Then accept liability only for plainly false content."
+5. **Unresolved:** a judge may find a very narrow "plainly false + harmful + after notice" rule reasonable. Our answer: "Who certifies 'plainly'? If it's a court or a defined statute, that's our model. If it's the company on a complaint, that's the referee problem." **Partial weakness.**
+
+**Honest overall assessment:** on the current strategy the debate is **close, not won.** We win if we:
+- hold the trigger distinction cleanly
+- concede harm credibly
+- keep evidence claims modest
+
+We lose if we sound legalistic, overclaim cases, or get drawn into defending voluntary moderation.
+
+---
+
+## 6. Socratic trap audit
+
+**Audit criteria:**
+- **Valid:** the conclusion follows.
+- **Assumption:** what we rely on.
+- **Escape:** G5's best nuanced answer.
+- **Useful after nuance:** whether we still gain something.
+
+| # | Trap (v1) | Valid? | Hidden assumption | Best escape | Useful after nuance? | Decision |
+|---|---|---|---|---|---|---|
+| T1 | Which standard? | Yes | G5 hasn't specified one | "Negligence, defined by Congress" | Yes: forces specifics | **PRIMARY P1** |
+| T2 | Who decides? | Yes | Someone must decide before harm | "Courts, afterwards" | Yes: then the platform must predict courts, so it over-removes | **PRIMARY P2** |
+| T3 | Can labels change? | Partly | One example generalises | "Rare edge case" | Weak alone | Folded into T2 as follow-up |
+| T4 | Hosting or recommending? | Yes | G5 cites amplification | "Both, scaled" | Yes: concedes pure hosting is less culpable | **PRIMARY P3** (rebuilt) |
+| T5 | Who's first responsible? | Trivial | — | "Both" | No | **Removed** |
+| T6 | Accept true posts removed? | Yes | Errors are unavoidable | "Errors both ways; leaving it up harms too" | Yes: shifts to a net-error burden | **PRIMARY P4** (rebuilt) |
+| T7 | AI predicts vs decides | Semantic | Contested framing of AI | "AI plus human review" | Low | **Removed** |
+| T8 | Who can sue? | Yes | G5 hasn't defined plaintiffs | "Only directly harmed people" | Yes: then existing torts largely cover it | **BACKUP** |
+| T9 | Multi-source causation | Weak | Tort causation detail | "Jury apportions" | Low | **Removed** |
+| T10 | Publisher analogy | Redundant | — | "Algorithms select" | Loops to T4 | **Removed** (merged into T4) |
+| T11 | Why moderate now? | Weak | — | "Public pressure, not enough" | Helps G5 (V3) | **Removed** |
+| T12 | Covers small forum? | Yes | — | "Size threshold" | Yes | Merged into T13 |
+| T13 | Where's the threshold? | Yes | — | "Regulator decides" | Yes | **PRIMARY P5** (with T12) |
+| T14 | Reddit: company or volunteer? | Yes | Control matters | "Company only" | Yes: then knowledge and control aren't the test | **BACKUP** |
+| T15 | Encrypted chats | Yes | — | "Public content only" | Yes: concedes knowledge/control is the trigger | **BACKUP** |
+| T16 | News comment section | Yes | — | "Only if promoted" | Yes: promotion = conduct | **BACKUP** |
+| new | Court order vs complaint | Yes | — | "Complaints for obvious cases" | Yes: who certifies "obvious" | **BACKUP** (answers V1) |
+
+### Five primary sequences (one per speaker)
+
+**P1 — The Trigger**
+- **Opening:** "What exactly makes a platform liable under your proposal? Is it the post being false, the platform being told, or the platform failing some standard?"
+- **Likely answer:** "Failing reasonable steps once they know."
+- **Follow-up:** "Reasonable steps toward what: removing the post, or checking whether it's true?"
+- **If "removing":** "Then any flagged post comes down, true or not. That's a removal rule, not an accuracy rule."
+- **If "checking":** "Then the platform is the referee of truth, on deadline, with a lawsuit if it guesses wrong."
+- **If they qualify ("only obvious cases"):** "Who decides it's obvious? If a court, that's our model. If the company, we're back to the referee."
+- **What we win:** G5 must name a decision-maker. Either way, the trigger is no longer "misinformation" alone.
+- **Escape:** "Congress will define it."
+- **Our reply:** "Then the motion asks the judge to approve a rule that hasn't been written."
+
+**P2 — The Referee**
+- **Opening:** "When a post is disputed, who decides it's misinformation: the platform, a court, or a government agency?"
+- **If the platform:** "So a private company decides truth, and its legal risk is only on one side."
+- **If a court:** "Courts take months. In the meantime the platform has to guess what the court will say, and guessing 'remove' is always safer."
+- **If an agency:** "Would you give that power to whichever government you trust least?"
+- **If they qualify ("experts or consensus"):** "Facebook followed the expert view in 2021, then reversed itself within four months. Should it have been sued for the first decision, or the second?"
+- **What we win:** every route costs speed, accuracy or independence.
+- **Escape:** "Only for claims with overwhelming consensus."
+- **Our reply:** "Those are the easy cases platforms already remove. Liability matters only for the rest."
+
+**P3 — Host or Push**
+- **Opening:** "If a platform just hosts a post in date order, with no recommending, no ads, no promotion, should it be liable for it?"
+- **If yes:** "Then amplification isn't your reason. Your rule reaches every forum and comment section."
+- **If no:** "Then hosting user posts isn't enough. It's what the platform *does* that matters, and that's our position."
+- **If they qualify ("less liable"):** "Then let's judge the doing: the design, the promotion, the payment. That's conduct, and we agree it can be regulated."
+- **What we win:** an agreement that pure hosting isn't the wrong.
+- **Escape:** "Every platform ranks something."
+- **Our reply:** "Then target ranking *design*, which you can audit, not the truth of each post."
+
+**P4 — The Error Budget**
+- **Opening:** "Any system will make mistakes in both directions. Under your rule, which mistake costs the platform money: leaving a false post up, or taking a true one down?"
+- **Likely answer:** "Leaving false posts up."
+- **Follow-up:** "So mistakes that remove true posts cost the platform nothing?"
+- **If yes:** "Then you've built a system that pushes every close call toward removal."
+- **If no ("we'd penalise wrongful removal too"):** "Then platforms face lawsuits both ways on every disputed post. Who can afford that, other than the biggest?"
+- **If they qualify:** "Then show us the rule that balances both. We haven't heard it."
+- **What we win:** G5 must address the cost of removing true content, which means showing a net reduction in errors.
+- **Escape:** "Removing some true posts is worth it."
+- **Our reply:** "Meta estimated up to two in ten removals were already mistakes before any legal pressure. How many more is worth it?"
+
+**P5 — Two Platforms**
+- **Setup:** "Picture two platforms: a huge feed with billions of users and an algorithm, and a cycling forum with 2,000 members and one volunteer admin."
+- **Opening:** "Does your rule apply to both?"
+- **If yes:** "The forum can't afford lawyers or moderators, so it shuts or bans topics. It has no algorithm, so amplification was never the reason."
+- **If no:** "Then where's the line, and why there? Europe uses 45 million users, the UK 34 million, Germany 2 million. A false post doesn't become more false at the next user."
+- **If they qualify ("scaled duties"):** "Scaled *process* duties for big services, we support. That's regulating systems, not liability for users' posts."
+- **What we win:** the trigger becomes size and design, not misinformation.
+- **Escape:** "We only mean the biggest platforms."
+- **Our reply:** "Then the motion has shrunk from online platforms to a handful of companies, and even for them, the referee problem remains."
+
+### Five backup traps (one-line forks; full trees in the HTML)
+
+| Owner | Trap | Fork |
+|---|---|---|
+| P1 | **Court order vs complaint** | "Should platforms act on a court ruling, or on a complaint?" → Court: our model. Complaint: anyone's accusation becomes a takedown. |
+| P2 | **Encrypted chat** | "The provider can't read the messages. Liable?" → Yes: only by breaking encryption. No: knowledge, not falsity, is the trigger. |
+| P3 | **Comment section** | "Is a local paper liable for a reader's false comment?" → Yes: comment sections close (Australia). No or "only if promoted": conduct is the trigger. |
+| P4 | **Volunteer moderators** | "On Reddit-style sites, who's liable: the company or the volunteer who saw it?" → Company: knowledge isn't the test. Volunteer: you're suing volunteers. |
+| P5 | **Who can sue?** | "The person harmed, or anyone misled?" → Harmed person: existing claims largely cover it. Anyone: unlimited claims. |
+
+---
+
+## 7. Evidence vault (re-verified)
+
+**Type key:**
+
+| Code | Meaning |
+|---|---|
+| **BH** | Binding holding (state which court and where it binds) |
+| **NB** | Non-binding: reasoning, dicta, foreign law, trial verdict, cert denial |
+| **EMP** | Empirical finding |
+| **CO** | Company estimate or decision |
+| **ADV** | Advocacy or industry claim |
+| **INF** | Our strategic inference |
+
+**Verification note:** I couldn't reach supremecourt.gov or Cornell directly from this environment (network policy). Each entry was cross-checked against at least two independent secondary sources (law firms, SCOTUSblog, academic summaries, major outlets). Recheck the starred items before the debate.
+
+| ID | Type | Source · date | Exact finding | Limitation | Safe use (spoken) |
 |---|---|---|---|---|---|
-| Opening (~55s) | Platform-spectrum line, motion definition, our line, burden test | A2 | A3 | A4 mechanism | A4 alternatives + "how we win" |
-| Core argument | A1 | A2 | A3 | A4a | A4b + weighing |
-| Monitors | Section 230 outdated, publisher, negligence/duty, legal standard | Public health, elections, "clearly false", free speech | Algorithms, profit, monetisation, product liability, Anderson | AI moderation, already moderate, repeat offenders, incentive | Harm, victims, other industries, EU/UK, fraud |
-| Five-Question Test | **Which platforms?** | **What knowledge?** | **What conduct?** | **What control?** | **What threshold?** |
-| Traps | T1, T10, T12 | T2, T3, T15 | T4, T5, T16 | T6, T7, T14 | T8, T11, T13 |
-| Key evidence | E1, E2, E3, E22, E23 | E4, E11, E12, E28 | E5, E6, E8, E13, E24, E30, E31 | E10, E14, E15, E29 | E16–E19, E25–E27 |
-| Platform-scope duty | Opening spectrum line; "which platforms" fork | Encrypted/private services | Comment sections, video monetisation, blogs | Volunteer-moderated communities, small forums | Size thresholds; DSA/UK tiering |
-| Emergency counter | "Which platforms does this cover?" | "Who decides, and how would they know?" | "Hosting or recommending?" | "Who has control here?" | "Where's the line, and why there?" |
+| E1 | BH (statute) | 47 U.S.C. §230 · 1996, amended 2018 | No provider or *user* of an interactive computer service is treated as publisher or speaker of another's content. Exclusions: federal criminal law, IP, ECPA, sex-trafficking claims | Courts disagree on its edges (algorithms, design) | "US law protects services and users for what *others* post, with exceptions for crimes and copyright." |
+| E2 | NB (trial-court history) | *Cubby v. CompuServe* (S.D.N.Y. 1991); *Stratton Oakmont v. Prodigy* (N.Y. Sup. Ct. 1995) | The non-moderating service wasn't liable; the moderating one was treated as a publisher | Trial-level, pre-230; history, not current law | "Before 1996, the site that tried to moderate got sued. That's why the law changed." |
+| E3 | BH (US Sup. Ct.) | *Smith v. California* · 1959 | Strict liability for booksellers over obscene books they hadn't read violated the First Amendment, because it would make sellers restrict protected books | About obscenity and booksellers; an analogy for platforms | "The Supreme Court rejected making bookshops liable for books they hadn't read." |
+| E4 | BH (result) / plurality reasoning | *U.S. v. Alvarez* · 2012 | 6–3 struck down the Stolen Valor Act. Plurality (4): false statements aren't a categorically unprotected class. Concurrence (2) applied a lighter test and suggested a narrower law could survive | No single majority rationale; narrower false-speech laws can survive | "The Supreme Court has said a statement isn't automatically unprotected just because it's false." |
+| E5 | NB (majority reasoning; judgment vacated/remanded) | *Moody v. NetChoice* · July 2024 | Majority said curating feeds like Facebook News Feed and YouTube homepage is expressive activity, and that Texas's law likely couldn't apply to them. Cases remanded for proper facial analysis. Footnote: the Court didn't address feeds whose algorithms respond *solely* to user behaviour | Not a final ruling on the laws; reserved purely behavioural algorithms; Alito and Gorsuch concurred only in the judgment | "The Supreme Court has signalled that ranking content is a platform's own protected speech." |
+| E6 | BH (US Sup. Ct., 9–0, Thomas) | *Twitter v. Taamneh* · May 2023 | Aiding-and-abetting under the anti-terrorism law requires conscious, culpable participation. Hosting content, imperfect removal, and generally available recommendation algorithms weren't enough on those facts | About terrorism aiding-and-abetting, **not** Section 230 or misinformation; left room for more culpable conduct | "The Supreme Court said running a service everyone uses, including its recommendations, isn't the same as knowingly helping wrongdoing." |
+| E7 | BH in 3rd Cir. only | *Anderson v. TikTok* · Aug 2024 (rehearing denied Oct 2024) | A recommendation algorithm that isn't driven by a user's search is TikTok's own speech, so §230 doesn't bar the claim | One circuit; widely criticised; Supreme Court petition status ★unverified | (G5's) "One appeals court went the other way, in a case about a dangerous challenge pushed to a child." |
+| E8 | BH (9th Cir.) + NB (jury verdict) | *Lemmon v. Snap* (9th Cir. 2021); KGM v. Meta & YouTube (L.A. Superior Court jury, 25 Mar 2026) | Lemmon: a design claim (speed filter) isn't barred by §230. KGM: jury found Meta and YouTube negligent and failed to warn, design a substantial factor; $3M compensatory + $3M punitive. First of several bellwether trials; TikTok and Snap settled | The verdict sets no precedent; appeals likely; it concerned design and addiction, not misinformation | "Courts are already holding platforms responsible for how they design their products." |
+| E9 | NB (cert denial) | *Doe v. X Corp.*, No. 25-949 · cert denied 18 May 2026 | The Supreme Court declined to review a 9th Cir. ruling that §230 shielded X in a child-exploitation case | A cert denial means nothing about the merits | "The Supreme Court still hasn't settled how far that protection goes." |
+| E10 | CO | Meta newsroom, "More Speech and Fewer Mistakes" · 7 Jan 2025 | Meta removed millions of items daily in Dec 2024 and estimated one to two out of every ten of these actions may have been mistakes (content that didn't break its policies). Later reports claim big reductions | Company estimate under its *own* policies, not a liability regime; issued while announcing a policy shift | "Meta itself estimated one or two in every ten removals may have been mistakes." |
+| E11 | CO / news fact | Fortune, NY1 et al. · 26–27 May 2021 | Facebook stopped removing "man-made COVID" claims about four months after banning them, citing ongoing investigations and expert advice | Says nothing about which origin theory is true | "Facebook banned a claim and then reversed itself within four months. Truth was still being worked out." |
+| E12 | EMP | Vosoughi, Roy & Aral, *Science* · Mar 2018 | ~126,000 Twitter stories (2006–2017): false stories ~70% more likely to be retweeted; the gap persisted with bots removed. Only stories with high fact-checker agreement were included | Twitter only; pre-2018; correlational | "A large MIT study found people, not bots, mainly spread false stories." |
+| E13 | EMP (contested) | Guess et al., *Science* · July 2023 | A 3-month experiment: chronological feeds *raised* the share of political and untrustworthy-source content, with no significant change in polarisation | One election period; consenting users; critique alleges platform changes during the study | Don't lead with it. If challenged: "One Meta study found switching off ranking didn't reduce untrustworthy content. It's debated." |
+| E14 | EMP (copyright) | Urban, Karaganis & Schofield · 2016/17 | ~31% of sampled Google Search copyright notices, and ~70% of an Image Search sample, raised questions about accuracy or validity | Copyright, not misinformation; an analogy | "In copyright, where complaints trigger takedowns, studies found a lot of questionable complaints." |
+| E15 | Gov report (EMP) + CO | GAO-21-385 · June 2021; Craigslist notice · Mar 2018 | DOJ brought one criminal case under FOSTA's new provision in its first ~3 years. Craigslist closed US personals, citing liability risk | Early data; trafficking, not misinformation | "When Congress added platform liability for trafficking ads, one big site simply closed the section." |
+| E16 | EMP | Slaughter, Saveski et al., *PNAS* · 2025 | Once attached, Community Notes cut reposts ~46%; over a post's lifetime, ~12% | Platform X; notes often arrive late | "Adding context to posts cut resharing, though often late." |
+| E17 | BH (EU law) | DSA, Reg. 2022/2065, Arts. 6 & 8 | Hosts are exempt from liability unless they have actual knowledge of *illegal* content and fail to act quickly. No general monitoring obligation | **Correction:** Europe *does* use knowledge-based liability, for *illegal* content. Lawful-but-false content isn't "illegal content" unless national law says so | "Europe makes hosts act on illegal content once they know about it, and doesn't make them liable for content that's merely false." |
+| E18 | BH (statute) | TAKE IT DOWN Act · 2025; FTC enforcement from 19 May 2026 | Covered platforms must remove nonconsensual intimate images within 48h of a valid request; good-faith removal is protected | Critics warn of abuse (no identity checks); NCII, not misinformation | "Congress has passed narrow, defined takedown laws, like the one for intimate images." |
+| E19 | Settlement + NB verdicts | Dominion–Fox settlement · Apr 2023 ($787.5M); Sandy Hook verdicts v. Alex Jones · 2022 | Speakers and broadcasters faced major consequences for their own falsehoods | A settlement isn't a ruling; state-court verdicts | "When speakers spread damaging lies, they've been held to account." |
+| E20 | ADV | Engine; CCIA · various | Defending a baseless suit costs a startup up to ~$80k (Engine) or at least ~$100k (CCIA) | Industry advocacy estimates | Avoid the figures. Say: "Even winning a lawsuit is expensive for a small site." |
+| E21 | Legislative fact | Senate Sunset §230 bill (Graham/Durbin, Dec 2025); House Sunset §230 Act, H.R. 10332 · Sept 2026 | Bipartisan bills would end §230 after a set period unless replaced | Introduced only; ★status to recheck | "There are bipartisan bills to sunset that law. The debate is live." |
+| E22 | BH (Cal. Sup. Ct.) | *Barrett v. Rosenthal* · 2006 | §230 protects individual users who republish others' content, even after notice; the court acknowledged troubling consequences | Binding in California; persuasive elsewhere | "The law protects ordinary users who share someone else's post." |
+| E23 | BH (4th Cir.) | *Zeran v. AOL* · 1997 | §230 bars notice-based "distributor" liability | One circuit, widely followed; some justices have questioned it | "Courts have rejected liability just because a platform was told about a post." |
+| E24 | BH (9th Cir.) | *Fair Housing Council v. Roommates.com* (en banc 2008); *Kimzey v. Yelp* (2016) | A platform that materially contributes to unlawful content loses protection; a neutral aggregate rating tool doesn't | 9th Cir. | "Courts treat a platform differently when it helps create the content." |
+| E25 | Statute (state) | Texas HB 20 (2021); Florida SB 7072 (2021) | Applied only to large platforms (★Texas: >50M monthly US users; Florida: revenue/user thresholds) | ★Verify thresholds; both under remand | "Even US states draw lines by size." |
+| E26 | BH (EU law) | DSA Arts. 4–6, 19, 33 | Separate regimes for conduit, caching and hosting; micro/small platforms exempt from most platform duties; extra duties for very large platforms with ≥45M EU users | EU only | "Europe sets different rules by type and size." |
+| E27 | Statute (UK) | Online Safety Act 2023 Category Threshold Regulations · Feb 2025 | Category 1: recommender system + >34M UK users, or >7M + resharing. Category 2B: >3M + messaging. Wikimedia sought judicial review | UK; ★outcome of the challenge unknown | "The UK tiers duties by size and features." |
+| E28 | Statute (DE) | NetzDG · 2017 | Exempted platforms under 2M German users; 24h removal for *manifestly unlawful* content | Largely superseded by the DSA since 2024 | "Germany limited its law to bigger platforms and clearly illegal content." |
+| E29 | ADV | Reddit amicus, *Gonzalez* · Jan 2023 | Argued user votes and volunteer moderation rely on §230's protection for users | Advocacy by an interested party | "Community sites rely on volunteers. Liability falls on them too." |
+| E30 | NB (foreign) | *Delfi v. Estonia* (ECtHR GC 2015); *MTE v. Hungary* (ECtHR 2016); *Fairfax v. Voller* (HCA 2021) | Delfi: a commercial news portal could be liable for clearly unlawful hate speech and threats in comments. MTE: liability for merely offensive comments violated free expression. Voller: page owners are publishers of Facebook comments for Australian defamation law | European human-rights court (not the EU) and Australian defamation law; not misinformation | (G5's) "Europe's court limited liability to clearly illegal hate speech, and refused it for merely offensive comments." |
+| E31 | CO | CNN statement, reported by Mediaweek/AdNews · Sept 2021 | After Voller, CNN restricted its Facebook pages for Australian users, saying it couldn't disable comments page-wide | One company's choice | "After Australia's ruling, CNN pulled its Facebook pages there rather than carry the risk." |
+| E32 | NB (jury verdict) | New Mexico v. Meta, Santa Fe jury · 24 Mar 2026 | Jury found Meta violated the state Unfair Practices Act, including false or misleading statements and unconscionable practices on child safety; $375M civil penalties. Meta says it will appeal | Verdict, not precedent; consumer-protection law | "A jury found Meta liable for its own misleading statements about safety. That's the platform's conduct." |
+| E33 | BH (EU law) | DSA Arts. 34–35 | Very large platforms must assess and mitigate systemic risks, including effects on civic discourse, elections, public security and public health, considering their recommender and moderation systems | Effectiveness evidence still emerging | "Europe requires the biggest platforms to assess and reduce these risks in their systems." |
+| E34 | CO / news | Meta, Jan 2025 | Meta ended third-party fact-checking in the US in favour of community notes | **G5 weapon (V3)** | Acknowledge it: "Voluntary steps can be reversed. That's why we support defined process duties." |
+
+---
+
+## 8. Five equal roles and participation structures (not finalised)
+
+### Role cards (equal in difficulty and importance)
+
+| | P1 Frame & Trigger | P2 Truth & Knowledge | P3 Conduct & Design | P4 Incentives & Control | P5 Harm, Tools & Weighing |
+|---|---|---|---|---|---|
+| Core argument | A1 | A2 | A3 | A4 | A5 |
+| Five-Question Test | Which platforms? | What knowledge? | What conduct? | What control? | What threshold? |
+| Primary trap | The Trigger | The Referee | Host or Push | Error Budget | Two Platforms |
+| Backup trap | Court order vs complaint | Encrypted chat | Comment section | Volunteer moderators | Who can sue? |
+| Monitors (G5 #) | 4, 6, 11 | 3*, 13 + health/election | 1, 2, 7, 12 | 5, 9, 10 | 3, 8, 14, 15 |
+| Key evidence | E1–E3, E17, E23 | E4, E10–E12 | E5–E8, E24, E32 | E10, E14, E15, E31 | E16, E18, E19, E33 |
+| Answers vulnerability | V1 | V5 | V2 | V4 | V3 |
 | Backup for | P2 | P3 | P4 | P5 | P1 |
 
-## 9. Speaking structure (configurable in HTML)
-- **Opening 5:00:** P1 0:00–0:55 → P2 0:55–1:50 → P3 1:50–2:45 → P4 2:45–3:40 → P5 3:40–4:35. Then 25s buffer. Hard stop by 4:50.
-- **Opening 3:00 fallback:** 35s each, with a 5s buffer.
-- **Rebuttal 2:00:** P2, P3, P4 (~40s each). **1:00 fallback:** 20s each.
-- **Final/collective rebuttal 2:00:** P5 (55s, weighing) → P1 (55s, close + one-sentence position).
-- **Fairness check:**
-  - P1/P5 total ≈ 110s; P2–P4 ≈ 95s.
-  - P2–P4 carry the live rebuttal, which is the harder skill and offsets the time gap.
-  - Every speaker owns 3 traps + 1 Five-Question Test question, roughly 1 core argument, and roughly 3 G5 families.
-- **If the format turns out to be all-five-in-every-round:** use "relay mode" (≈20s each, with handoff lines).
-- Every speech has four tiers: MUST SAY / GOOD TO SAY / CUT FIRST / STOP HERE (a landing sentence).
-- **30s emergency closing:** "Everyone in this room wants less misinformation. The question tonight was whether making platforms legally liable for what users say gets us there. It doesn't. It forces someone to referee truth in seconds, it rewards removal over accuracy, and the law already reaches what platforms themselves do. Hold platforms to account for their conduct, not for their users' mistakes. We oppose."
+\*P2 covers truth claims inside harm arguments; P5 covers the weighing.
 
-## 10. Shared core (all five memorise)
-- **Position:** the one-liner above.
-- **Liability:** a legal duty to pay or face penalties. The question is *what triggers it*.
-- **Burden challenge:** "Tell us the standard, who decides truth, and why it gives accuracy, not just removal."
-- **Five-Question Test:** Which platforms? What knowledge? What conduct? What control? What threshold?
-- **Two-platform test:** "Does your rule work for MegaFeed *and* a volunteer-run cycling forum? If not, the trigger isn't misinformation."
-- **Three facts:**
-  - E10: 1–2 in 10 removals mistaken.
-  - E11: lab-leak ban reversed.
-  - E17: the EU kept the safe harbour.
-- **Three questions:** T1, T2, T4.
-- **Three concessions:**
-  - The harm is real.
-  - Platforms aren't neutral.
-  - §230 deserves review.
-- **30-second philosophy:** "conduct, not content".
-- **Emergency closing:** as in Section 9.
+### Structure A — all five may speak in every round
+- **Opening (5:00):** P1 → P2 → P3 → P4 → P5, ~55s each, with a 25s buffer.
+- **Rebuttal (e.g. 2:00):** five 20s rebuttals by domain. Order rotates: **P3 → P4 → P5 → P1 → P2**.
+- **Final (e.g. 2:00):** five 20s "what we proved" lines. Order: **P5 → P1 → P2 → P3 → P4**, so P4 delivers the closing sentence.
+- **Totals:** ≈95s each. Everyone opens, rebuts and closes. Nobody is always first or last.
+- **Risk:** five handoffs per round cost time.
+  - **Fix:** a scripted handoff: "[Name] on control."
+  - Rule: no thank-yous, no recaps.
 
-## 11. Mock debate (strong G5) + neutral judge (Steps 11–13)
-**G5 best line**
-- Leads with a teen-harm victim and the March 2026 verdicts: "the law is already moving our way".
-- Narrows to "knowing amplification and monetisation of misinformation after notice".
-- Cites Anderson.
+### Structure B — only selected speakers per round
+- **B1 (3 slots: opening, rebuttal, final, one speaker each):** equal speaking time is impossible with 3 slots and 5 people. Compensate:
+  - two non-speakers each own a formal role if the format has one (cross-examination or points of information);
+  - otherwise both write the live rebuttal brief.
+  - **Raise this with staff before the debate.**
+- **B2 (opening shared by all, later rounds 2–3 speakers):** use the v1 split:
+  - Rebuttal: P2, P3, P4.
+  - Final: P5, P1.
+  - Questioning, if it exists, goes to P1 and P5 so time evens out.
+  - Rotate who closes if multiple debates are held.
+- **B3 (cross-examination round exists):** each speaker asks their primary trap once. Whoever didn't speak in rebuttal leads cross-examination.
 
-**Judge verdict (first run): G5 narrowly ahead.** Reasons:
-- G6 sounded abstract against concrete harm.
-- G6 failed to separate "design verdicts" from "misinformation liability", so G5 claimed those cases as theirs.
-- The notice retreat went unanswered for too long.
-- Two rebuttal speakers chased minor points.
+**Decision pending:** pick A, B1, B2 or B3 once rules arrive. Timings are editable in the HTML config.
 
-**Repairs adopted (already in the strategy above):**
-1. Concede harm in the first 20 seconds of P1.
-2. Make the bright line explicit: **illegality/conduct, not falsity**. The 2026 jury verdicts were about addictive design, which is conduct, so they support us.
-3. Pre-load the answer to the notice retreat in P2: notice of a disputed claim still needs a truth referee, and E14 shows notice systems get abused.
-4. P3 answers the "algorithm is the platform's own speech" claim with a fork: if it's the platform's speech, it's protected speech.
-5. Use the listening triage rule: rebut only arguments that would decide the judge's ballot, i.e. that hit a foundational assumption (F1–F6). Ignore the rest.
-6. **Platform-scope repair** (added after the scope review):
-   - **G5's best adaptation:** in their opening they define the motion as "very large algorithmic platforms only".
-   - **Risk:** if we complain about definitions, judges treat it as definitional whining and penalise it.
-   - **Fix:** accept the narrowing gracefully ("Happy to debate the largest platforms"), then make two moves:
-     1. The narrowing concedes that hosting user content isn't the trigger: size and design are.
-     2. Even for the largest platforms, F1 and F2 still apply, and the real regimes for them (DSA VLOPs, UK Category 1) impose process duties, not falsity liability.
-   - If G5 *doesn't* narrow, P1 runs T12 and P5 runs T13 to force them to.
-
-**Re-run verdict: G6 narrowly ahead, on clash and weighing.**
-- This depends on clean timing and holding the bright line.
-- The Five-Question Test gave G6 a visible, repeatable structure. The judge noted that G5 answered "which platforms" and "what threshold" inconsistently across speakers.
-- The HTML includes the full transcript and judge notes.
-
-## 12. Do-not-say list
-| Don't say | Why |
-|---|---|
-| "§230 gives total immunity" | False: criminal, IP, and FOSTA exclusions; the platform's own content isn't covered |
-| "Misinformation isn't harmful" | Loses credibility |
-| "Platforms are neutral" | The Supreme Court has said curating content is the platform's own expression |
-| "1A protects all speech" | Fraud, defamation, and incitement aren't protected |
-| "End of the internet" | Hyperbole |
-| "Bots spread it" | E12: humans drive the spread |
-| "Algorithms don't matter" | Overclaims a contested study |
-| "Censorship" / "biased fact-checkers" | Sounds partisan |
-| Partisan examples | Corporate setting |
-| Unsourced statistics | Easy to expose |
-| "Users should just be smarter" | Victim-blaming |
-| "All online services are treated the same under the law" | False: own content, design claims, statutory exclusions and DMCA conditions differ, and foreign regimes tier by size (Section 2A) |
-| "The motion is too vague, so you lose" | Judges penalise definitional complaints. Use the breadth as a test of their rule instead. |
-| "Small platforms will all die" | Overclaim. Say "they face costs they can't absorb, so the rational move is to close or ban topics" (E20, E31). |
-
-## 13. Listening system
-- **Note template:** THEY CLAIM / EVIDENCE / HIDDEN ASSUMPTION / MY DOMAIN? / CONCEDE·NARROW·REFUTE·TURN·OUTWEIGH / BEST RESPONSE / QUESTION.
-- **Triage — major:** it rests on F1–F5, introduces new evidence, or G5 repeats it. **Minor:** rhetoric, examples that rely on an assumption already answered, or tangents.
+**Speech structure (every speech):** MUST SAY → GOOD TO SAY → CUT FIRST → STOP HERE (a landing sentence). The full scripts go in the HTML.
 
 ---
 
-## Implementation (after approval)
-1. `git checkout -b debate-generator`.
-2. Create `debate/STRATEGY.md`: the full strategy, including the complete 11-field steelman entries, the full trap trees, the 15-row firewall (10s/30s spoken responses), the full mock-debate transcript, and the fairness table.
-3. Create `debate/war-room.html`: a single self-contained file (HTML/CSS/vanilla JS, no external dependencies).
-   - **Data layer:** a single `DATA` object holding persons, arguments, traps, firewall, evidence, sources, and mock debate. A `CONFIG.timings` block at the top so timings are easy to edit.
-   - **Views:** Home (role picker) → Person view (12 sections, filtered by owner) / Team view (19 sections, sticky nav).
-   - **Components:**
-     - Progressive disclosure buttons: WHY / EVIDENCE / THEIR COUNTER / OUR RESPONSE.
-     - Trap YES/NO/QUALIFIED reveal.
-     - Firewall search and filter.
-     - Live Debate Mode: 13 large topic buttons → 10s response, question back, key fact, owner.
-     - Live Notes: 5 panes stored in localStorage, with try/catch.
-     - Timer: presets 5:00/3:00/2:00/1:00/0:30, start/pause/reset; amber at 30s, red at 10s; optional sound via a toggle that defaults to off.
-     - Emergency overlay.
-     - Practice Mode: random argument → best response → their counter → final response.
-   - **Citation rule:** all spoken text (openings, 10s/30s responses, traps, Live Mode) uses the Section 0 phrasebook style. Case names appear only in the Evidence Vault and behind the EVIDENCE buttons.
-   - **Visual tokens:** THEM / US / FACT / QUESTION / TRAP / WARNING. Neutral palette with light/dark tokens, responsive down to 360px, no gradients.
-4. Verify:
-   - Open with Playwright (`/opt/pw-browsers/chromium`) at 1280px and 390px.
-   - Click through every view, run the timer, refresh to confirm notes persist, test the trap branches and search.
-   - Check for console errors.
-   - Grep for placeholders ("TODO", "lorem", "insert").
-   - Confirm every source link resolves.
-5. Commit and `git push -u origin debate-generator`. Optionally publish the HTML as a private Artifact for colleagues.
+## 9. Corporate leadership layer (shapes behaviour; never recited in the debate)
+
+| Framework | Source | Behaviour it drives for us |
+|---|---|---|
+| **Ethos, logos, pathos** | Aristotle, *Rhetoric* | **Ethos:** concede real harm; cite modestly; never overclaim. **Logos:** the trigger test and the Five Questions. **Pathos:** acknowledge victims first. Our emotional appeal is protecting true speech and small communities, not fear. |
+| **Evidence-based persuasion** | Debate and judging practice | One fact per point, plainly sourced ("Meta itself estimated…"). Label inference as inference. |
+| **Executive presence** | Hewlett (gravitas, communication, appearance; CTI research, 2014; 2nd ed. 2024) | Gravitas under fire: pause before answering a hard point, answer the strongest version, keep an even tone. |
+| **Strategic concession** | Debate practice | "That's fair. Here's why it doesn't get you to liability." Concede the premise, contest the conclusion. |
+| **Active listening** | Rogers & Farson, "Active Listening" (1957) | Restate G5's point in one line before answering ("If I've understood you…"). It shows the judge we engaged with the strongest version. |
+| **Judge-centred communication** | Debate judging practice | Signpost ("Two responses."), compare outcomes explicitly, tell the judge why it matters. |
+| **Tuckman's stages** | Tuckman (1965); Tuckman & Jensen (1977) | Prep plan: **Forming**, roles assigned (done). **Storming**, one session where everyone attacks our case (Section 5). **Norming**, agree handoff lines and the triage rule. **Performing**, timed full runs. **Adjourning**, post-debate debrief using the judging framework. |
+| **Constructive disagreement / psychological safety** | Edmondson (1999) | In practice anyone can say "that line won't survive" without blame. Settle disagreements before the debate. On the day, the domain owner decides; others support. |
+| **Team handoffs** | — | Fixed handoff phrase; the last line of each speaker links to the next domain. |
+| **Shared leadership** | Pearce & Conger (2003): "a dynamic, interactive influence process among individuals in groups…" | Leadership rotates by domain. When G5 raises your domain, you lead the response, and others pass you notes rather than speaking over you. No captain. |
+
+### Communication sequence for every response: ACKNOWLEDGE → CHALLENGE → ESTABLISH → CONNECT
+
+| Step | Purpose | Example (G5: "Algorithms amplify misinformation for profit") |
+|---|---|---|
+| **Acknowledge** | Show fairness and active listening | "That's a real concern. Ranking choices do shape what spreads." |
+| **Challenge** | Name the gap | "But it tells us the *system* matters, not that the platform should pay for each user's false post." |
+| **Establish** | Our point plus one fact | "Courts are already holding platforms responsible for design. That's the right target." |
+| **Connect** | Link to the motion and weighing | "So the answer is to regulate the system, not liability triggered by what users say." |
+
+**Under 10 seconds:** Acknowledge + Challenge only.
+
+---
+
+## 10. Judge-centred communication rules
+1. Open each speech by telling the judge what you'll prove ("Two points: who decides, and what it costs.").
+2. Answer G5's *best* version, not their weakest line.
+3. Compare explicitly: "Even if they're right about X, our point about Y matters more because…"
+4. Use the Five Questions as a visible scorecard: "We've asked five questions. We've heard answers to two."
+5. Don't use case names unless challenged (see phrasebook, Section 13).
+6. Finish 5–10 seconds early. Landing lines are mandatory.
+
+---
+
+## 11. Mock judging framework (PROVISIONAL until the real rubric arrives)
+
+| Criterion | Provisional weight | What a 5/5 looks like |
+|---|---|---|
+| Argument strength | 20% | Clear trigger test; survives two rounds of attack |
+| Evidence | 15% | Accurate, modest, labelled; no overclaiming |
+| Rebuttal quality | 15% | Answers G5's best version; no dropped major points |
+| Listening | 10% | Restates accurately; responds to what was actually said |
+| Team coordination | 10% | Clean handoffs; no overlaps; domain owners lead |
+| Persuasiveness | 15% | Acknowledge → Challenge → Establish → Connect; weighing explicit |
+| Professionalism | 10% | Calm, courteous, non-partisan |
+| Timing | 5% + penalty | Finishes in time; landing lines used |
+
+- Practice mode will score each criterion 1–5 with notes.
+- **Requested:** the official rubric, the weightings, and how the overtime penalty is applied.
+
+---
+
+## 12. Mock debate v2 (summary; full transcript goes in PRACTISE mode)
+- **G5 (strong):** opens with a teen-harm story and the March 2026 verdicts. Proposes "reasonable steps after notice, for large platforms only". Cites Meta ending fact-checking.
+- **G6:**
+  - P1 runs the tiers and The Trigger.
+  - P2 runs The Referee and the reversed Facebook ban.
+  - P3 reframes the verdicts as design and Meta's own statements.
+  - P4 runs the Error Budget.
+  - P5 runs Two Platforms and the support for process duties.
+- **Neutral judge:** close.
+  - G6 was ahead on clarity of principle and evidence discipline.
+  - G5 was ahead on emotional weight and the speed-of-harm argument (V1).
+  - G6 left two vulnerabilities partly open: proof that process duties work (V3), and narrow "plainly false" categories (V5).
+  - Outcome depends on whether G6 concedes harm convincingly and avoids sounding legalistic. **No default win.**
+
+---
+
+## 13. Do-not-say list and citation phrasebook
+**Do not say:**
+
+| Avoid | Why |
+|---|---|
+| "§230 gives total immunity" | False (E1) |
+| "All online services are treated the same" | False (E24–E28) |
+| "Moody / the Supreme Court held algorithms are protected speech" | Overstates E5. Say "signalled". |
+| "Taamneh says platforms aren't responsible" | It's about terrorism aiding-and-abetting only (E6) |
+| "Europe doesn't make platforms liable" | False for illegal content (E17) |
+| "Juries are finding platforms liable for misinformation" | The verdicts were about design and Meta's own statements (E8, E32) |
+| "Misinformation isn't harmful" | Loses credibility |
+| "Platforms are neutral" | Contradicts E5 |
+| "End of the internet" / "censorship" | Hyperbole; sounds partisan |
+| "The motion is too vague, so you lose" | Judges penalise definitional complaints |
+| Partisan examples; unsourced statistics | Corporate setting; easy to expose |
+
+**Spoken citation rule:** never lead with a case name. Use "courts have found…", "the Supreme Court has said / signalled…", "Meta itself estimated…", "Europe's rules…". At most one rounded number per point. Case names stay in the Evidence Vault.
+
+---
+
+## 14. HTML architecture (after approval)
+- **Home:**
+  - Motion, position, role selector (P1–P5 + Team).
+  - Three mode buttons: **LEARN · PRACTISE · LIVE**.
+  - Choosing a role filters every mode to that person; "Back to team view" is always visible.
+- **LEARN:** position and tiers; trigger test; platform spectrum; five arguments (progressive disclosure: WHY / EVIDENCE / THEIR COUNTER / OUR RESPONSE); G5 playbook; dependency map; evidence vault (filter by type BH/NB/EMP/CO/ADV/INF); legal distinctions; leadership layer; do-not-say.
+- **PRACTISE:**
+  - Random G5 attack → show response → their counter → our final.
+  - Socratic trainer: YES / NO / QUALIFIED branches.
+  - Timed drills (5:00, 3:00, 2:00, 1:00, 0:30).
+  - Self-scoring against the provisional rubric.
+  - Mock debate transcript with judge notes.
+- **LIVE (built for time pressure):**
+  - One screen.
+  - Large topic buttons: Algorithms, Profit, Free speech, Harm, Negligence, Section 230, Publisher, AI moderation, Duty of care, Public health, Elections, Victims, Europe, Verdicts, Other.
+  - Each shows: their argument, our 10s response, one follow-up question, one fact, and the owner.
+  - Also on the LIVE screen: timer, emergency panel, and five note pads saved in browser storage.
+- **Technical:**
+  - One self-contained file with vanilla JS and no external dependencies.
+  - Timings set in a single editable config block.
+  - Light and dark themes; works on phone and laptop.
+
+---
+
+## 15. Outstanding questions (needed before final allocation and HTML)
+1. Exact format: rounds, time per round, and whether all five may speak each round. Determines structure A, B1, B2 or B3.
+2. Is there cross-examination or points of information?
+3. The official judging rubric and weightings.
+4. Overtime penalty and grace period.
+5. Prep time, and whether notes or devices are allowed on stage. Affects how LIVE mode is used.
+6. The source of the "Giovanni principle".
+7. Is the audience judging, or only appointed judges?
