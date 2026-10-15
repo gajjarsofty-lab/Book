@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Five Questions · Group 6</title>
+<style>
+/* Layout: a fixed 1600×900 stage scaled to fit any screen (16:9, letterboxed, never scrolls).
+   Top: the five-link chain. Centre: one idea per screen. Bottom: a dimmed navigation bar. */
+:root{
+  --bg:#F5F6F5; --stage:#FBFBFA; --ink:#1B2320; --ink-2:#56625E; --ink-3:#8A9591; --line:#D5DCD9;
+  --accent:#1F4E6E; --accent-soft:#E2ECF2; --accent-mid:#B9CFDD;
+  --agree:#3C7558; --agree-soft:#E3EFE8;
+  --them:#94583A;
+  --font:"Segoe UI", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:4px solid var(--accent);outline-offset:3px}
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+#stage{width:1600px;height:900px;background:var(--stage);position:relative;transform-origin:center center;overflow:hidden;flex:none;box-shadow:0 0 0 1px var(--line)}
+
+/* Chain */
+.chain{position:absolute;top:34px;left:80px;right:80px;display:flex;align-items:center;gap:0}
+.cl{display:flex;align-items:center;gap:12px;border:0;background:none;padding:6px 8px;border-radius:10px;flex:none}
+.cl .dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--ink-3);background:var(--stage);transition:all .2s}
+.cl .kw{font-size:17px;font-weight:700;letter-spacing:.12em;color:var(--ink-3);transition:color .2s}
+.cl .ag{font-size:18px;font-weight:700;color:var(--agree);width:16px}
+.cl.intro .dot{background:var(--accent);border-color:var(--accent);color:#fff}
+.cl.intro .kw{color:var(--ink)}
+.cl.hl .dot{box-shadow:0 0 0 5px var(--accent-mid)}
+.cl.hl .kw{color:var(--accent)}
+.cl.dim{opacity:.38}
+.sep{flex:1;height:2px;background:var(--line);margin:0 6px;min-width:14px}
+.chain-legend{position:absolute;top:84px;right:88px;font-size:14px;color:var(--ink-3);letter-spacing:.04em}
+
+/* Content area */
+.content{position:absolute;left:120px;right:120px;top:140px;bottom:110px;display:flex;flex-direction:column;justify-content:center;gap:30px}
+.content.full{top:60px}
+.eyebrow{font-size:18px;font-weight:700;letter-spacing:.16em;color:var(--ink-2);text-transform:uppercase}
+.eyebrow.them{color:var(--them)}
+.h-xl{font-size:92px;font-weight:800;line-height:1.02;letter-spacing:-.01em;margin:0}
+.h-l{font-size:68px;font-weight:800;line-height:1.05;letter-spacing:-.005em;margin:0}
+.h-m{font-size:52px;font-weight:800;line-height:1.1;margin:0}
+.h-s{font-size:40px;font-weight:700;line-height:1.2;margin:0}
+.sub{font-size:36px;line-height:1.35;color:var(--ink-2);margin:0}
+.accent{color:var(--accent)}
+.agree{color:var(--agree)}
+.num{font-size:120px;font-weight:800;line-height:.9;color:var(--accent-mid);letter-spacing:-.02em}
+.qhead{display:flex;align-items:flex-end;gap:36px}
+.qhead .kwbig{font-size:26px;font-weight:800;letter-spacing:.2em;color:var(--accent);padding-bottom:14px}
+.cues{display:flex;gap:22px}
+.cue{flex:1;border-radius:14px;background:#EEF2F0;padding:30px 26px;font-size:40px;font-weight:700;text-align:center}
+.takeaway{font-size:38px;font-style:italic;color:var(--accent);margin:0}
+.claim{font-size:54px;font-weight:700;line-height:1.15;color:var(--ink);margin:0}
+.claim::before{content:"“";color:var(--them)} .claim::after{content:"”";color:var(--them)}
+.ask{display:flex;flex-direction:column;gap:8px}
+.ask .lab{font-size:17px;font-weight:800;letter-spacing:.18em;color:var(--accent)}
+.ask p{font-size:38px;font-weight:600;line-height:1.25;margin:0}
+.rows{display:flex;flex-direction:column;gap:16px}
+.row{display:grid;grid-template-columns:1fr 70px 1fr;align-items:center;font-size:38px}
+.row .l{font-weight:700}
+.row .arr{color:var(--ink-3);text-align:center}
+.row .r{color:var(--accent);font-weight:600}
+.levels{display:flex;align-items:stretch;gap:0}
+.lvl{flex:1;border-radius:14px;padding:46px 20px;text-align:center;font-size:40px;font-weight:800;letter-spacing:.04em;display:flex;align-items:center;justify-content:center}
+.lvl.a{background:#EEF2F0;color:var(--ink)} .lvl.b{background:var(--accent-mid);color:var(--ink)} .lvl.c{background:var(--accent);color:#fff;font-size:34px}
+.lvl-arr{width:70px;display:flex;align-items:center;justify-content:center;font-size:40px;color:var(--ink-3)}
+.pair{display:flex;gap:24px}
+.box{flex:1;border-radius:14px;padding:34px;display:flex;flex-direction:column;gap:8px}
+.box b{font-size:40px;letter-spacing:.03em}
+.box span{font-size:34px;color:var(--ink-2)}
+.box.risk{background:#F4ECE7} .box.safe{background:#EEF2F0}
+
+/* Reveal */
+.rv{opacity:0;transform:translateY(6px);transition:opacity .2s ease, transform .2s ease;pointer-events:none}
+.rv.on{opacity:1;transform:none;pointer-events:auto}
+.enter{animation:enter .2s ease}
+@keyframes enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Buttons on stage */
+.cta{align-self:flex-start;border:2px solid var(--accent);background:var(--accent);color:#fff;border-radius:12px;padding:20px 34px;font-size:28px;font-weight:700;letter-spacing:.04em}
+.cta.ghost{background:transparent;color:var(--accent)}
+.textbtn{border:0;background:none;color:var(--ink-2);font-size:24px;padding:10px 14px;border-radius:8px;text-decoration:underline;text-underline-offset:6px}
+.textbtn[aria-pressed="true"]{color:var(--accent);font-weight:700;text-decoration-thickness:3px}
+
+/* Menu */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.tile{position:relative;text-align:left;border:2px solid var(--line);background:#fff;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:8px;min-height:170px;transition:border-color .15s, background .15s}
+.tile:hover{border-color:var(--accent);background:var(--accent-soft)}
+.tile .t{font-size:40px;font-weight:800;letter-spacing:.02em}
+.tile .s{font-size:21px;color:var(--ink-2)}
+.tile .o{position:absolute;top:18px;right:22px;font-size:16px;font-weight:700;color:var(--ink-3);letter-spacing:.08em}
+.tile .k{position:absolute;bottom:16px;right:22px;font-size:16px;color:var(--ink-3)}
+.menu-foot{display:flex;gap:18px;align-items:center}
+.menu-foot .cta{font-size:24px;padding:16px 26px}
+
+/* Fit / agree */
+.fitline{display:flex;align-items:center;gap:20px;font-size:38px}
+.tog{border:2px solid var(--line);background:#fff;border-radius:50%;width:54px;height:54px;font-size:30px;font-weight:800;color:var(--ink-3);flex:none;display:flex;align-items:center;justify-content:center}
+.tog.on{background:var(--agree-soft);border-color:var(--agree);color:var(--agree)}
+.pill{display:inline-flex;align-items:center;gap:12px;border-radius:999px;padding:10px 24px;font-size:28px;font-weight:800;letter-spacing:.08em}
+.pill.agree{background:var(--agree-soft);color:var(--agree)}
+.bigchain{display:flex;gap:16px}
+.bc{flex:1;border:2px solid var(--line);background:#fff;border-radius:14px;padding:22px 12px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.bc .n{font-size:22px;font-weight:800;color:var(--ink-3)}
+.bc .w{font-size:26px;font-weight:800;letter-spacing:.06em}
+.bc .s{font-size:34px;font-weight:800;color:var(--ink-3);height:40px}
+.bc.hl{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.bc.on{border-color:var(--agree);background:var(--agree-soft)}
+.bc.on .s{color:var(--agree)}
+.legend{font-size:20px;color:var(--ink-3)}
+.agreelist{display:flex;flex-direction:column;gap:18px}
+.agreelist div{display:flex;gap:20px;align-items:center;font-size:40px;font-weight:700}
+.agreelist .ck{color:var(--agree);font-weight:800;width:40px}
+
+/* Two platforms */
+.cards{display:flex;gap:28px}
+.pcard{flex:1;border:2px solid var(--line);background:#fff;border-radius:16px;padding:34px 36px;display:flex;flex-direction:column;gap:14px}
+.pcard h3{margin:0;font-size:34px;font-weight:800;letter-spacing:.06em}
+.pcard p{margin:0;font-size:30px;color:var(--ink-2)}
+.branches{display:flex;gap:10px;align-items:center}
+.factors{display:flex;gap:16px}
+.factors span{border:2px solid var(--accent);color:var(--accent);border-radius:999px;padding:10px 26px;font-size:30px;font-weight:800;letter-spacing:.06em}
+
+/* Closing */
+.closing{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 140px;gap:34px}
+.closing .h-xl{font-size:96px}
+.closing .sub{font-size:44px}
+
+/* Bottom nav */
+#nav{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;gap:6px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:14px;padding:6px;opacity:.28;transition:opacity .25s;z-index:30}
+#nav.awake,#nav:hover,#nav:focus-within{opacity:1}
+#nav button{white-space:nowrap;border:0;background:none;padding:10px 16px;border-radius:9px;font-size:15px;font-weight:600;color:var(--ink-2);letter-spacing:.02em}
+#nav button:hover{background:var(--accent-soft);color:var(--accent)}
+#nav button[aria-current="true"]{background:var(--accent);color:#fff}
+#nav .div{width:1px;background:var(--line);margin:4px 2px}
+
+/* Presenter drawer & help */
+#drawer{position:fixed;left:calc(14px + env(safe-area-inset-left,0px));bottom:calc(70px + env(safe-area-inset-bottom,0px));width:380px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:0 10px 30px rgba(20,30,28,.12);z-index:40;display:flex;flex-direction:column;gap:10px;font-size:15px}
+#drawer h4{margin:0;font-size:12px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+#drawer .own{font-size:22px;font-weight:800;color:var(--accent)}
+#drawer p{margin:0;line-height:1.4}
+#drawer .row2{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+#drawer .row2 button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 12px;font-size:14px}
+#drawer .danger{border-color:#B9584A!important;color:#9E3D30}
+#help{position:fixed;inset:0;background:rgba(245,246,245,.97);z-index:50;display:flex;align-items:center;justify-content:center}
+#help .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:30px 36px;width:min(760px,92vw);max-height:92vh;overflow:auto}
+#help h2{margin:0 0 14px;font-size:24px}
+#help table{border-collapse:collapse;width:100%;font-size:17px}
+#help td{padding:7px 8px;border-bottom:1px solid var(--line)}
+#help td:first-child{font-weight:700;white-space:nowrap;width:150px}
+kbd{font-family:inherit;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 7px;font-size:.95em;background:#F7F8F7}
+@media (prefers-reduced-motion:reduce){.rv,.enter,.cl .dot{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage" role="main" aria-live="polite"></div></div>
+
+<nav id="nav" aria-label="Presentation navigation">
+  <button type="button" data-nav="back" title="Back (←)">← Back</button>
+  <span class="div"></span>
+  <button type="button" data-nav="home" title="Home (H)">Home</button>
+  <button type="button" data-nav="framework" title="Five questions">5 Questions</button>
+  <button type="button" data-nav="menu" title="Group 5 arguments (G)">Group 5</button>
+  <button type="button" data-nav="tp" title="Two Platforms (T)">Two Platforms</button>
+  <button type="button" data-nav="final" title="Final Test (F)">Final Test</button>
+  <span class="div"></span>
+  <button type="button" data-nav="drawer" title="Presenter drawer (P)">Presenter</button>
+  <button type="button" data-nav="help" title="Shortcuts (?)">?</button>
+</nav>
+<aside id="drawer" hidden aria-label="Presenter drawer"></aside>
+<div id="help" hidden role="dialog" aria-label="Keyboard shortcuts"></div>
+
+<script>
+"use strict";
+/* ================= CONTENT ================= */
+const LINKS = [
+  { k:"TRIGGER", q:"WHAT TRIGGERS LIABILITY?", p:"P1" },
+  { k:"TRUTH", q:"WHO DECIDES WHAT IS FALSE?", p:"P2" },
+  { k:"CONDUCT", q:"WHAT DID THE PLATFORM ACTUALLY DO?", p:"P3" },
+  { k:"CONSEQUENCES", q:"WHAT BEHAVIOR DOES THE RULE REWARD?", p:"P4" },
+  { k:"ALTERNATIVE", q:"IS THERE A BETTER-TARGETED SOLUTION?", p:"P5" }
+];
+
+const ARGS = [
+  { id:"harm", n:1, title:"HARM", sub:"real-world harm", owner:"P1",
+    label:"REAL-WORLD HARM", claim:"Misinformation can cause serious harm.",
+    raisedAgree:true, links:[], fixedPill:"HARM",
+    agreed:null,
+    remaining:"Does harm establish <span class='accent'>who</span> should be legally liable?",
+    head:"WE AGREE THE HARM IS REAL.",
+    lines:["But harm proves there is a problem.", "It does not prove <b>who should legally be responsible.</b>"],
+    ask:"What evidence shows this liability would reduce the harm, rather than simply increase removals?" },
+  { id:"algorithms", n:2, title:"ALGORITHMS", sub:"amplification · profit", owner:"P3",
+    label:"ALGORITHMS", claim:"Platforms actively amplify misinformation, and profit from the engagement.",
+    links:[2], agreed:"Recommendation is platform conduct.",
+    remaining:"What liability should follow from that conduct?",
+    head:"THEN FOCUS ON THE AMPLIFICATION.",
+    lines:["Recommendation and ranking are platform conduct.", "A user's statement is still the user's statement."],
+    ask:"Is your liability based on the false post, or the platform's conduct?" },
+  { id:"knew", n:3, title:"THEY KNEW", sub:"knowledge · “obviously false”", owner:"P2",
+    label:"KNOWLEDGE", claim:"Platforms know misinformation exists.",
+    links:[0,1], agreed:"False content circulates on every large platform.",
+    remaining:"Knowing it exists, or knowing <span class='accent'>this</span> claim is false?",
+    head:"KNOWING IT EXISTS IS NOT THE SAME AS KNOWING THIS PARTICULAR CLAIM IS FALSE.",
+    lines:[],
+    ask:"What exactly must the platform know before liability begins?" },
+  { id:"duty", n:4, title:"DUTY OF CARE", sub:"notice · negligence · publishers", owner:"P1",
+    label:"DUTY OF CARE", claim:"Platforms should take reasonable steps once notified.",
+    links:[0,1], agreed:"Platforms can owe duties for how their own systems work.",
+    remaining:"What exactly triggers the duty?",
+    head:"REASONABLE STEPS TOWARD WHAT?",
+    lines:["Removing a reported post?", "Or determining whether it is true?"],
+    ask:"What exactly triggers the legal duty?" },
+  { id:"incentives", n:5, title:"INCENTIVES", sub:"no incentive · already moderate · AI", owner:"P4",
+    label:"INCENTIVES", claim:"Without liability, platforms won't act.",
+    links:[3], agreed:"Voluntary moderation can change, or be reversed.",
+    remaining:"Which behavior will liability reward?",
+    head:"LIABILITY CREATES AN INCENTIVE. BUT WHICH ONE?",
+    rows:[["Leave contested content up","legal risk"],["Remove contested content","lower legal risk"]],
+    lines:[],
+    ask:"What happens to close calls?" },
+  { id:"victims", n:6, title:"VICTIMS / REMEDIES", sub:"accountability", owner:"P5",
+    label:"VICTIMS / REMEDIES", claim:"Victims need someone to hold accountable.",
+    links:[4], agreed:"Victims deserve a remedy.",
+    remaining:"Which remedy fits which wrong?",
+    head:"WE AGREE. BUT THE REMEDY SHOULD FOLLOW THE WRONG.",
+    rows:[["Speaker's lie","speaker responsibility"],["Platform's conduct","platform responsibility"]],
+    lines:[],
+    ask:"What specific gap requires making the platform responsible for the user's statement?" }
+];
+
+const FIXED_AGREED = ["Misinformation can cause real harm.", "Platforms can influence what people see."];
+
+/* Presenter drawer: one line each. No scripts. */
+const PRESENTER = {
+  home:{ owner:"P1", obj:"Open by framing the debate around where legal responsibility begins.", next:"Our position (→)", remind:"Speak to the judges, not the screen." },
+  position:{ owner:"P1", obj:"Concede the harm first, then separate harm from liability.", next:"01 Trigger", remind:"Say early: these aren't trick questions. If Group 5 can answer them, that's a narrower rule." },
+  q1:{ owner:"P1", obj:"Ask what exactly creates liability: the post, a report, or a failure to act.", next:"02 Truth", remind:"Takeaway lights TRIGGER. Hand off to P2." },
+  q2:{ owner:"P2", obj:"Someone has to decide what's false, quickly, and with legal risk on one side.", next:"03 Conduct", remind:"Never say truth is subjective." },
+  q3:{ owner:"P3", obj:"Separate what the platform did from what a user said.", next:"04 Consequences", remind:"Concede that ranking is a platform choice." },
+  q4:{ owner:"P4", obj:"Show the incentive: close calls go to removal.", next:"05 Alternative", remind:"Not 'everything gets censored'. Incentives." },
+  q5:{ owner:"P5", obj:"Targeted accountability, not 'do nothing'.", next:"Five questions complete", remind:"Attach the remedy to the specific wrong." },
+  framework:{ owner:"P5", obj:"Show the five questions as one argument.", next:"Group 5 menu (G)", remind:"Dots mean 'introduced', not 'won'." },
+  menu:{ owner:"Whoever owns the tile", obj:"Pick the argument Group 5 just made.", next:"Keys 1–6 · T for Two Platforms · O for other", remind:"Europe / 'the law is changing' → Other (P5)." },
+  harm:{ owner:"P1", obj:"Agree on harm; harm doesn't decide who is liable.", next:"Menu (G)", remind:"Concede first, every time." },
+  algorithms:{ owner:"P3", obj:"If amplification is the problem, look at the platform's conduct.", next:"Menu (G)", remind:"Tick CONDUCT only if they argued it." },
+  knew:{ owner:"P2", obj:"General knowledge ≠ knowing this claim is false.", next:"Menu (G)", remind:"Don't say platforms are ignorant." },
+  duty:{ owner:"P1", obj:"Reasonable steps toward what: removal, or judging truth?", next:"Menu (G)", remind:"Publishers: editors choose every piece; platforms host." },
+  incentives:{ owner:"P4", obj:"Liability creates an incentive. Which one?", next:"Menu (G)", remind:"Acknowledge voluntary steps can be reversed." },
+  victims:{ owner:"P5", obj:"The remedy should follow the wrong.", next:"Menu (G)", remind:"Never sound dismissive of victims." },
+  tp:{ owner:"P5", obj:"Test whether one rule fits a giant network and a small forum.", next:"Y / N / D for Group 5's answer", remind:"If they say 'depends', credit the distinction." },
+  other:{ owner:"Owner of the closest link", obj:"Map the new claim onto the five questions.", next:"Menu (G)", remind:"Ask what specifically makes the platform responsible." },
+  final:{ owner:"Closer", obj:"Show what was agreed, then the question that remains.", next:"→ through to the closing line", remind:"Click a link to mark ✓ only what both sides agreed." }
+};
+
+/* ================= STATE ================= */
+const STORE = "g6live.v1";
+const defaults = () => ({ screen:"home", step:0, hist:[], intro:[false,false,false,false,false], linkAgree:[false,false,false,false,false], argAgree:{}, tp:null, otherHl:null, drawer:false });
+let S = defaults();
+try{ const saved = JSON.parse(localStorage.getItem(STORE) || "null"); if(saved && saved.screen) S = Object.assign(defaults(), saved); }catch(e){}
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify(S)); }catch(e){} }
+
+const MAX = { home:0, position:2, q1:1, q2:1, q3:1, q4:1, q5:1, framework:1, menu:0, tp:1, other:1, final:3 };
+ARGS.forEach(a => MAX[a.id] = 3);
+const NEXT = { home:"position", position:"q1", q1:"q2", q2:"q3", q3:"q4", q4:"q5", q5:"framework", framework:"menu" };
+ARGS.forEach(a => NEXT[a.id] = "menu"); NEXT.other = "menu";
+
+function go(screen, step){
+  if(screen === S.screen && (step||0) === S.step) return;
+  S.hist.push([S.screen, S.step]); if(S.hist.length > 60) S.hist.shift();
+  S.screen = screen; S.step = step || 0;
+  if(screen === "tp" && S.step === 0) S.tp = null;
+  render(true);
+}
+function next(){
+  if(S.screen === "tp" && S.tp){ return go("menu"); }
+  if(S.step < MAX[S.screen]){ S.step++; afterStep(); render(false); return; }
+  if(NEXT[S.screen]) go(NEXT[S.screen]);
+}
+function back(){
+  if(S.screen === "tp" && S.tp){ S.tp = null; render(false); return; }
+  if(S.step > 0){ S.step--; render(false); return; }
+  const h = S.hist.pop(); if(h){ S.screen = h[0]; S.step = h[1]; render(true); }
+}
+function afterStep(){
+  const m = /^q(\d)$/.exec(S.screen);
+  if(m && S.step >= 1) S.intro[Number(m[1]) - 1] = true;
+}
+
+/* ================= RENDER HELPERS ================= */
+const stage = document.getElementById("stage");
+const on = n => S.step >= n ? " on" : "";
+function chain(opts){
+  opts = opts || {};
+  const hl = opts.hl || [];
+  return `<div class="chain">${LINKS.map((L,i)=>{
+    const cls = ["cl", S.intro[i] ? "intro" : "", hl.includes(i) ? "hl" : "", (opts.dimOthers && hl.length && !hl.includes(i)) ? "dim" : ""].join(" ");
+    const ag = S.linkAgree[i] ? "✓" : "";
+    return `${i ? '<span class="sep"></span>' : ""}<button type="button" class="${cls}" data-jump="${i+1}" aria-label="${L.k}"><span class="dot">${i+1}</span><span class="kw">${L.k}</span><span class="ag" aria-hidden="true">${ag}</span></button>`;
+  }).join("")}</div>`;
+}
+
+/* ================= SCREENS ================= */
+function scrHome(){
+  return `<div class="content full">
+    <div class="eyebrow">Group 6 · Opposing the motion</div>
+    <h1 class="h-xl">SHOULD PLATFORMS BE<br>LEGALLY LIABLE?</h1>
+    <p class="sub">When does someone else's false statement<br>become the platform's legal responsibility?</p>
+    <div class="eyebrow" style="color:var(--accent);margin-top:10px">5 questions before assigning liability</div>
+    <button class="cta" type="button" data-act="next">Begin the test →</button>
+  </div>`;
+}
+function scrPosition(){
+  return `<div class="content full">
+    <h1 class="h-l">MISINFORMATION CAN<br>CAUSE REAL HARM.</h1>
+    <p class="sub rv${on(1)}">But harm alone does not answer<br>who should be legally liable.</p>
+    <div class="rv${on(2)}" style="display:flex;flex-direction:column;gap:10px">
+      <p class="h-m accent">HOLD PLATFORMS ACCOUNTABLE<br>FOR WHAT THEY DO.</p>
+      <p class="sub">Not for every false thing their users say.</p>
+    </div>
+  </div>`;
+}
+function qFrame(i, body, takeaway){
+  const L = LINKS[i];
+  return `${chain({ hl:[i] })}
+  <div class="content">
+    <div class="qhead"><span class="num">0${i+1}</span><span class="kwbig">${L.k}</span></div>
+    <h1 class="h-l">${L.q}</h1>
+    ${body}
+    <p class="takeaway rv${on(1)}">${takeaway}</p>
+  </div>`;
+}
+function scrQ(i){
+  if(i === 0) return qFrame(0, `<div class="cues"><div class="cue">False post?</div><div class="cue">User report?</div><div class="cue">Failure to remove?</div></div>`, "A legal rule needs a clear trigger.");
+  if(i === 1) return qFrame(1, `<div class="cues"><div class="cue">Platform?</div><div class="cue">Court?</div><div class="cue">Government?</div></div>`, "Liability requires someone to make that determination.");
+  if(i === 2) return qFrame(2, `<div class="levels"><div class="lvl a">HOSTED</div><div class="lvl-arr">→</div><div class="lvl b">PROMOTED</div><div class="lvl-arr">→</div><div class="lvl c">CREATED /<br>PARTICIPATED</div></div>`, "Responsibility should follow conduct.");
+  if(i === 3) return qFrame(3, `<div class="pair"><div class="box risk"><b>LEAVE CONTENT UP</b><span>→ possible liability</span></div><div class="box safe"><b>REMOVE CONTESTED CONTENT</b><span>→ lower legal risk</span></div></div>
+     <p class="h-s">Which mistake will platforms try hardest to avoid?</p>`, "Legal incentives shape moderation.");
+  return qFrame(4, `<div class="rows">
+     <div class="row"><span class="l">Speaker lies</span><span class="arr">→</span><span class="r">speaker responsibility</span></div>
+     <div class="row"><span class="l">Platform sells fraudulent ad</span><span class="arr">→</span><span class="r">platform responsibility</span></div>
+     <div class="row"><span class="l">Platform's own design or conduct</span><span class="arr">→</span><span class="r">platform responsibility</span></div></div>`, "Target the actual wrong.");
+}
+function scrFramework(){
+  return `${chain()}
+  <div class="content">
+    <div class="eyebrow">5 questions before assigning liability</div>
+    <div class="bigchain">${LINKS.map((L,i)=>`<button type="button" class="bc" data-jump="${i+1}"><span class="n">0${i+1}</span><span class="w">${L.k}</span><span class="s" style="font-size:20px;font-weight:600;color:var(--ink-2);height:auto;text-align:center">${L.p}</span></button>`).join("")}</div>
+    <div class="rv${on(1)}" style="display:flex;flex-direction:column;gap:26px">
+      <h1 class="h-l accent">NOW LET'S APPLY THEM.</h1>
+      <button class="cta" type="button" data-nav="menu">Group 5's arguments →</button>
+    </div>
+  </div>`;
+}
+function scrMenu(){
+  return `${chain()}
+  <div class="content" style="gap:24px">
+    <div class="eyebrow them">Group 5's argument</div>
+    <div class="tiles">${ARGS.map(a=>`<button type="button" class="tile" data-arg="${a.id}"><span class="o">${a.owner}</span><span class="t">${a.title}</span><span class="s">${a.sub}</span><span class="k">${a.n}</span></button>`).join("")}</div>
+    <div class="menu-foot">
+      <button class="cta ghost" type="button" data-nav="tp">Two Platforms test <span style="font-size:18px;opacity:.7">· P5</span></button>
+      <button class="textbtn" type="button" data-nav="other">Other argument</button>
+    </div>
+  </div>`;
+}
+function scrArg(a){
+  const s = S.step;
+  const agreedOn = !!S.argAgree[a.id];
+  let body = "";
+  if(s === 0){
+    body = `<div class="eyebrow them">Group 5 raised · ${a.label}</div>
+      <p class="claim">${a.claim}</p>
+      ${a.raisedAgree ? `<div style="display:flex;flex-direction:column;gap:8px"><p class="h-m agree">WE AGREE.</p><p class="sub">This establishes that there is a problem.</p></div>` : ""}`;
+  } else if(s === 1 || s === 2){
+    body = `<div class="eyebrow">Where this argument fits</div>
+      ${a.fixedPill ? `<div><span class="pill agree">✓ ${a.fixedPill}</span></div>` : ""}
+      ${a.agreed ? `<div class="fitline"><button type="button" class="tog${agreedOn ? " on" : ""}" data-agree="${a.id}" aria-pressed="${agreedOn}" title="Mark as agreed">${agreedOn ? "✓" : "○"}</button><span><span class="eyebrow" style="font-size:16px;display:block">Agreed</span>${a.agreed}</span></div>` : ""}
+      <div class="rv${on(2)}" style="display:flex;flex-direction:column;gap:10px"><div class="eyebrow" style="color:var(--accent)">The question that remains</div><p class="h-m">${a.remaining}</p></div>
+      <p class="legend">✓ agreed · ○ still open · click a highlighted link above to mark it agreed</p>`;
+  } else {
+    body = `<h1 class="h-l accent" style="${a.head.length > 40 ? "font-size:56px" : ""}">${a.head}</h1>
+      ${a.lines.length ? `<div style="display:flex;flex-direction:column;gap:6px">${a.lines.map(l=>`<p class="sub" style="color:var(--ink)">${l}</p>`).join("")}</div>` : ""}
+      ${a.rows ? `<div class="rows">${a.rows.map(r=>`<div class="row"><span class="l">${r[0]}</span><span class="arr">→</span><span class="r">${r[1]}</span></div>`).join("")}</div>` : ""}
+      <div class="ask"><span class="lab">ASK GROUP 5</span><p>${a.ask}</p></div>`;
+  }
+  const foot = `<div class="menu-foot" style="position:absolute;left:120px;bottom:96px">
+      <button class="textbtn" type="button" data-nav="menu">← Menu</button>
+      ${s < 3 ? `<button class="cta" type="button" data-act="next" style="font-size:22px;padding:14px 24px">${s === 0 ? "Where it fits →" : s === 1 ? "The question that remains →" : "Our response →"}</button>` : ""}
+    </div>`;
+  const hl = a.links.length ? a.links : [];
+  return `${chain({ hl, dimOthers: s >= 1 && hl.length > 0 })}<div class="content" style="bottom:170px">${body}</div>${foot}`;
+}
+function scrTP(){
+  const b = S.tp;
+  let body;
+  if(!b){
+    body = `<div class="eyebrow">P5 · Let's test the rule</div>
+      <div class="cards">
+        <div class="pcard"><h3>LARGE SOCIAL NETWORK</h3><p>Billions of users</p><p>Recommendation algorithms</p><p>Large moderation operation</p></div>
+        <div class="pcard"><h3>SMALL CYCLING FORUM</h3><p>2,000 members</p><p>No recommendation algorithm</p><p>One volunteer moderator</p></div>
+      </div>
+      <div class="rv${on(1)}" style="display:flex;flex-direction:column;gap:16px">
+        <p class="h-m">SHOULD THE SAME LIABILITY RULE APPLY TO BOTH?</p>
+        <div class="branches"><button class="textbtn" type="button" data-tp="yes">If yes</button><button class="textbtn" type="button" data-tp="no">If no</button><button class="textbtn" type="button" data-tp="depends">If it depends</button></div>
+      </div>`;
+  } else {
+    const q = `<p class="sub">Should the same liability rule apply to a large social network and a small cycling forum?</p>`;
+    if(b === "yes") body = `${q}<p class="h-m">THEN THE RULE IS NOT REALLY ABOUT<br>ALGORITHMS OR PLATFORM POWER.</p><p class="sub" style="color:var(--ink)">The small forum has neither.</p><div class="ask"><span class="lab">ASK</span><p>Why should the same legal risk apply to both?</p></div>`;
+    if(b === "no") body = `${q}<p class="h-m">THEN THE FALSE POST ALONE ISN'T ENOUGH.</p><p class="sub" style="color:var(--ink)">Something about the platform's</p><div class="factors"><span>REACH</span><span>CONTROL</span><span>CONDUCT</span></div><div class="ask"><span class="lab">ASK</span><p>So what specifically creates the duty?</p></div>`;
+    if(b === "depends") body = `${q}<p class="h-m agree">FAIR DISTINCTION.</p><p class="sub" style="color:var(--ink)">What should the duty depend on?</p><div class="factors"><span>SIZE?</span><span>REACH?</span><span>CONTROL?</span><span>RECOMMENDATION?</span></div><div class="ask"><span class="lab">ASK</span><p>How does the platform satisfy that duty without having to adjudicate disputed truth?</p></div>`;
+    body += `<div class="branches"><button class="textbtn" type="button" data-tp="yes" aria-pressed="${b==="yes"}">If yes</button><button class="textbtn" type="button" data-tp="no" aria-pressed="${b==="no"}">If no</button><button class="textbtn" type="button" data-tp="depends" aria-pressed="${b==="depends"}">If it depends</button></div>`;
+  }
+  return `${chain({ hl:[4] })}<div class="content" style="gap:24px">${body}</div>
+    <div class="menu-foot" style="position:absolute;left:120px;bottom:96px"><button class="textbtn" type="button" data-nav="menu">← Menu</button></div>`;
+}
+function scrOther(){
+  const hl = S.otherHl === null ? [] : [S.otherHl];
+  return `${chain({ hl })}
+  <div class="content">
+    <div class="eyebrow">A new argument</div>
+    <h1 class="h-m">WHAT IS GROUP 5 TRYING TO ESTABLISH?</h1>
+    <div class="bigchain">${LINKS.map((L,i)=>`<button type="button" class="bc${S.otherHl===i?" hl":""}" data-otherhl="${i}"><span class="n">0${i+1}</span><span class="w">${L.k}</span></button>`).join("")}</div>
+    <p class="h-m accent rv${on(1)}">WHAT SPECIFICALLY MAKES THE PLATFORM<br>LEGALLY RESPONSIBLE IN THIS EXAMPLE?</p>
+  </div>
+  <div class="menu-foot" style="position:absolute;left:120px;bottom:96px"><button class="textbtn" type="button" data-nav="menu">← Menu</button></div>`;
+}
+function scrFinal(){
+  const s = S.step;
+  if(s === 3){
+    return `<div class="closing enter"><p class="h-xl">HOLD PLATFORMS ACCOUNTABLE<br><span class="accent">FOR WHAT THEY DO.</span></p><p class="h-l" style="color:var(--ink-2)">NOT FOR EVERY FALSE THING<br>THEIR USERS SAY.</p></div>`;
+  }
+  const agreed = FIXED_AGREED.concat(ARGS.filter(a => a.agreed && S.argAgree[a.id]).map(a => a.agreed)).slice(0, 5);
+  if(s === 0){
+    return `<div class="content full">
+      <div class="eyebrow">Final test</div>
+      <h1 class="h-l">5 QUESTIONS BEFORE<br>ASSIGNING LIABILITY</h1>
+      <div class="bigchain">${LINKS.map((L,i)=>`<button type="button" class="bc${S.linkAgree[i]?" on":""}" data-final="${i}" aria-pressed="${S.linkAgree[i]}"><span class="n">0${i+1}</span><span class="w">${L.k}</span><span class="s">${S.linkAgree[i]?"✓":"○"}</span></button>`).join("")}</div>
+      <p class="legend">✓ agreed by both sides · ○ still open</p>
+    </div>`;
+  }
+  return `<div class="content full">
+    <div class="eyebrow">What both sides agree on</div>
+    <div class="agreelist">${agreed.map(t=>`<div><span class="ck">✓</span><span>${t}</span></div>`).join("")}</div>
+    <div class="rv${on(2)}" style="display:flex;flex-direction:column;gap:12px;margin-top:10px">
+      <div class="eyebrow" style="color:var(--accent)">But the central question remains</div>
+      <p class="h-m">WHEN DOES SOMEONE ELSE'S FALSE STATEMENT<br>BECOME THE PLATFORM'S LEGAL RESPONSIBILITY?</p>
+    </div>
+  </div>`;
+}
+
+function render(enter){
+  let html;
+  const sc = S.screen;
+  if(sc === "home") html = scrHome();
+  else if(sc === "position") html = scrPosition();
+  else if(/^q\d$/.test(sc)) html = scrQ(Number(sc[1]) - 1);
+  else if(sc === "framework") html = scrFramework();
+  else if(sc === "menu") html = scrMenu();
+  else if(sc === "tp") html = scrTP();
+  else if(sc === "other") html = scrOther();
+  else if(sc === "final") html = scrFinal();
+  else { const a = ARGS.find(x => x.id === sc); html = a ? scrArg(a) : scrHome(); }
+  stage.innerHTML = `<div class="${enter ? "enter" : ""}" style="position:absolute;inset:0">${html}</div>`;
+  // reveal transitions: let opacity animate on step change
+  if(!enter){ stage.querySelectorAll(".rv.on").forEach(el => { el.classList.remove("on"); void el.offsetWidth; el.classList.add("on"); }); }
+  const navKey = { home:"home", framework:"framework", menu:"menu", tp:"tp", final:"final" }[sc] || (ARGS.some(a=>a.id===sc) || sc==="other" ? "menu" : /^q\d$/.test(sc) ? "framework" : "");
+  document.querySelectorAll("#nav [data-nav]").forEach(b => b.setAttribute("aria-current", String(b.dataset.nav === navKey)));
+  renderDrawer(); save();
+}
+
+/* ================= DRAWER / HELP ================= */
+const drawer = document.getElementById("drawer");
+let resetArmed = false;
+function renderDrawer(){
+  drawer.hidden = !S.drawer;
+  if(!S.drawer) return;
+  const info = PRESENTER[S.screen] || {};
+  drawer.innerHTML = `<h4>Presenter · not for projection</h4>
+    <div class="own">${info.owner || ""}</div>
+    <p>${info.obj || ""}</p>
+    <p><b>Next:</b> ${info.next || ""}</p>
+    <p style="color:var(--ink-2)">${info.remind || ""}</p>
+    <div class="row2">
+      <button type="button" data-act="fullscreen">Full screen</button>
+      <button type="button" data-nav="help">Shortcuts</button>
+      ${resetArmed ? `<button type="button" class="danger" data-act="reset-yes">Confirm reset</button><button type="button" data-act="reset-no">Cancel</button>` : `<button type="button" class="danger" data-act="reset">Reset debate…</button>`}
+    </div>`;
+}
+const help = document.getElementById("help");
+help.innerHTML = `<div class="card"><h2>Shortcuts</h2><table>
+  <tr><td><kbd>→</kbd> <kbd>Space</kbd> <kbd>PgDn</kbd></td><td>Next / reveal</td></tr>
+  <tr><td><kbd>←</kbd> <kbd>PgUp</kbd></td><td>Back</td></tr>
+  <tr><td><kbd>H</kbd></td><td>Home</td></tr>
+  <tr><td><kbd>G</kbd></td><td>Group 5 menu</td></tr>
+  <tr><td><kbd>1</kbd>–<kbd>6</kbd> on menu</td><td>Open that argument</td></tr>
+  <tr><td><kbd>1</kbd>–<kbd>5</kbd> elsewhere</td><td>Jump to that question</td></tr>
+  <tr><td><kbd>R</kbd></td><td>Jump to our response (argument screens)</td></tr>
+  <tr><td><kbd>T</kbd></td><td>Two Platforms · then <kbd>Y</kbd> <kbd>N</kbd> <kbd>D</kbd></td></tr>
+  <tr><td><kbd>O</kbd></td><td>Other argument</td></tr>
+  <tr><td><kbd>F</kbd></td><td>Final Test</td></tr>
+  <tr><td><kbd>P</kbd></td><td>Presenter drawer (keep closed while projecting)</td></tr>
+  <tr><td><kbd>Esc</kbd></td><td>Close overlays, otherwise back to the menu</td></tr>
+  </table><p style="color:var(--ink-2);margin:14px 0 0">✓ marks only what both sides agreed. Click a highlighted link, a ○ toggle, or a Final Test link to change it.</p>
+  <p style="margin:16px 0 0"><button class="cta" type="button" data-act="closehelp" style="font-size:18px;padding:10px 18px">Close</button></p></div>`;
+
+/* ================= EVENTS ================= */
+function openArg(id){ go(id); }
+document.addEventListener("click", e=>{
+  const t = e.target.closest("button"); if(!t) return;
+  const d = t.dataset;
+  if(d.nav){
+    if(d.nav === "back") return back();
+    if(d.nav === "drawer"){ S.drawer = !S.drawer; resetArmed = false; renderDrawer(); save(); return; }
+    if(d.nav === "help"){ help.hidden = false; return; }
+    return go(d.nav);
+  }
+  if(d.act === "next") return next();
+  if(d.act === "closehelp"){ help.hidden = true; return; }
+  if(d.act === "fullscreen"){ try{ document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }catch(err){} return; }
+  if(d.act === "reset"){ resetArmed = true; renderDrawer(); return; }
+  if(d.act === "reset-no"){ resetArmed = false; renderDrawer(); return; }
+  if(d.act === "reset-yes"){ resetArmed = false; const dr = S.drawer; S = defaults(); S.drawer = dr; render(true); return; }
+  if(d.arg) return openArg(d.arg);
+  if(d.agree){ S.argAgree[d.agree] = !S.argAgree[d.agree]; render(false); return; }
+  if(d.tp){ S.tp = d.tp; if(S.step < 1) S.step = 1; render(false); return; }
+  if(d.otherhl !== undefined){ const i = Number(d.otherhl); S.otherHl = S.otherHl === i ? null : i; render(false); return; }
+  if(d.final !== undefined){ const i = Number(d.final); S.linkAgree[i] = !S.linkAgree[i]; render(false); return; }
+  if(d.jump){
+    const i = Number(d.jump) - 1;
+    const a = ARGS.find(x => x.id === S.screen);
+    // On argument screens, a highlighted link toggles "agreed"; elsewhere it jumps to that question.
+    if(a && a.links.includes(i) && S.step >= 1){ S.linkAgree[i] = !S.linkAgree[i]; render(false); return; }
+    return go("q" + (i + 1));
+  }
+});
+document.addEventListener("keydown", e=>{
+  if(e.ctrlKey || e.metaKey || e.altKey) return;
+  const k = e.key;
+  if(!help.hidden){ if(k === "Escape" || k === "?") { help.hidden = true; e.preventDefault(); } return; }
+  if(k === "ArrowRight" || k === " " || k === "PageDown" || k === "Enter" && document.activeElement === document.body){ e.preventDefault(); return next(); }
+  if(k === "ArrowLeft" || k === "PageUp" || k === "Backspace"){ e.preventDefault(); return back(); }
+  const K = k.toLowerCase();
+  if(K === "h") return go("home");
+  if(K === "g") return go("menu");
+  if(K === "t") return go("tp");
+  if(K === "f") return go("final");
+  if(K === "o") return go("other");
+  if(K === "p"){ S.drawer = !S.drawer; resetArmed = false; renderDrawer(); save(); return; }
+  if(k === "?"){ help.hidden = false; return; }
+  if(k === "Escape"){ if(S.drawer){ S.drawer = false; renderDrawer(); save(); return; } return go("menu"); }
+  if(K === "r" && ARGS.some(a => a.id === S.screen)){ S.step = 3; render(false); return; }
+  if(S.screen === "tp" && ["y","n","d"].includes(K)){ S.tp = { y:"yes", n:"no", d:"depends" }[K]; if(S.step < 1) S.step = 1; render(false); return; }
+  if(/^[1-6]$/.test(k)){
+    const n = Number(k);
+    if(S.screen === "menu"){ const a = ARGS.find(x => x.n === n); if(a) return openArg(a.id); return; }
+    if(n <= 5) return go("q" + n);
+  }
+});
+
+/* Wake the nav bar on mouse movement */
+const nav = document.getElementById("nav"); let navTimer;
+document.addEventListener("mousemove", ()=>{ nav.classList.add("awake"); clearTimeout(navTimer); navTimer = setTimeout(()=>nav.classList.remove("awake"), 2200); });
+
+/* Scale the 1600×900 stage to the window */
+function fit(){
+  const s = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+  document.getElementById("stage").style.transform = `scale(${s})`;
+}
+window.addEventListener("resize", fit);
+fit(); render(true);
+</script>
+</body>
+</html>
