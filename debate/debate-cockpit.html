@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Debate Cockpit</title>
+<style>
+:root{
+  --bg:#f7f6f2; --card:#ffffff; --ink:#16201d; --ink2:#4a5551; --line:#d9d6cd;
+  --accent:#1d4d6a; --accent-soft:#e3ecf2;
+  --fs:clamp(16px, 1.1vw + 0.9vh, 26px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:var(--fs);line-height:1.4;display:flex;flex-direction:column;overflow:hidden;-webkit-user-select:none;user-select:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+[hidden]{display:none!important}
+
+nav{display:grid;grid-template-columns:repeat(5,1fr) 1.1fr 1fr;gap:6px;padding:8px;background:var(--card);border-bottom:2px solid var(--line);flex:0 0 auto}
+nav button{min-height:64px;border-radius:10px;border:2px solid var(--line);background:var(--bg);font-weight:700;font-size:clamp(14px,1.05vw,20px);line-height:1.15;padding:6px}
+nav button small{display:block;font-weight:600;font-size:.78em;color:var(--ink2)}
+nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+nav button.on small{color:#dbe7ef}
+nav button.em{border-color:var(--accent);color:var(--accent)}
+nav button.em.on{color:#fff}
+
+main{flex:1 1 auto;min-height:0;padding:14px 16px 16px;overflow:auto}
+.page{height:100%;display:flex;flex-direction:column;gap:12px}
+.lab{font-size:.62em;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);margin-bottom:4px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:12px 16px}
+.card.key{border-color:var(--accent)}
+.card.key .lab{color:var(--accent)}
+.accent{color:var(--accent)}
+
+/* Person page */
+.ptitle{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.ptitle h1{font-size:1.5em;line-height:1.1}
+.ptitle .q{font-size:1em;font-weight:700;color:var(--accent)}
+.pgrid{flex:1;min-height:0;display:grid;grid-template-columns:1.55fr 1fr;gap:12px}
+.pcol{display:flex;flex-direction:column;gap:12px;min-height:0}
+.script{flex:1;min-height:0;overflow:auto}
+.script p{margin-bottom:.55em}
+.script p:last-child{margin-bottom:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{border:2px solid var(--line);border-radius:999px;padding:2px 12px;font-weight:700;font-size:.9em}
+.big{font-weight:700}
+
+/* Rebuttals */
+.tiles{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:10px}
+.tile{background:var(--card);border:2px solid var(--line);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:1.35em;font-weight:800;padding:8px;text-align:center}
+.tile small{font-size:.55em;font-weight:700;color:var(--ink2)}
+.tile:hover,.tile:focus-visible{border-color:var(--accent);background:var(--accent-soft)}
+.tile.other{border-style:dashed}
+.back{align-self:flex-start;min-height:60px;padding:0 28px;border-radius:10px;background:var(--accent);color:#fff;font-weight:800;font-size:1.05em}
+.rhead{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.rhead h1{font-size:1.5em}
+.rhead .own{font-weight:700;color:var(--ink2)}
+.rgrid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px}
+.rgrid .card{overflow:auto}
+.rgrid .txt{font-size:1.12em}
+
+/* Steps (Other, Emergency) */
+.steps{display:flex;flex-direction:column;gap:10px}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step .n{flex:0 0 auto;width:1.9em;height:1.9em;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+.step b{display:block;font-size:1.1em}
+.step span.d{color:var(--ink2)}
+.links{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.links button{background:var(--card);border:2px solid var(--line);border-radius:12px;min-height:84px;padding:8px;font-weight:800;text-align:center;line-height:1.2}
+.links button small{display:block;font-weight:600;font-size:.72em;color:var(--ink2);margin-top:4px}
+.links button:hover,.links button:focus-visible{border-color:var(--accent);background:var(--accent-soft)}
+.position{font-size:1.15em;font-weight:800}
+.position span{color:var(--accent)}
+.split{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.split .card{overflow:auto}
+
+@media (max-width:900px){
+  nav{grid-template-columns:repeat(4,1fr)}
+  .pgrid,.split,.rgrid{grid-template-columns:1fr;grid-template-rows:none}
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .links{grid-template-columns:1fr}
+  body{overflow:auto}
+}
+</style>
+</head>
+<body>
+<nav id="nav" aria-label="Sections"></nav>
+<main id="main"></main>
+
+<script>
+"use strict";
+
+const PEOPLE = [
+  { id:"p1", tag:"P1", name:"Trigger", q:"What triggers liability?",
+    job:"Concede the harm, state our position, and ask what exactly creates legal liability.",
+    say:[
+      "Misinformation can cause real harm. We agree with that, and Group 5 is right to care about it.",
+      "But harm tells us there is a problem. It doesn't tell us who should be legally responsible.",
+      "Our position is simple: hold platforms accountable for what they do, not for every false thing their users say.",
+      "So our first question: what triggers liability? Is it the false post itself? A user report? A failure to remove it? A legal rule needs a clear trigger.",
+      "These aren't trick questions. If Group 5 can answer them, they'll have a narrower, better rule. Tonight we'll ask five: trigger, truth, conduct, consequences, and alternative."
+    ],
+    listen:["Harm","Duty of care","Notice / reported","Negligence","Publishers"],
+    ask:"What exactly triggers the legal duty: the post, a report, or a failure to act?",
+    handoff:"Once there's a trigger, someone has to decide the post is false. That's the next question." },
+  { id:"p2", tag:"P2", name:"Truth", q:"Who decides what is false?",
+    job:"Show that liability for falsity requires someone to decide what's true, fast, under legal risk.",
+    say:[
+      "If liability starts when a post is false, someone has to decide what's false. Who? The platform? A court? The government?",
+      "Some claims are clearly false. Many aren't. Facts get disputed, evidence changes, and claims that were once removed have later become part of serious debate.",
+      "Under liability, that decision gets made quickly, at huge volume, with legal risk on one side.",
+      "We're not saying truth doesn't matter. We're saying liability requires someone to make that determination, and Group 5 needs to tell us who."
+    ],
+    listen:["Obviously false","They knew","Fact-checkers","Public health","Elections"],
+    ask:"Who decides that a post is false, and how fast must they decide?",
+    handoff:"Even where truth is disputed, we can look at what the platform actually did. That's conduct." },
+  { id:"p3", tag:"P3", name:"Conduct", q:"What did the platform actually do?",
+    job:"Separate what the platform did from what a user said.",
+    say:[
+      "Let's separate what the platform did from what a user said.",
+      "Hosting a post is one thing. Promoting it is another. Creating it, or participating in it, is another.",
+      "We agree that recommendation and ranking are platform choices. That's platform conduct, and platforms can answer for their conduct.",
+      "If recommendation is the problem, regulate recommendation. That still doesn't establish liability simply because the underlying user post is false.",
+      "Responsibility should follow conduct."
+    ],
+    listen:["Algorithms","Amplify / recommend","Profit","Engagement","Design"],
+    ask:"Is your liability based on the false post, or on the platform's conduct?",
+    handoff:"So what happens when the law gets the trigger wrong? That's the consequences." },
+  { id:"p4", tag:"P4", name:"Consequences", q:"What behavior does the rule reward?",
+    job:"Show the incentive liability creates: close calls go to removal.",
+    say:[
+      "Every legal rule rewards some behavior. Look at the choice a platform faces.",
+      "Leave contested content up, and it risks liability. Remove it, and the legal risk goes down.",
+      "Which mistake will platforms try hardest to avoid? Close calls get removed.",
+      "That doesn't mean everything gets censored. It means legal incentives shape moderation. And the posts in the grey zone are exactly the disputed ones, where some will turn out to be true.",
+      "A rule that rewards removal doesn't reward accuracy."
+    ],
+    listen:["No incentive","Already moderate","AI can detect it","Scale","Voluntary"],
+    ask:"What happens to close calls?",
+    handoff:"So is there a better-targeted solution? That's the alternative." },
+  { id:"p5", tag:"P5", name:"Alternative", q:"Is there a better-targeted solution?",
+    job:"Show targeted accountability, not 'do nothing', then close on the central question.",
+    say:[
+      "We're not arguing for doing nothing. We're arguing for targeting the actual wrong.",
+      "When a speaker lies, the speaker is responsible. When a platform sells a fraudulent ad, that's its own conduct, and it should answer for it. When the platform's own design causes harm, it should answer for that too.",
+      "If regulation is needed, process-based duties are a more targeted alternative than liability based on determining whether users' statements are true.",
+      "So the question remains: when does someone else's false statement become the platform's legal responsibility?"
+    ],
+    listen:["Victims","Remedy / accountability","Europe","Scam ads","Law is changing"],
+    ask:"What specific gap requires making the platform responsible for the user's statement?",
+    handoff:"Hold platforms accountable for what they do, not for every false thing their users say." }
+];
+
+const REBUTTALS = [
+  { id:"harm", title:"Harm", owner:"P1",
+    they:"Misinformation causes serious real-world harm.",
+    resp:"We agree the harm is real. But harm proves there is a problem. It does not prove who should be legally responsible.",
+    ask:"What evidence shows this liability would reduce the harm, rather than simply increase removals?",
+    push:"“Some harm is clear-cut.” Clear-cut dangerous content is already removed under platform rules, and a clearly defined law can target it. The fight is over the grey zone, and that's where liability does damage." },
+  { id:"algorithms", title:"Algorithms", owner:"P3",
+    they:"Platforms actively amplify misinformation, and profit from the engagement.",
+    resp:"Then focus on the amplification. Recommendation and ranking are platform conduct. A user's statement is still the user's statement.",
+    ask:"Is your liability based on the false post, or the platform's conduct?",
+    push:"“Recommending is the platform's own act.” Agreed. If recommendation is the problem, regulate recommendation. That still doesn't establish liability simply because the underlying user post is false." },
+  { id:"knew", title:"They Knew", owner:"P2",
+    they:"Platforms know misinformation exists on their services.",
+    resp:"Knowing it exists is not the same as knowing this particular claim is false.",
+    ask:"What exactly must the platform know before liability begins?",
+    push:"“They were told about this specific post.” A report tells them someone disputes it. It doesn't tell them it's false. Someone still has to decide the truth." },
+  { id:"duty", title:"Duty of Care", owner:"P1",
+    they:"Platforms should take reasonable steps once notified, like any business.",
+    resp:"Reasonable steps toward what? Removing a reported post? Or determining whether it is true?",
+    ask:"What exactly triggers the legal duty?",
+    push:"“Publishers are liable, so platforms should be.” Editors choose every piece before it's published. Platforms host huge volumes no one sees first. If duties scale with size, fine: what is the duty, and how is it met without adjudicating disputed truth?" },
+  { id:"incentives", title:"Incentives", owner:"P4",
+    they:"Without liability, platforms won't act.",
+    resp:"Liability creates an incentive. But which one? Leaving contested content up means legal risk. Removing it means lower legal risk.",
+    ask:"What happens to close calls?",
+    push:"“They already moderate / AI can catch it.” Moderating under your own rules is different from moderating under legal threat. AI predicts what was flagged before; it can't settle new disputed claims." },
+  { id:"victims", title:"Victims / Remedies", owner:"P5",
+    they:"Victims need someone to hold accountable.",
+    resp:"We agree. But the remedy should follow the wrong. A speaker's lie means speaker responsibility. The platform's own conduct means platform responsibility.",
+    ask:"What specific gap requires making the platform responsible for the user's statement?",
+    push:"“The speaker is anonymous.” Then fix identification. That's a gap in finding the speaker, not a reason to treat the platform as the speaker." },
+  { id:"europe", title:"Europe", owner:"P5",
+    they:"Europe already holds platforms responsible. The law is moving that way.",
+    resp:"Europe regulates how large platforms manage risk. It still protects hosts from liability for user content they don't know about, and it doesn't require general monitoring.",
+    ask:"Which part of the European model makes a platform liable because a user's post is false?",
+    push:"“But Europe fines platforms.” For failing process duties: risk assessments, transparency, handling notices. That's a more targeted alternative than liability for whether users' statements are true." },
+  { id:"fraud", title:"Fraud / Scam Ads", owner:"P5",
+    they:"Platforms profit from scam ads and fraud.",
+    resp:"We agree that's a problem. A paid ad is the platform's own commercial conduct, and fraud is already illegal. Our position already covers it.",
+    ask:"Is your case about ads the platform sells, or about false posts users make?",
+    push:"“Then why not misinformation too?” Fraud is a defined legal wrong. “Misinformation” isn't. Someone still has to decide what's false, and that's the problem." },
+  { id:"other", title:"Other", owner:"Anyone", other:true }
+];
+
+const NAV = [
+  ...PEOPLE.map(p => ({ id:p.id, html:`${p.tag}<small>${p.name}</small>` })),
+  { id:"rebuttals", html:"Rebuttals" },
+  { id:"emergency", html:"Emergency", cls:"em" }
+];
+
+let view = "p1", sub = null;
+const nav = document.getElementById("nav");
+const main = document.getElementById("main");
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+function renderNav(){
+  nav.innerHTML = NAV.map(n => {
+    const on = view === n.id;
+    return `<button type="button" data-go="${n.id}" class="${n.cls || ""}${on ? " on" : ""}" aria-current="${on ? "page" : "false"}">${n.html}</button>`;
+  }).join("");
+}
+
+function linkButtons(){
+  return `<div class="links">${PEOPLE.map(p => `<button type="button" data-go="${p.id}">${p.tag} ${p.name}<small>${esc(p.q)}</small></button>`).join("")}</div>`;
+}
+
+function personPage(p){
+  return `<div class="page">
+    <div class="ptitle"><h1>${p.tag} · ${p.name}</h1><span class="q">${esc(p.q)}</span></div>
+    <div class="pgrid">
+      <div class="card key script"><div class="lab">Say this</div>${p.say.map(s => `<p>${esc(s)}</p>`).join("")}</div>
+      <div class="pcol">
+        <div class="card"><div class="lab">My job</div><div>${esc(p.job)}</div></div>
+        <div class="card"><div class="lab">Listen for</div><div class="chips">${p.listen.map(l => `<span>${esc(l)}</span>`).join("")}</div></div>
+        <div class="card key"><div class="lab">Best question</div><div class="big">${esc(p.ask)}</div></div>
+        <div class="card"><div class="lab">${p.id === "p5" ? "Closing line" : "Handoff"}</div><div class="big">${esc(p.handoff)}</div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function rebuttalMenu(){
+  return `<div class="page">
+    <p class="position">${esc("Hold platforms accountable for what they do,")} <span>${esc("not for every false thing their users say.")}</span></p>
+    <div class="tiles">${REBUTTALS.map(r => `<button type="button" class="tile${r.other ? " other" : ""}" data-reb="${r.id}">${esc(r.title)}<small>${esc(r.owner)}</small></button>`).join("")}</div>
+  </div>`;
+}
+
+function rebuttalPage(r){
+  const back = `<button type="button" class="back" data-go="rebuttals">← BACK TO REBUTTALS</button>`;
+  if(r.other){
+    return `<div class="page">
+      ${back}
+      <div class="rhead"><h1>Other argument</h1><span class="own">Universal fallback</span></div>
+      <div class="card key"><div class="steps">
+        <div class="step"><span class="n">1</span><div><b>What are they trying to establish?</b><span class="d">Name the claim in one line before answering.</span></div></div>
+        <div class="step"><span class="n">2</span><div><b>Trigger / Truth / Conduct / Consequences / Alternative?</b><span class="d">Pick the closest one. Pass to that person.</span></div></div>
+        <div class="step"><span class="n">3</span><div><b>Ask: “What specifically makes the platform legally liable in this example?”</b></div></div>
+      </div></div>
+      ${linkButtons()}
+    </div>`;
+  }
+  return `<div class="page">
+    ${back}
+    <div class="rhead"><h1>${esc(r.title)}</h1><span class="own">Owner: ${esc(r.owner)}</span></div>
+    <div class="rgrid">
+      <div class="card"><div class="lab">They say</div><div class="txt">${esc(r.they)}</div></div>
+      <div class="card key"><div class="lab">10-second response</div><div class="txt big">${esc(r.resp)}</div></div>
+      <div class="card key"><div class="lab">Ask back</div><div class="txt big">${esc(r.ask)}</div></div>
+      <div class="card"><div class="lab">If they push</div><div class="txt">${esc(r.push)}</div></div>
+    </div>
+  </div>`;
+}
+
+function emergencyPage(){
+  const steps = [
+    ["CONCEDE what is reasonable","“That's a fair point…” Agree with the true part first."],
+    ["IDENTIFY what they are proving","Harm? Knowledge? Conduct? Name it."],
+    ["RETURN TO LIABILITY","“…but does that make the platform legally liable for what the user said?”"],
+    ["PASS to the relevant teammate","Use the five links below."]
+  ];
+  return `<div class="page">
+    <p class="position">${esc("Hold platforms accountable for what they do,")} <span>${esc("not for every false thing their users say.")}</span></p>
+    <div class="card key" style="flex:1;min-height:0;overflow:auto;font-size:1.2em"><div class="steps" style="gap:18px">${steps.map((s,i) => `<div class="step"><span class="n">${i+1}</span><div><b>${esc(s[0])}</b><span class="d">${esc(s[1])}</span></div></div>`).join("")}</div></div>
+    ${linkButtons()}
+  </div>`;
+}
+
+function render(){
+  renderNav();
+  let html;
+  const person = PEOPLE.find(p => p.id === view);
+  if(person) html = personPage(person);
+  else if(view === "rebuttals") html = sub ? rebuttalPage(REBUTTALS.find(r => r.id === sub)) : rebuttalMenu();
+  else html = emergencyPage();
+  main.innerHTML = html;
+  main.scrollTop = 0;
+}
+
+document.addEventListener("click", e => {
+  const go = e.target.closest("[data-go]");
+  if(go){ view = go.dataset.go; sub = null; render(); return; }
+  const reb = e.target.closest("[data-reb]");
+  if(reb){ view = "rebuttals"; sub = reb.dataset.reb; render(); }
+});
+
+render();
+</script>
+</body>
+</html>
