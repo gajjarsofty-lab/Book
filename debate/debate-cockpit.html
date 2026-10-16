@@ -7,7 +7,7 @@
 <style>
 :root{
   --bg:#f7f6f2; --card:#ffffff; --ink:#16201d; --ink2:#4a5551; --line:#d9d6cd;
-  --accent:#1d4d6a; --accent-soft:#e3ecf2;
+  --accent:#1d4d6a; --accent-soft:#e3ecf2; --amber:#b7791f; --amber-ink:#8a5a12; --amber-soft:#fbf2df;
   --fs:clamp(16px, 1.1vw + 0.9vh, 26px);
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -16,13 +16,16 @@ body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSys
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 [hidden]{display:none!important}
 
-nav{display:grid;grid-template-columns:repeat(5,1fr) 1.1fr 1fr;gap:6px;padding:8px;background:var(--card);border-bottom:2px solid var(--line);flex:0 0 auto}
+nav,.strip{display:grid;grid-template-columns:repeat(5,1fr) 1fr 1.1fr 1.1fr;}
+nav{gap:6px;padding:8px;background:var(--card);border-bottom:2px solid var(--line);flex:0 0 auto}
 nav button{min-height:64px;border-radius:10px;border:2px solid var(--line);background:var(--bg);font-weight:700;font-size:clamp(14px,1.05vw,20px);line-height:1.15;padding:6px}
 nav button small{display:block;font-weight:600;font-size:.78em;color:var(--ink2)}
 nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
 nav button.on small{color:#dbe7ef}
-nav button.em{border-color:var(--accent);color:var(--accent)}
-nav button.em.on{color:#fff}
+nav button.em{border-color:var(--amber);color:var(--amber-ink)}
+nav button.em.on{background:var(--amber);border-color:var(--amber);color:#fff}
+.strip{gap:6px;padding:3px 8px 4px;background:var(--bg);border-bottom:1px solid var(--line);flex:0 0 auto;font-size:clamp(11px,.75vw,14px);color:var(--ink2);letter-spacing:.06em;text-align:center;line-height:1.2}
+.strip b{font-weight:700}
 
 main{flex:1 1 auto;min-height:0;padding:14px 16px 16px;overflow:auto}
 .page{height:100%;display:flex;flex-direction:column;gap:12px}
@@ -71,12 +74,57 @@ main{flex:1 1 auto;min-height:0;padding:14px 16px 16px;overflow:auto}
 .links button:hover,.links button:focus-visible{border-color:var(--accent);background:var(--accent-soft)}
 .position{font-size:1.15em;font-weight:800}
 .position span{color:var(--accent)}
-.split{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.split .card{overflow:auto}
+.tile .own{font-size:.62em;font-weight:800;background:var(--accent);color:#fff;border-radius:999px;padding:2px 14px;margin-top:4px}
+.tile.other .own{background:var(--ink2)}
+.rbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.rbar h1{font-size:1.45em;margin-left:6px}
+.ownbig{margin-left:auto;display:flex;align-items:center;gap:10px}
+.ownbig .badge{background:var(--accent);color:#fff;border-radius:10px;padding:6px 16px;font-weight:800;font-size:1.15em;line-height:1.2}
+.ownbig .badge small{display:block;font-size:.55em;font-weight:700;letter-spacing:.09em;opacity:.85}
+.gobtn{min-height:60px;padding:0 20px;border-radius:10px;border:2px solid var(--accent);color:var(--accent);background:var(--card);font-weight:800}
+.gobtn:hover{background:var(--accent-soft)}
+/* ACT */
+.act{display:flex;flex-direction:column;gap:6px}
+.actrow{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px 16px}
+.actrow .L{flex:0 0 auto;width:1.9em;height:1.9em;border-radius:10px;background:var(--accent);color:#fff;font-weight:900;font-size:1.6em;display:flex;align-items:center;justify-content:center}
+.actrow .body{flex:1;min-width:0}
+.actrow h2{font-size:1.2em;letter-spacing:.04em}
+.actrow p{font-size:1.05em}
+.arrow{text-align:center;color:var(--ink2);font-weight:800;line-height:1}
+.route{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px}
+.route button{min-height:62px;border-radius:10px;border:2px solid var(--accent);background:var(--accent-soft);font-weight:800;line-height:1.15;padding:6px}
+.route button small{display:block;font-size:.8em;color:var(--accent)}
+.route button:hover{background:var(--accent);color:#fff}
+.route button:hover small{color:#fff}
+.em-page .actrow .L{background:var(--amber)}
+.em-page .actrow{border-color:#e8d3a8}
+.em-page h1.title{font-size:1.6em;color:var(--amber-ink)}
+.em-grid{flex:1;min-height:0;display:grid;grid-template-columns:1.2fr 1fr;gap:12px}
+.stuck{background:var(--amber-soft);border:2px solid var(--amber);border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;gap:10px;overflow:auto}
+.stuck .lab{color:var(--amber-ink)}
+.stuck .q{font-weight:700;font-size:1.05em}
+.map{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center}
+.map b{font-size:.9em;white-space:nowrap}
+.map span{display:flex;flex-wrap:wrap;gap:6px}
+.map button{min-height:46px;padding:0 10px;font-size:.8em;white-space:nowrap;border-radius:10px;border:2px solid var(--accent);background:var(--card);font-weight:800}
+.map button:hover{background:var(--accent-soft)}
+/* Huddle */
+.hgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;flex:1;min-height:0}
+.hcard{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center}
+.hcard:hover{border-color:var(--accent);background:var(--accent-soft)}
+.hcard .t{font-size:1.6em;font-weight:900;color:var(--accent)}
+.hcard .k{font-size:1.15em;font-weight:800;letter-spacing:.05em}
+.hcard .q{color:var(--ink2);font-weight:600}
+.hpos{background:var(--card);border:2px solid var(--accent);border-radius:14px;padding:14px 18px}
+.hpos .position{font-size:1.4em}
+.hact{background:var(--amber-soft);border:2px solid var(--amber);border-radius:14px;padding:12px 18px;font-size:1.2em;font-weight:800}
+.hact span{color:var(--amber-ink)}
 
 @media (max-width:900px){
-  nav{grid-template-columns:repeat(4,1fr)}
-  .pgrid,.split,.rgrid{grid-template-columns:1fr;grid-template-rows:none}
+  nav,.strip{grid-template-columns:repeat(4,1fr)}
+  .strip{display:none}
+  .hgrid,.route{grid-template-columns:repeat(2,1fr)}
+  .em-grid,.pgrid,.rgrid{grid-template-columns:1fr;grid-template-rows:none}
   .tiles{grid-template-columns:repeat(2,1fr)}
   .links{grid-template-columns:1fr}
   body{overflow:auto}
@@ -85,13 +133,14 @@ main{flex:1 1 auto;min-height:0;padding:14px 16px 16px;overflow:auto}
 </head>
 <body>
 <nav id="nav" aria-label="Sections"></nav>
+<div class="strip" aria-hidden="true"><div><b>TRIGGER</b> · P1</div><div><b>TRUTH</b> · P2</div><div><b>CONDUCT</b> · P3</div><div><b>CONSEQUENCES</b> · P4</div><div><b>ALTERNATIVE</b> · P5</div></div>
 <main id="main"></main>
 
 <script>
 "use strict";
 
 const PEOPLE = [
-  { id:"p1", tag:"P1", name:"Trigger", q:"What triggers liability?",
+  { id:"p1", tag:"P1", name:"Trigger", q:"What creates legal liability?", hq:"What triggers liability?",
     job:"Concede the harm, state our position, and ask what exactly creates legal liability.",
     say:[
       "Misinformation can cause real harm. We agree with that, and Group 5 is right to care about it.",
@@ -103,7 +152,7 @@ const PEOPLE = [
     listen:["Harm","Duty of care","Notice / reported","Negligence","Publishers"],
     ask:"What exactly triggers the legal duty: the post, a report, or a failure to act?",
     handoff:"Once there's a trigger, someone has to decide the post is false. That's the next question." },
-  { id:"p2", tag:"P2", name:"Truth", q:"Who decides what is false?",
+  { id:"p2", tag:"P2", name:"Truth", q:"Who determines what is false?", hq:"Who decides what is false?",
     job:"Show that liability for falsity requires someone to decide what's true, fast, under legal risk.",
     say:[
       "If liability starts when a post is false, someone has to decide what's false. Who? The platform? A court? The government?",
@@ -114,7 +163,7 @@ const PEOPLE = [
     listen:["Obviously false","They knew","Fact-checkers","Public health","Elections"],
     ask:"Who decides that a post is false, and how fast must they decide?",
     handoff:"Even where truth is disputed, we can look at what the platform actually did. That's conduct." },
-  { id:"p3", tag:"P3", name:"Conduct", q:"What did the platform actually do?",
+  { id:"p3", tag:"P3", name:"Conduct", q:"What did the platform actually do?", hq:"What did the platform actually do?",
     job:"Separate what the platform did from what a user said.",
     say:[
       "Let's separate what the platform did from what a user said.",
@@ -126,7 +175,7 @@ const PEOPLE = [
     listen:["Algorithms","Amplify / recommend","Profit","Engagement","Design"],
     ask:"Is your liability based on the false post, or on the platform's conduct?",
     handoff:"So what happens when the law gets the trigger wrong? That's the consequences." },
-  { id:"p4", tag:"P4", name:"Consequences", q:"What behavior does the rule reward?",
+  { id:"p4", tag:"P4", name:"Consequences", q:"What behavior does the rule incentivize?", hq:"What behavior does the rule reward?",
     job:"Show the incentive liability creates: close calls go to removal.",
     say:[
       "Every legal rule rewards some behavior. Look at the choice a platform faces.",
@@ -138,12 +187,12 @@ const PEOPLE = [
     listen:["No incentive","Already moderate","AI can detect it","Scale","Voluntary"],
     ask:"What happens to close calls?",
     handoff:"So is there a better-targeted solution? That's the alternative." },
-  { id:"p5", tag:"P5", name:"Alternative", q:"Is there a better-targeted solution?",
+  { id:"p5", tag:"P5", name:"Alternative", q:"Is there a better-targeted solution?", hq:"Is there a better-targeted solution?",
     job:"Show targeted accountability, not 'do nothing', then close on the central question.",
     say:[
-      "We're not arguing for doing nothing. We're arguing for targeting the actual wrong.",
-      "When a speaker lies, the speaker is responsible. When a platform sells a fraudulent ad, that's its own conduct, and it should answer for it. When the platform's own design causes harm, it should answer for that too.",
-      "If regulation is needed, process-based duties are a more targeted alternative than liability based on determining whether users' statements are true.",
+      "We're not arguing for doing nothing. We're arguing for targeted accountability.",
+      "When a speaker spreads damaging lies, hold the speaker liable. When a platform knowingly sells a fraudulent ad, that's its own conduct, and it should answer for it. When the platform's own conduct causes harm, hold the platform accountable for that too.",
+      "And where regulation is needed, define clear duties around what platforms actually control.",
       "So the question remains: when does someone else's false statement become the platform's legal responsibility?"
     ],
     listen:["Victims","Remedy / accountability","Europe","Scam ads","Law is changing"],
@@ -192,16 +241,17 @@ const REBUTTALS = [
     resp:"We agree that's a problem. A paid ad is the platform's own commercial conduct, and fraud is already illegal. Our position already covers it.",
     ask:"Is your case about ads the platform sells, or about false posts users make?",
     push:"“Then why not misinformation too?” Fraud is a defined legal wrong. “Misinformation” isn't. Someone still has to decide what's false, and that's the problem." },
-  { id:"other", title:"Other", owner:"Anyone", other:true }
+  { id:"other", title:"Other", owner:"ANYONE", other:true }
 ];
 
 const NAV = [
   ...PEOPLE.map(p => ({ id:p.id, html:`${p.tag}<small>${p.name}</small>` })),
+  { id:"huddle", html:"Huddle" },
   { id:"rebuttals", html:"Rebuttals" },
   { id:"emergency", html:"Emergency", cls:"em" }
 ];
 
-let view = "p1", sub = null;
+let view = "huddle", sub = null;
 const nav = document.getElementById("nav");
 const main = document.getElementById("main");
 const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
@@ -213,8 +263,19 @@ function renderNav(){
   }).join("");
 }
 
-function linkButtons(){
-  return `<div class="links">${PEOPLE.map(p => `<button type="button" data-go="${p.id}">${p.tag} ${p.name}<small>${esc(p.q)}</small></button>`).join("")}</div>`;
+const KEYS = ["TRIGGER","TRUTH","CONDUCT","CONSEQUENCES","ALTERNATIVE"];
+const person = tag => PEOPLE.find(p => p.tag === tag);
+const POS = `Hold platforms accountable for what they do, <span>not for every false thing their users say.</span>`;
+
+function actBlock(){
+  return `<div class="act">
+    <div class="actrow"><span class="L">A</span><div class="body"><h2>ACKNOWLEDGE</h2><p>“That's a fair point…” Agree with the reasonable part.</p></div></div>
+    <div class="arrow">↓</div>
+    <div class="actrow"><span class="L">C</span><div class="body"><h2>CLASSIFY</h2><p>What are they actually proving?</p>
+      <div class="route">${PEOPLE.map((p,i) => `<button type="button" data-go="${p.id}">${KEYS[i]}<small>${p.tag}</small></button>`).join("")}</div></div></div>
+    <div class="arrow">↓</div>
+    <div class="actrow"><span class="L">T</span><div class="body"><h2>TEST THE JUMP</h2><p class="big">“But what specifically makes the platform legally liable in this example?”</p></div></div>
+  </div>`;
 }
 
 function personPage(p){
@@ -234,8 +295,8 @@ function personPage(p){
 
 function rebuttalMenu(){
   return `<div class="page">
-    <p class="position">${esc("Hold platforms accountable for what they do,")} <span>${esc("not for every false thing their users say.")}</span></p>
-    <div class="tiles">${REBUTTALS.map(r => `<button type="button" class="tile${r.other ? " other" : ""}" data-reb="${r.id}">${esc(r.title)}<small>${esc(r.owner)}</small></button>`).join("")}</div>
+    <p class="position">${POS}</p>
+    <div class="tiles">${REBUTTALS.map(r => `<button type="button" class="tile${r.other ? " other" : ""}" data-reb="${r.id}">${esc(r.title)}<span class="own">${esc(r.owner)}</span></button>`).join("")}</div>
   </div>`;
 }
 
@@ -243,19 +304,14 @@ function rebuttalPage(r){
   const back = `<button type="button" class="back" data-go="rebuttals">← BACK TO REBUTTALS</button>`;
   if(r.other){
     return `<div class="page">
-      ${back}
-      <div class="rhead"><h1>Other argument</h1><span class="own">Universal fallback</span></div>
-      <div class="card key"><div class="steps">
-        <div class="step"><span class="n">1</span><div><b>What are they trying to establish?</b><span class="d">Name the claim in one line before answering.</span></div></div>
-        <div class="step"><span class="n">2</span><div><b>Trigger / Truth / Conduct / Consequences / Alternative?</b><span class="d">Pick the closest one. Pass to that person.</span></div></div>
-        <div class="step"><span class="n">3</span><div><b>Ask: “What specifically makes the platform legally liable in this example?”</b></div></div>
-      </div></div>
-      ${linkButtons()}
+      <div class="rbar">${back}<h1>Other argument · use ACT</h1><div class="ownbig"><span class="badge"><small>OWNER</small>ANYONE</span></div></div>
+      <div style="font-size:1.15em">${actBlock()}</div>
     </div>`;
   }
+  const o = person(r.owner);
   return `<div class="page">
-    ${back}
-    <div class="rhead"><h1>${esc(r.title)}</h1><span class="own">Owner: ${esc(r.owner)}</span></div>
+    <div class="rbar">${back}<h1>${esc(r.title)}</h1>
+      <div class="ownbig"><span class="badge"><small>OWNER</small>${o.tag} · ${o.name.toUpperCase()}</span><button type="button" class="gobtn" data-go="${o.id}">→ GO TO ${o.tag}</button></div></div>
     <div class="rgrid">
       <div class="card"><div class="lab">They say</div><div class="txt">${esc(r.they)}</div></div>
       <div class="card key"><div class="lab">10-second response</div><div class="txt big">${esc(r.resp)}</div></div>
@@ -266,24 +322,33 @@ function rebuttalPage(r){
 }
 
 function emergencyPage(){
-  const steps = [
-    ["CONCEDE what is reasonable","“That's a fair point…” Agree with the true part first."],
-    ["IDENTIFY what they are proving","Harm? Knowledge? Conduct? Name it."],
-    ["RETURN TO LIABILITY","“…but does that make the platform legally liable for what the user said?”"],
-    ["PASS to the relevant teammate","Use the five links below."]
-  ];
+  const map = [["FALSE",["P2"]],["KNEW",["P1","P2"]],["PROMOTED",["P3"]],["FAILED TO REMOVE",["P1"]],["HARM / REMEDY",["P5"]]];
+  return `<div class="page em-page">
+    <h1 class="title">UNEXPECTED ARGUMENT?</h1>
+    <div class="em-grid">
+      ${actBlock()}
+      <div class="stuck">
+        <div><div class="lab">Still stuck? Ask</div><p class="q">“Just so I understand your position, is the platform liable because the content is false, because it knew, or because of what it did with the content?”</p></div>
+        <div class="map">${map.map(([k,tags]) => `<b>${k} →</b><span>${tags.map(t => { const p = person(t); return `<button type="button" data-go="${p.id}">${p.tag} ${p.name.toUpperCase()}</button>`; }).join("")}</span>`).join("")}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function huddlePage(){
   return `<div class="page">
-    <p class="position">${esc("Hold platforms accountable for what they do,")} <span>${esc("not for every false thing their users say.")}</span></p>
-    <div class="card key" style="flex:1;min-height:0;overflow:auto;font-size:1.2em"><div class="steps" style="gap:18px">${steps.map((s,i) => `<div class="step"><span class="n">${i+1}</span><div><b>${esc(s[0])}</b><span class="d">${esc(s[1])}</span></div></div>`).join("")}</div></div>
-    ${linkButtons()}
+    <div class="hgrid">${PEOPLE.map((p,i) => `<button type="button" class="hcard" data-go="${p.id}"><span class="t">${p.tag}</span><span class="k">${KEYS[i]}</span><span class="q">“${esc(p.hq)}”</span></button>`).join("")}</div>
+    <div class="hpos"><div class="lab">Our position</div><p class="position">${POS}</p></div>
+    <div class="hact">UNEXPECTED ARGUMENT? <span>Acknowledge → Classify → Test the Jump</span></div>
   </div>`;
 }
 
 function render(){
   renderNav();
   let html;
-  const person = PEOPLE.find(p => p.id === view);
-  if(person) html = personPage(person);
+  const pp = PEOPLE.find(p => p.id === view);
+  if(pp) html = personPage(pp);
+  else if(view === "huddle") html = huddlePage();
   else if(view === "rebuttals") html = sub ? rebuttalPage(REBUTTALS.find(r => r.id === sub)) : rebuttalMenu();
   else html = emergencyPage();
   main.innerHTML = html;
